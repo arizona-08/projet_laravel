@@ -1,16 +1,8 @@
-## 1
-faire le .env
-## 2 
-composer require laravel/sail --dev
-## 3
-php artisan sail:install
+## avec wsl 
+composer install dans le powershell
+./vendor/bin/sail up -d dans le wsl
+./vendor/bin/sail artisan migrate
+php artisan key:generate
 
-whih services would you like to install?
-select mysql
-##  4
-composer require laravel/breeze --dev
-
-php artisan breeze:install
-Blade with Alpine
-PHPUnit
+aller sur localhost:80
 
