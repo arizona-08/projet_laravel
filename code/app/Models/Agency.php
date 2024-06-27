@@ -9,7 +9,7 @@ class Agency extends Model
 {
     use HasFactory;
 
-    
+    protected $table = "agencies";
     protected $fillable = [
         'label',
         'users_id'
@@ -24,6 +24,4 @@ class Agency extends Model
     {
         return $this->hasMany(Vehicle::class);
     }
-
-
 }
