@@ -24,4 +24,16 @@ class Vehicle extends Model
         // 'fournisseur_id',
         // 'agence_id'
     ];
+
+    // public function status() {
+    //     return $this->hasOne(Status::class, 'id', 'status_id');
+    // }
+
+    // public function agence() {
+    //     return $this->belongsTo(Agence::class, 'agence_id');
+    // }
+
+    // public function fournisseur() {
+    //     return $this->belongsTo(Fournisseur::class, 'fournisseur_id');
+    // }
 }

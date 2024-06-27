@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Commande extends Model
+class Order extends Model
 {
     use HasFactory;
 
-    protected $table = 'commande';
     public $timestamps = true;
     protected $fillable = [
         'lastname',
@@ -21,11 +20,11 @@ class Commande extends Model
         'vehicule_id'
     ];
 
-    public function vehicule() {
-        return $this->hasOne(Vehicule::class, 'id', 'vehicule_id');
+    public function vehicle() {
+        return $this->hasOne(Vehicle::class);
     }
 
     public function user() {
-        return $this->belongsTo(User::class, 'users_id', 'id');
+        return $this->belongsTo(User::class);
     }
 }

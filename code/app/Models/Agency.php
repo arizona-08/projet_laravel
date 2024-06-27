@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Agence extends Model
+class Agency extends Model
 {
     use HasFactory;
 
-    protected $table = 'agence';
+    
     protected $fillable = [
         'label',
         'users_id'
@@ -17,12 +17,12 @@ class Agence extends Model
     public $timestamps = false;
 
     public function user() {
-        return $this->belongsTo(User::class, 'users_id', 'id');
+        return $this->belongsTo(User::class);
     }
 
     public function vehicles()
     {
-        return $this->hasMany(Vehicule::class);
+        return $this->hasMany(Vehicle::class);
     }
 
 
