@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fournisseur extends Model
+class Supplier extends Model
 {
     use HasFactory;
 
-    protected $table = 'fournisseur';
     protected $fillable = [
         'label',
     ];
     public $timestamps = false;
 
-    public function vehicules()
+    public function vehicle()
     {
-        return $this->hasMany(Vehicule::class);
+        return $this->hasMany(Vehicle::class);
     }
 }
