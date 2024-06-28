@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agency;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class VehicleController extends Controller
      */
     public function index()
     {
-        $vehicles = Vehicle::all();
+        $vehicles = Vehicle::with('agency')->get();
         return view("vehicles.index", ["vehicles" => $vehicles]);
     }
 
@@ -21,7 +22,8 @@ class VehicleController extends Controller
      */
     public function create()
     {
-       return view("vehicles.create");
+       $agencies = Agency::select(['id', 'label'])->get(); 
+       return view("vehicles.create", compact('agencies')); //compact() renvoie un tableau associatif
     }
 
     /**
@@ -35,7 +37,7 @@ class VehicleController extends Controller
             'last_maintenance' => 'required',
             'nb_kilometrage' => 'required',
             'nb_serie' => 'required',
-            // 'agence_id' => 'required',
+            'agency_id' => 'required',
             // 'fournisseur_id' => 'required',
         ],[
             'marque.required' => 'La marque est requise',
@@ -43,11 +45,11 @@ class VehicleController extends Controller
             'last_maintenance.required' => 'La dernière maintenance est requise',
             'nb_kilometrage.required' => 'Le nombre de kilométrage est requis',
             'nb_serie.required' => 'Le numero de série est requis',
-            // 'agence_id.required' => 'Le nom de l\'agence est requis',
+            'agency_id.required' => 'Le nom de l\'agence est requis',
             // 'fournisseur_id.required' => 'Le nom du fournisseur est requis',
         ]);
         // On crée un nouveau véhicule avec les données récupérées du formulaire
-        $vehicule = Vehicle::create([
+        Vehicle::create([
             'model' => $request->model,
             'marque' => $request->marque,
             'last_maintenance' => $request->last_maintenance,
@@ -55,7 +57,7 @@ class VehicleController extends Controller
             'nb_serie' => $request->nb_serie,
             // On récupère l'id du statut "Libre" depuis la table des statuts et on l'associe à notre véhicule
             // 'status_id' => Status::where('label', 'Libre')->first()->id,
-            // 'agence_id' => $request->agence_id,
+            'agency_id' => $request->agency_id,
             // 'fournisseur_id' => $request->fournisseur_id
         ]);
 
@@ -83,9 +85,9 @@ class VehicleController extends Controller
             'last_maintenance' => 'date',
             'nb_kilometrage' => 'string',
             'nb_serie' => 'string',
-            'status_id' => 'numeric',
-            'agence_id' => 'numeric',
-            'fournisseur_id' => 'numeric',
+            // 'status_id' => 'numeric',
+            // 'agence_id' => 'numeric',
+            // 'fournisseur_id' => 'numeric',
         ]);
 
         // Met à jour les données de véhicule avec les données validées

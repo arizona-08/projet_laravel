@@ -32,9 +32,9 @@
                   <th class="px-4 py-2 text-center">Dernière maintenance</th>
                   <th class="px-4 py-2 text-center">Nombre de kilomètres</th>
                   <th class="px-4 py-2 text-center">Numéro de série</th>
-                  {{-- <th class="px-4 py-2 text-center">Statut</th>
+                  {{-- <th class="px-4 py-2 text-center">Statut</th> --}}
                   <th class="px-4 py-2 text-center">Agence</th>
-                  <th class="px-4 py-2 text-center">Fournisseur</th> --}}
+                  {{-- <th class="px-4 py-2 text-center">Fournisseur</th> --}}
 
                   <th class="px-4 py-2 text-center">Action</th>
                 </tr>
@@ -52,15 +52,15 @@
                     <td class="px-4 py-2 text-center">{{ \Carbon\Carbon::parse($vehicle->last_maintenance)->format('d/m/Y h:i') }}</td>
                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }} Km</td>
                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
-                    {{-- <td class="px-4 py-2 text-center">{{ $vehicle->status->label }}</td>
-                    <td class="px-4 py-2 text-center">{{ $vehicle->agence->label }}</td>
-                    <td class="px-4 py-2 text-center">{{ $vehicle->fournisseur->label }}</td> --}}
-                    <td class="text-center">
-                      <a class="block p-2 bg-blue-500 text-white" role="button" href="{{ route('vehicles.edit', ['vehicle' => $vehicle]) }}">Modifier</a>
-                      <form action="{{ route('vehicles.destroy', ['vehicle' => $vehicle]) }}" method="post">
+                    {{-- <td class="px-4 py-2 text-center">{{ $vehicle->status->label }}</td> --}}
+                    <td class="px-4 py-2 text-center">{{ $vehicle->agency->label }}</td>
+                    {{-- <td class="px-4 py-2 text-center">{{ $vehicle->fournisseur->label }}</td> --}}
+                    <td class="px-4 py-2 text-center">
+                      <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('vehicles.edit', ['vehicle' => $vehicle]) }}">Modifier</a>
+                      <form class="m-0 p-2" action="{{ route('vehicles.destroy', ['vehicle' => $vehicle]) }}" method="post">
                         @csrf
                         @method('DELETE')
-                        <button class="block p-2 bg-red-500 text-white" type="submit">Supprimer</button>
+                        <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button>
                       </form>
                     </td>
                   </tr>

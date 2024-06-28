@@ -22,7 +22,7 @@ class Vehicle extends Model
         'nb_serie',
         // 'status_id', //à rajouter plus tard
         // 'fournisseur_id',
-        'agence_id'
+        'agency_id'
     ];
 
     // public function status() {

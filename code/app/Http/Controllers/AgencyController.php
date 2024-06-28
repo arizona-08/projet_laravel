@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agency;
+use App\Models\User;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,10 +15,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = DB::table('agencies')
-            ->join('users', 'agencies.agency_id', "=", "users.user_id")
-            ->select('agencies.label', 'users.name')
-            ->get();
+        $agencies = Agency::with('user')->get();
 
         return view("agencies.index", ["agencies" => $agencies]);
     }
@@ -26,7 +25,10 @@ class AgencyController extends Controller
      */
     public function create()
     {
-       return view("agencies.create");
+       $users = User::select(['id', 'name'])
+            ->get();
+
+       return view("agencies.create", ["users" => $users]);
     }
 
     /**
@@ -34,6 +36,17 @@ class AgencyController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'label' => 'required',
+        ], [
+            'label.required' => 'Le nom de l\'agence est requis',
+        ]);
+
+        Agency::create([
+            'label' => $request->label,
+            'user_id' => $request->user_id
+        ]);
+
         return to_route("agencies.index");
     }
 
@@ -42,7 +55,9 @@ class AgencyController extends Controller
      */
     public function show(Agency $agency)
     {
-        return view("agencies.show");
+        $agency->load(['vehicles', 'user'])
+        ->loadCount('vehicles');
+        return view("agencies.show", ["agency" => $agency]);
     }
 
     /**
@@ -50,7 +65,11 @@ class AgencyController extends Controller
      */
     public function edit(Agency $agency)
     {
-        return view("agencies.edit");
+        $users = User::select(['id', 'name'])->get();
+        return view("agencies.edit", [
+            "agency" => $agency,
+            "users" => $users
+        ]);
     }
 
     /**
@@ -58,7 +77,16 @@ class AgencyController extends Controller
      */
     public function update(Request $request, Agency $agency)
     {
-        return to_route("agencies.edit", ["agency", $agency]);
+        $validate = $request->validate([ // Valide les informations de la requête
+            'label' => 'string',
+            'user_id' => 'numeric'
+        ]);
+
+        $agency->update([ // Met à jour l'agence correspondante avec les nouvelles informations
+            'label' => $validate['label'],
+            'user_id' => $validate['user_id'],
+        ]);
+        return to_route("agencies.index");
     }
 
     /**

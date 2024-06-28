@@ -12,7 +12,7 @@ class Agency extends Model
     protected $table = "agencies";
     protected $fillable = [
         'label',
-        'users_id'
+        'user_id'
     ];
     public $timestamps = false;
 

@@ -5,4 +5,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('vehicles', VehicleController::class)->except([
     'show'
-]);
+])->middleware('auth');

@@ -19,12 +19,11 @@
                 {{ __('Agences') }} <!-- Affichage du titre de la page -->
             </h2>
         </x-slot>
-    
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-bold">Liste des agences</h2> <!-- Titre de la section -->
-                    <a class="btn btn-light" href="{{ route('agencies.create') }}">Ajouter une agence</a> <!-- Bouton pour ajouter une agence -->
+                    <h2 class="text-2xl font-bold dark:text-white">Liste des agences</h2> <!-- Titre de la section -->
+                    <a class="bg-white px-3 py-2 rounded-md hover:bg-slate-200" href="{{ route('agencies.create') }}">Ajouter une agence</a> <!-- Bouton pour ajouter une agence -->
                 </div>
                 <div class="mt-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <table class="w-full table-auto"> <!-- Définition d'une table -->
@@ -44,14 +43,14 @@
                             <!-- Boucle qui affiche les données de chaque agence -->
                             @foreach ($agencies as $agency)
                             <tr class="hover:bg-gray-100"> <!-- Ajout d'un effet de survol sur chaque ligne de la table -->
-                                <td class="px-4 py-2 text-center">{{ $agency->label }}</td> <!-- Affichage du nom de l'agence dans la première colonne -->
-                                <td class="px-4 py-2 text-center">{{ $agency->user->firstname }} {{ $agency->user->lastname }}</td> <!-- Affichage du nom et du prénom du chef d'agence dans la deuxième colonne -->
-                                <td class="text-center">
-                                    <a class="btn btn-light btn-block" role="button" href="{{ route('agencies.edit', ['agency' => $agency]) }}">Modifier</a>
-                                    <form action="{{ route('agencies.delete', ['agency' => $agency]) }}" method="post">
+                                <td class="px-4 py-2 text-center underline"><a href="{{route('agencies.show', ['agency' => $agency])}}">{{ $agency->label }}</a></td> <!-- Affichage du nom de l'agence dans la première colonne -->
+                                <td class="px-4 py-2 text-center">{{ $agency->user->name }}</td> <!-- Affichage du prénom du chef d'agence dans la deuxième colonne -->
+                                <td class="text-center px-4 py-2">
+                                    <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('agencies.edit', ['agency' => $agency]) }}">Modifier</a>
+                                    <form action="{{ route('agencies.destroy', ['agency' => $agency]) }}" method="post" class="mb-0">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-light btn-block" type="submit">Supprimer</button>
+                                        <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button>
                                     </form>
                                 </td>
                             </tr>
