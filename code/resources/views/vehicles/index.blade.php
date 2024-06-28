@@ -46,6 +46,7 @@
                   </tr>
                 @else
                 @foreach ($vehicles as $vehicle)
+                {{-- {{dd($vehicle->agency)}} --}}
                   <tr class="hover:bg-gray-100">
                     <td class="px-4 py-2 text-center">{{ $vehicle->marque }}</td>
                     <td class="px-4 py-2 text-center">{{ $vehicle->model }}</td>
@@ -53,7 +54,7 @@
                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }} Km</td>
                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
                     {{-- <td class="px-4 py-2 text-center">{{ $vehicle->status->label }}</td> --}}
-                    <td class="px-4 py-2 text-center">{{ $vehicle->agency->label }}</td>
+                    <td class="px-4 py-2 text-center">{{ optional($vehicle->agency)->label ?? 'Aucune agence' }}</td>
                     {{-- <td class="px-4 py-2 text-center">{{ $vehicle->fournisseur->label }}</td> --}}
                     <td class="px-4 py-2 text-center">
                       <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('vehicles.edit', ['vehicle' => $vehicle]) }}">Modifier</a>
