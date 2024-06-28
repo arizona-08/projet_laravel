@@ -44,4 +44,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function agency(){
+        return $this->hasMany(Agency::class);
+    }
 }

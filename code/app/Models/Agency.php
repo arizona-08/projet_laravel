@@ -9,10 +9,10 @@ class Agency extends Model
 {
     use HasFactory;
 
-    
+    protected $table = "agencies";
     protected $fillable = [
         'label',
-        'users_id'
+        'user_id'
     ];
     public $timestamps = false;
 
@@ -24,6 +24,4 @@ class Agency extends Model
     {
         return $this->hasMany(Vehicle::class);
     }
-
-
 }

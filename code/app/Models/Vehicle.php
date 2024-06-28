@@ -22,16 +22,16 @@ class Vehicle extends Model
         'nb_serie',
         // 'status_id', //à rajouter plus tard
         // 'fournisseur_id',
-        // 'agence_id'
+        'agency_id'
     ];
 
     // public function status() {
     //     return $this->hasOne(Status::class, 'id', 'status_id');
     // }
 
-    // public function agence() {
-    //     return $this->belongsTo(Agence::class, 'agence_id');
-    // }
+    public function agency() {
+        return $this->belongsTo(Agency::class, 'agency_id');
+    }
 
     // public function fournisseur() {
     //     return $this->belongsTo(Fournisseur::class, 'fournisseur_id');
