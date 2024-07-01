@@ -45,7 +45,11 @@ class User extends Authenticatable
         ];
     }
 
-    public function agency(){
+    public function agencies(){
         return $this->hasMany(Agency::class);
+    }
+
+    public function role(){
+      return $this->belongsTo(Role::class);
     }
 }
