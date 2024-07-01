@@ -77,14 +77,14 @@
                                             <input type="date" name="dateFin" class="w-full">
                                         </td>
                                         <td class="border px-4 py-2">
-                                            @if ($errors->has('fournisseur_id'))
+                                            @if ($errors->has('supplier_id'))
                                                 <div class="text-red-500 font-semibold my-2">
-                                                    {{ $errors->first('fournisseur_id') }}
+                                                    {{ $errors->first('supplier_id') }}
                                                 </div>
                                             @endif
-                                            <select name="fournisseur_id" id="fournisseur" class="w-full">
-                                                @foreach ($fournisseur as $fournisseu)
-                                                    <option value="{{ $fournisseu->id }}">{{ $fournisseu->label }}</option>
+                                            <select name="supplier_id" id="supplier" class="w-full">
+                                                @foreach ($supplier as $suppliers)
+                                                    <option value="{{ $supplier->id }}">{{ $supplier->label }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
@@ -97,7 +97,7 @@
                                             <select name="vehicle_id" id="vehicle" class="w-full">
                                                 @foreach ($vehicles as $vehicle)
                                                     @if ($vehicle->status_id == 1)
-                                                        <option value="{{ $vehicle->id }}" data-fournisseur-id="{{ $vehicle->fournisseur_id }}">
+                                                        <option value="{{ $vehicle->id }}" data-supplier-id="{{ $vehicle->supplier_id }}">
                                                             {{ $vehicle->marque }} {{ $vehicle->model }}
                                                         </option>
                                                     @endif
@@ -136,14 +136,14 @@
 
 <script>
     // Récupération des éléments du DOM
-    const fournisseurSelect = document.getElementById('fournisseur');
+    const supplierSelect = document.getElementById('supplier');
     const vehicleSelect = document.getElementById('vehicle');
 
 
 
-    // Fonction qui filtre les véhicules en fonction du fournisseur sélectionné
+    // Fonction qui filtre les véhicules en fonction du supplier sélectionné
     function filtrerVehicules() {
-        const fournisseurId = fournisseurSelect.value;
+        const supplierId = supplierSelect.value;
 
         // vehicleSelect.innerHTML = '';
 
@@ -151,11 +151,11 @@
         for (let i = 0; i < vehicleSelect.options.length; i++) {
             const option = vehicleSelect.options[i];
 
-            // Si l'option a une value, on la compare avec l'id du fournisseur
+            // Si l'option a une value, on la compare avec l'id du supplier
             if (option.value) {
                 const vehicleSupplierID = option.getAttribute('data-supplier-id');
                 if (vehicleSupplierId === SupplierID) {
-                    // Si le fournisseur est le bon, on affiche l'option
+                    // Si le supplier est le bon, on affiche l'option
                     option.style.display = '';
                 } else {
                     // Sinon, on masque l'option
@@ -165,9 +165,9 @@
         }
     }
 
-    // Ajout de l'événement "change" sur le select "fournisseur"
-    fournisseurSelect.addEventListener('change', filtrerVehicules);
+    // Ajout de l'événement "change" sur le select "supplier"
+    supplierSelect.addEventListener('change', filtrerVehicules);
 
-    // Filtre initial des véhicules en fonction du fournisseur sélectionné au chargement de la page
+    // Filtre initial des véhicules en fonction du supplier sélectionné au chargement de la page
     filtrerVehicules();
 </script>

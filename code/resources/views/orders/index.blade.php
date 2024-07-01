@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">--}}
 <style>
     table {
         border: thin solid #000000;
@@ -17,7 +17,7 @@
     <!-- C'est un composant Laravel qui permet de construire des mises en page réutilisables -->
     <x-slot name="header">
         <!-- Définit une section nommée "header" pour placer du contenu dans le haut de la page -->
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800  dark:text-white leading-tight">
             {{ __('Commande') }}
             <!-- Affiche le texte "Commande" à l'aide de la fonction de traduction __() -->
         </h2>
@@ -29,8 +29,8 @@
             <!-- Centre le contenu horizontalement et défini une largeur maximale -->
             <div class="flex justify-between items-center">
                 <!-- Crée un conteneur flexible avec un alignement vertical et horizontal au centre -->
-                <h2 class="text-2xl font-bold">Liste des commandes</h2> <!-- Titre principal -->
-                <a class="btn btn-light" href="{{ route('orders.create') }}">Ajouter une commande</a>
+                <h2 class="text-2xl dark:text-white font-bold">Liste des commandes</h2> <!-- Titre principal -->
+                <a class="btn btn-light dark:text-white"  href="{{ route('orders.create') }}">Ajouter une commande</a>
                 <!-- Lien pour ajouter une nouvelle commande -->
             </div>
             <div class="mt-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">

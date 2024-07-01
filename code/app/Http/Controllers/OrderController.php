@@ -30,7 +30,7 @@ class OrderController extends Controller
     public function create() // Définir la méthode pour créer une nouvelle order
     {
         $vehicle = Vehicle::all(); // Obtenir tous les véhicules
-        $users = User::all(); // Obtenir tous les utilisateurs
+        $users = User::select('id', 'name')->get(); // Obtenir tous les utilisateurs
         $status = Status::all(); // Obtenir tous les statuts
         $supplier = Supplier::all(); // Obtenir tous les suppliers
 
