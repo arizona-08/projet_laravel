@@ -108,8 +108,8 @@
                                         <td class="border px-4 py-2 text-center">
                                             <select name="users_id">
                                                 @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->firstname }}
-                                                        {{ $user->lastname }}</option>
+                                                    <option value="{{ $user->id }}">{{ $user->name }}
+                                                        {{ $user->email }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
