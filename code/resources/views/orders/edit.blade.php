@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Commande') }}
-            <!-- Afficher "Commande" -->
+            {{ __('Orders') }}
+            <!-- Afficher "Orders" -->
         </h2>
     </x-slot>
 
@@ -21,8 +21,8 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('dashboard.commande.update', ['id' => $commande->id]) }}" method="post">
-                        <!-- Formulaire de modification de commande avec la méthode HTTP POST -->
+                    <form action="{{ route('orders.update', ['id' => $order->id]) }}" method="post">
+                        <!-- Formulaire de modification de orders avec la méthode HTTP POST -->
                         @csrf
                         <!-- Protection contre les attaques CSRF -->
                         @method('PUT')
@@ -42,12 +42,12 @@
                                 <tbody>
                                     <tr>
                                         <td class="border px-4 py-2 text-center">
-                                            <select name="vehicule_id" id="">
+                                            <select name="vehicle_id" id="">
                                                 <!-- Liste déroulante pour la sélection de véhicule -->
-                                                @foreach ($vehicules as $vehicule)
+                                                @foreach ($vehicles as $vehicle)
                                                     <!-- Boucle à travers tous les véhicules disponibles -->
-                                                    <option value="{{ $vehicule->id }}">{{ $vehicule->marque }}
-                                                        {{ $vehicule->model }}</option>
+                                                    <option value="{{ $vehicle->id }}">{{ $vehicle->marque }}
+                                                        {{ $vehicle->model }}</option>
                                                     <!-- Ajouter une option pour chaque véhicule -->
                                                 @endforeach
                                             </select>

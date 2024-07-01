@@ -3,7 +3,7 @@
     <!-- Balise XSLot qui contient le titre de la page -->
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Commande') }}
+            {{ __('Order') }}
         </h2>
     </x-slot>
 
@@ -11,9 +11,9 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <!-- Formulaire pour créer une commande -->
+                <!-- Formulaire pour créer une orders -->
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form action="{{ route('dashboard.commande.store') }}" method="post">
+                    <form action="{{ route('orders.store') }}" method="post">
                         <!-- Token de protection CSRF -->
                         @csrf
                         <div class="overflow-x-auto">
@@ -34,7 +34,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Ligne de formulaire pour ajouter une commande -->
+                                    <!-- Ligne de formulaire pour ajouter une orders -->
                                     <tr>
                                         <td class="border px-4 py-2">
                                             @if ($errors->has('firstname'))
@@ -89,16 +89,16 @@
                                             </select>
                                         </td>
                                         <td class="border px-4 py-2">
-                                            @if ($errors->has('vehicule_id'))
+                                            @if ($errors->has('vehicle_id'))
                                                 <div class="text-red-500 font-semibold my-2">
-                                                    {{ $errors->first('vehicule_id') }}
+                                                    {{ $errors->first('vehicle_id') }}
                                                 </div>
                                             @endif
-                                            <select name="vehicule_id" id="vehicule" class="w-full">
-                                                @foreach ($vehicules as $vehicule)
-                                                    @if ($vehicule->status_id == 1)
-                                                        <option value="{{ $vehicule->id }}" data-fournisseur-id="{{ $vehicule->fournisseur_id }}">
-                                                            {{ $vehicule->marque }} {{ $vehicule->model }}
+                                            <select name="vehicle_id" id="vehicle" class="w-full">
+                                                @foreach ($vehicles as $vehicle)
+                                                    @if ($vehicle->status_id == 1)
+                                                        <option value="{{ $vehicle->id }}" data-fournisseur-id="{{ $vehicle->fournisseur_id }}">
+                                                            {{ $vehicle->marque }} {{ $vehicle->model }}
                                                         </option>
                                                     @endif
                                                 @endforeach
@@ -137,7 +137,7 @@
 <script>
     // Récupération des éléments du DOM
     const fournisseurSelect = document.getElementById('fournisseur');
-    const vehiculeSelect = document.getElementById('vehicule');
+    const vehicleSelect = document.getElementById('vehicle');
 
 
 
@@ -145,16 +145,16 @@
     function filtrerVehicules() {
         const fournisseurId = fournisseurSelect.value;
 
-        // vehiculeSelect.innerHTML = '';
+        // vehicleSelect.innerHTML = '';
 
         // Parcourir toutes les options de véhicules
-        for (let i = 0; i < vehiculeSelect.options.length; i++) {
-            const option = vehiculeSelect.options[i];
+        for (let i = 0; i < vehicleSelect.options.length; i++) {
+            const option = vehicleSelect.options[i];
 
             // Si l'option a une value, on la compare avec l'id du fournisseur
             if (option.value) {
-                const vehiculeFournisseurId = option.getAttribute('data-fournisseur-id');
-                if (vehiculeFournisseurId === fournisseurId) {
+                const vehicleSupplierID = option.getAttribute('data-supplier-id');
+                if (vehicleSupplierId === SupplierID) {
                     // Si le fournisseur est le bon, on affiche l'option
                     option.style.display = '';
                 } else {
