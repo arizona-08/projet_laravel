@@ -13,3 +13,6 @@ php artisan key:generate
 #
 aller sur localhost:80
 
+## library utilise
+
+https://github.com/pelmered/fake-car
