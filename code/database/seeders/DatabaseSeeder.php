@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Vehicle;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +16,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        
+        $roles = ["Admin", "RH", "Chef d'agence", "Gestionnaire fournisseur", "Gestionnaire commandes"];
+
+        foreach($roles as $role){
+            DB::table("roles")->insert([
+                'name' => $role
+            ]);
+        }
+
         $users = User::factory()->count(10)->create();
         // Create exactly 10 agencies, assigning them to the users
         foreach ($users as $user) {

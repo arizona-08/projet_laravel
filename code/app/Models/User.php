@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
     ];
 
     /**
@@ -45,7 +46,11 @@ class User extends Authenticatable
         ];
     }
 
-    public function agency(){
+    public function agencies(){
         return $this->hasMany(Agency::class);
+    }
+
+    public function role(){
+      return $this->belongsTo(Role::class);
     }
 }

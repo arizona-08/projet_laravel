@@ -11,11 +11,28 @@ class VehicleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $vehicles = Vehicle::with('agency')->get();
-        return view("vehicles.index", ["vehicles" => $vehicles]);
+        $query = Vehicle::with('agency');
+    
+        // Filter by brand
+        if ($request->has('brand') && $request->brand != '') {
+            $query->where('marque', $request->brand);
+        }
+    
+        // Sort by kilometers
+        if ($request->has('sort_km') && in_array($request->sort_km, ['asc', 'desc'])) {
+            $query->orderBy('nb_kilometrage', $request->sort_km);
+        }
+    
+        $vehicles = $query->get();
+    
+        // Get all unique brands for the filter dropdown
+        $brands = Vehicle::select('marque')->distinct()->get();
+    
+        return view('vehicles.index', ['vehicles' => $vehicles, 'brands' => $brands]);
     }
+    
 
     /**
      * Show the form for creating a new resource.
