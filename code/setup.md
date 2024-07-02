@@ -9,7 +9,7 @@ php artisan key:generate
 #
 ./vendor/bin/sail npm install
 #
-./vendor/bin/sail npm dev
+./vendor/bin/sail npm run dev
 #
 aller sur localhost:80
 
