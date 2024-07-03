@@ -14,7 +14,7 @@ class Supplier extends Model
     ];
     public $timestamps = false;
 
-    public function vehicle()
+    public function vehicles()
     {
         return $this->hasMany(Vehicle::class);
     }

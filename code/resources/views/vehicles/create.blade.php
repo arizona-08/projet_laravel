@@ -21,8 +21,8 @@
                                         <th class="px-4 py-2 text-left">Dernière maintenance</th>
                                         <th class="px-4 py-2 text-left">Nombre de kilomètres</th>
                                         <th class="px-4 py-2 text-left">Numéro de série</th>
-                                        {{-- <th class="px-4 py-2 text-center">Statut</th>
-                                        <th class="px-4 py-2 text-left">Fournisseur</th> --}}
+                                        {{-- <th class="px-4 py-2 text-center">Statut</th> --}}
+                                        <th class="px-4 py-2 text-left">Fournisseur</th>
                                         <th class="px-4 py-2 text-left">Agence</th>
                                         <th class="px-4 py-2 text-left">Actions</th>
                                     </tr>
@@ -91,6 +91,19 @@
                                                 @endforeach
                                             </select>
                                         </td> --}}
+                                        <td class="border px-4 py-2">
+                                            @if ($errors->has('supplier_id'))
+                                                <div class="text-red-500 font-semibold my-2">
+                                                    {{ $errors->first('supplier_id') }}
+                                                </div>
+                                            @endif
+                                            <select name="supplier_id" class="w-full">
+                                                @foreach ($suppliers as $supplier)
+                                                    <option value="{{ $supplier->id }}">{{ $supplier->label }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </td>
                                         <td class="border px-4 py-2">
                                             @if ($errors->has('agency_id'))
                                                 <div class="text-red-500 font-semibold my-2">
