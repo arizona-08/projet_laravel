@@ -13,8 +13,8 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Liste des véhicules') }}
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Véhicules du fournisseur : ') . $supplier->label }}
         </h2>
     </x-slot>
 
@@ -23,7 +23,7 @@
             <div class="flex justify-between items-center mb-6">
                 <a class="bg-white px-3 py-2 rounded-md hover:bg-slate-200" href="{{ route('vehicles.create') }}">Ajouter un véhicule</a>
 
-                <form action="{{ route('vehicles.index') }}" method="GET" class="flex items-center">
+                <form action="{{ route('suppliers.show', $supplier->id) }}" method="GET" class="flex items-center">
                     <div class="mr-4">
                         <label for="brand" class="mr-2 dark:text-white">Marque:</label>
                         <select name="brand" id="brand" class="px-2 py-1 border rounded-md">
@@ -53,39 +53,28 @@
                 <table class="w-full">
                     <thead class="bg-gray-200">
                         <tr>
-                            <th class="px-4 py-2 text-center">Marque</th>
                             <th class="px-4 py-2 text-center">Modèle</th>
+                            <th class="px-4 py-2 text-center">Marque</th>
                             <th class="px-4 py-2 text-center">Dernière maintenance</th>
-                            <th class="px-4 py-2 text-center">Nombre de kilomètres</th>
+                            <th class="px-4 py-2 text-center">Kilométrage</th>
                             <th class="px-4 py-2 text-center">Numéro de série</th>
                             <th class="px-4 py-2 text-center">Agence</th>
-                            <th class="px-4 py-2 text-center">Fournisseur</th>
-                            <th class="px-4 py-2 text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if ($vehicles->isEmpty())
                             <tr>
-                                <td colspan="7" class="px-4 py-2 text-center">Aucun véhicule à afficher</td>
+                                <td colspan="7" class="px-4 py-2 text-center">Aucun véhicule trouvé pour ce fournisseur.</td>
                             </tr>
                         @else
                             @foreach ($vehicles as $vehicle)
                                 <tr class="hover:bg-gray-100">
-                                    <td class="px-4 py-2 text-center">{{ $vehicle->marque }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->model }}</td>
+                                    <td class="px-4 py-2 text-center">{{ $vehicle->marque }}</td>
                                     <td class="px-4 py-2 text-center">{{ \Carbon\Carbon::parse($vehicle->last_maintenance)->format('d/m/Y h:i') }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }} Km</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->agency)->label ?? 'Aucune agence' }}</td>
-                                    <td class="px-4 py-2 text-center">{{ optional($vehicle->supplier)->label ?? 'Aucun fournisseur' }}</td>
-                                    <td class="px-4 py-2 text-center">
-                                        <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('vehicles.edit', ['vehicle' => $vehicle]) }}">Modifier</a>
-                                        <form class="m-0 p-2" action="{{ route('vehicles.destroy', ['vehicle' => $vehicle]) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button>
-                                        </form>
-                                    </td>
                                 </tr>
                             @endforeach
                         @endif

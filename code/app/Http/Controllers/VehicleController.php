@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agency;
+use App\Models\Supplier;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
@@ -14,33 +15,34 @@ class VehicleController extends Controller
     public function index(Request $request)
     {
         $query = Vehicle::with('agency');
-    
+
         // Filter by brand
         if ($request->has('brand') && $request->brand != '') {
             $query->where('marque', $request->brand);
         }
-    
+
         // Sort by kilometers
         if ($request->has('sort_km') && in_array($request->sort_km, ['asc', 'desc'])) {
             $query->orderBy('nb_kilometrage', $request->sort_km);
         }
-    
+
         $vehicles = $query->get();
-    
+
         // Get all unique brands for the filter dropdown
         $brands = Vehicle::select('marque')->distinct()->get();
-    
+
         return view('vehicles.index', ['vehicles' => $vehicles, 'brands' => $brands]);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-       $agencies = Agency::select(['id', 'label'])->get(); 
-       return view("vehicles.create", compact('agencies')); //compact() renvoie un tableau associatif
+       $agencies = Agency::select(['id', 'label'])->get();
+       $suppliers = Supplier::select(['id', 'label'])->get();
+       return view("vehicles.create", compact('agencies', 'suppliers')); //compact() renvoie un tableau associatif
     }
 
     /**
@@ -55,7 +57,7 @@ class VehicleController extends Controller
             'nb_kilometrage' => 'required',
             'nb_serie' => 'required',
             'agency_id' => 'required',
-            // 'fournisseur_id' => 'required',
+            'supplier_id' => 'required',
         ],[
             'marque.required' => 'La marque est requise',
             'model.required' => 'Le modèle est requis',
@@ -63,7 +65,7 @@ class VehicleController extends Controller
             'nb_kilometrage.required' => 'Le nombre de kilométrage est requis',
             'nb_serie.required' => 'Le numero de série est requis',
             'agency_id.required' => 'Le nom de l\'agence est requis',
-            // 'fournisseur_id.required' => 'Le nom du fournisseur est requis',
+            'supplier_id.required' => 'Le nom du fournisseur est requis',
         ]);
         // On crée un nouveau véhicule avec les données récupérées du formulaire
         Vehicle::create([
@@ -75,7 +77,7 @@ class VehicleController extends Controller
             // On récupère l'id du statut "Libre" depuis la table des statuts et on l'associe à notre véhicule
             // 'status_id' => Status::where('label', 'Libre')->first()->id,
             'agency_id' => $request->agency_id,
-            // 'fournisseur_id' => $request->fournisseur_id
+            'supplier_id' => $request->supplier_id
         ]);
 
         // On redirige l'utilisateur vers la liste des véhicules

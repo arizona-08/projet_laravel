@@ -43,14 +43,13 @@
                     <tr class="hover:bg-gray-100"> <!-- Ligne du tableau pour chaque fournisseur -->
                         <td class="px-4 py-2 text-center">{{ $supplier->label }}</td> <!-- Colonne pour le nom du fournisseur -->
                         <td class="px-4 py-2 text-center">
-                            <a href="" class="btn btn-light">Voir les véhicules</a> <!-- Bouton pour voir les véhicules du fournisseur -->
-                        </td>
+                            <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600" href="{{ route('suppliers.show', $supplier->id) }}" class="btn btn-light">Voir les véhicules fournisseur</a> <!-- Bouton pour voir les véhicules du fournisseur -->                        </td>
                         <td class="text-center">
-                            <a class="btn btn-light btn-block" role="button" href="{{ route('suppliers.edit', ['supplier' => $supplier]) }}">Modifier</a> <!-- Bouton pour modifier le fournisseur -->
+                            <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('suppliers.edit', ['supplier' => $supplier]) }}">Modifier</a> <!-- Bouton pour modifier le fournisseur -->
                             <form class="m-0 p-2" action="{{ route('suppliers.destroy', ['supplier' => $supplier]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button>
+                                <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600 block" type="submit">Supprimer</button>
                               </form>
                         </td>
                     </tr>

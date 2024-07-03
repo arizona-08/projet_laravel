@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supplier;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
 
@@ -79,6 +80,38 @@ class SupplierController extends Controller
         // redirection avec un message de succès
         return redirect()->route('suppliers.index')->with('success', 'Fournisseur mis à jour avec succès');
     }
+
+    public function show($id, Request $request)
+    {
+        $query = Vehicle::where('supplier_id', $id);
+
+        // Filtrage par marque
+        if ($request->filled('brand')) {
+            $query->where('marque', $request->brand);
+        }
+
+        // Tri par kilométrage
+        if ($request->filled('sort_km')) {
+            $query->orderBy('nb_kilometrage', $request->sort_km);
+        }
+
+        $vehicles = $query->get();
+
+        // Récupérer les marques pour le filtre
+        $brands = Vehicle::select('marque')->distinct()->get();
+
+        $supplier = Supplier::findOrFail($id);
+
+        // Retourne la vue suppliers/show avec le fournisseur et ses véhicules
+        return view('suppliers.show', [
+            'supplier' => $supplier,
+            'vehicles' => $vehicles,
+            'brands' => $brands
+        ]);
+    }
+
+
+
 
     /**
      * Remove the specified resource from storage.

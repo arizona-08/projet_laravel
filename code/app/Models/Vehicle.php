@@ -22,7 +22,8 @@ class Vehicle extends Model
         'nb_serie',
         // 'status_id', //à rajouter plus tard
         // 'fournisseur_id',
-        'agency_id'
+        'agency_id',
+        'supplier_id',
     ];
 
     // public function status() {
@@ -33,7 +34,7 @@ class Vehicle extends Model
         return $this->belongsTo(Agency::class, 'agency_id');
     }
 
-    // public function fournisseur() {
-    //     return $this->belongsTo(Fournisseur::class, 'fournisseur_id');
-    // }
+    public function supplier() {
+        return $this->belongsTo(Supplier::class, 'supplier_id');
+    }
 }
