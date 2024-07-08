@@ -36,9 +36,10 @@ class DatabaseSeeder extends Seeder
         Supplier::factory()->count(10)->create();
 
         $users = User::factory()->count(10)->create();
-        // Create exactly 10 agencies, assigning them to the users
-        foreach ($users as $user) {
-            $agency = Agency::factory()->create(['user_id' => $user->id]);
+        $agencyChiefs = $users->where("role_id", "=", "3");
+        // Create as many agencies as many users with the role_id 3
+        foreach ($agencyChiefs as $chief) {
+            $agency = Agency::factory()->create(['user_id' => $chief->id]);
 
             // Create between 0 and 5 vehicles for each agency
             Vehicle::factory()->count(rand(0, 5))->create([
