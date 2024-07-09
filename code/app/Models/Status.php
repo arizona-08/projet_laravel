@@ -26,4 +26,9 @@ class Status extends Model
     {
         return $this->hasMany(User::class, 'status_id');
     }
+
+    public function vehicles()
+    {
+        return $this->hasMany(Vehicle::class);
+    }
 }
