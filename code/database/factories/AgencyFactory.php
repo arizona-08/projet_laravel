@@ -25,11 +25,4 @@ class AgencyFactory extends Factory
             'user_id' => User::factory()
         ];
     }
-
-    public function configure():static {
-        return $this->afterCreating(function (Agency $agency) {
-            // Create between 0 and 5 vehicles for each agency
-            Vehicle::factory()->count(rand(1, 5))->create(['agency_id' => $agency->id]);
-        });
-    }
 }

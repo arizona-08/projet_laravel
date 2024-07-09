@@ -24,12 +24,4 @@ class SupplierFactory extends Factory
             'label' => $this->faker->company,
         ];
     }
-
-    public function configure(): static
-    {
-        return $this->afterCreating(function (Supplier $supplier) {
-            // Create between 1 and 5 vehicles for each supplier
-            Vehicle::factory()->count(rand(1, 5))->create(['supplier_id' => $supplier->id]);
-        });
-    }
 }

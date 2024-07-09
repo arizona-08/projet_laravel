@@ -15,7 +15,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = Agency::with('user')->get();
+        $agencies = Agency::with('user')->paginate(6);
 
         return view("agencies.index", ["agencies" => $agencies]);
     }

@@ -92,6 +92,10 @@
                     </tbody>
                 </table>
             </div>
+            <!-- Pagination links -->
+            <div class="pagination mt-3">
+                {{ $vehicles->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>
