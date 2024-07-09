@@ -58,6 +58,7 @@
                             <th class="px-4 py-2 text-center">Dernière maintenance</th>
                             <th class="px-4 py-2 text-center">Nombre de kilomètres</th>
                             <th class="px-4 py-2 text-center">Numéro de série</th>
+                            <th class="px-4 py-2 text-center">Statut</th>
                             <th class="px-4 py-2 text-center">Agence</th>
                             <th class="px-4 py-2 text-center">Fournisseur</th>
                             <th class="px-4 py-2 text-center">Action</th>
@@ -76,6 +77,7 @@
                                     <td class="px-4 py-2 text-center">{{ \Carbon\Carbon::parse($vehicle->last_maintenance)->format('d/m/Y h:i') }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }} Km</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
+                                    <td class="px-4 py-2 text-center">{{ $vehicle->status->label }}</td>
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->agency)->label ?? 'Aucune agence' }}</td>
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->supplier)->label ?? 'Aucun fournisseur' }}</td>
                                     <td class="px-4 py-2 text-center">
@@ -91,6 +93,10 @@
                         @endif
                     </tbody>
                 </table>
+            </div>
+            <!-- Pagination links -->
+            <div class="pagination mt-3">
+                {{ $vehicles->links() }}
             </div>
         </div>
     </div>

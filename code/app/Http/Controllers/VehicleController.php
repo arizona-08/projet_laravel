@@ -14,7 +14,7 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Vehicle::with('agency');
+        $query = Vehicle::with(['agency', 'status']);
 
         // Filter by brand
         if ($request->has('brand') && $request->brand != '') {
@@ -26,7 +26,7 @@ class VehicleController extends Controller
             $query->orderBy('nb_kilometrage', $request->sort_km);
         }
 
-        $vehicles = $query->get();
+        $vehicles = $query->paginate(6);
 
         // Get all unique brands for the filter dropdown
         $brands = Vehicle::select('marque')->distinct()->get();

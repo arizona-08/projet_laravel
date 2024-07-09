@@ -58,6 +58,10 @@
               </tbody>
             </table>
           </div>
+          <!-- Pagination links -->
+          <div class="pagination mt-3">
+            {{ $suppliers->links() }}
+          </div>
         </div>
       </div>
 </x-app-layout>
