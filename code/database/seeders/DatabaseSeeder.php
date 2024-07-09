@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Agency;
+use App\Models\Status;
 use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\Supplier;
@@ -20,10 +21,15 @@ class DatabaseSeeder extends Seeder
     {
         $roles = ["Admin", "RH", "Chef d'agence", "Gestionnaire fournisseur", "Gestionnaire commandes"];
 
-        $status = ["Disponible", "Indisponible"];
+        $status = [
+            0 => "Indisponible", 
+            1 => "Disponible",
+            2 => "En reparation"
+        ];
 
-        foreach ($status as $stat) {
+        foreach ($status as $key => $stat) {
             DB::table("status")->insert([
+                'id' => $key,
                 'label' => $stat
             ]);
         }
@@ -51,7 +57,8 @@ class DatabaseSeeder extends Seeder
                         ->count(rand(1, 5))
                         ->create([
                             'agency_id' => $agency->id,
-                            'supplier_id' => $suppliers->random()->id
+                            'supplier_id' => $suppliers->random()->id,
+                            'status_id' => Status::all()->random()->id
                         ]);
                 });
             });

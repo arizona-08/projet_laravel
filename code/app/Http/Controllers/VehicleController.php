@@ -14,7 +14,7 @@ class VehicleController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Vehicle::with('agency');
+        $query = Vehicle::with(['agency', 'status']);
 
         // Filter by brand
         if ($request->has('brand') && $request->brand != '') {

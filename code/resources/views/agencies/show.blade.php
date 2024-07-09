@@ -52,7 +52,7 @@
                                     <th class="px-4 py-2 text-center">Dernière maintenance</th>
                                     <th class="px-4 py-2 text-center">Nombre de kilomètres</th>
                                     <th class="px-4 py-2 text-center">Numéro de série</th>
-                                    {{-- <th class="px-4 py-2 text-center">Statut</th> --}}
+                                    <th class="px-4 py-2 text-center">Statut</th>
                                     {{-- <th class="px-4 py-2 text-center">Fournisseur</th> --}}
                                 </tr>
                             </thead>
@@ -70,6 +70,7 @@
                                     <td class="px-4 py-2 text-center">{{ $vehicle->last_maintenance }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
+                                    <td class="px-4 py-2 text-center">{{ $vehicle->status->label }}</td>
                                 </tr>
                                 @endforeach
                                 @endif

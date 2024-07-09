@@ -55,7 +55,7 @@ class AgencyController extends Controller
      */
     public function show(Agency $agency)
     {
-        $agency->load(['vehicles', 'user'])
+        $agency->load(['vehicles.status', 'user'])
         ->loadCount('vehicles');
         return view("agencies.show", ["agency" => $agency]);
     }

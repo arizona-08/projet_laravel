@@ -22,11 +22,6 @@ class Status extends Model
     
     public $timestamps = false;
 
-    public function user()
-    {
-        return $this->hasMany(User::class, 'status_id');
-    }
-
     public function vehicles()
     {
         return $this->hasMany(Vehicle::class);
