@@ -3,7 +3,7 @@ composer install dans le powershell
 #
 ./vendor/bin/sail up -d dans le wsl
 #
-./vendor/bin/sail artisan migrate
+./vendor/bin/sail artisan migrate:fresh --seed
 #
 php artisan key:generate
 #
