@@ -24,3 +24,4 @@ require __DIR__.'/supplier.php';
 require __DIR__.'/order.php';
 require __DIR__.'/role.php';
 require __DIR__.'/user.php';
+require __DIR__.'/supplierVehicle.php';

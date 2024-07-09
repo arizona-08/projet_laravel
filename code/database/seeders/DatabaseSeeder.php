@@ -18,6 +18,14 @@ class DatabaseSeeder extends Seeder
     {
         $roles = ["Admin", "RH", "Chef d'agence", "Gestionnaire fournisseur", "Gestionnaire commandes"];
 
+        $status = ["Disponible", "Indisponible"];
+
+        foreach ($status as $stat) {
+            DB::table("status")->insert([
+                'label' => $stat
+            ]);
+        }
+
         foreach ($roles as $role) {
             DB::table("roles")->insert([
                 'name' => $role

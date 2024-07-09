@@ -20,15 +20,10 @@ class Vehicle extends Model
         'last_maintenance',
         'nb_kilometrage',
         'nb_serie',
-        // 'status_id', //à rajouter plus tard
-        // 'fournisseur_id',
+        'status_id',
         'agency_id',
         'supplier_id',
     ];
-
-    // public function status() {
-    //     return $this->hasOne(Status::class, 'id', 'status_id');
-    // }
 
     public function agency() {
         return $this->belongsTo(Agency::class, 'agency_id');
@@ -37,4 +32,10 @@ class Vehicle extends Model
     public function supplier() {
         return $this->belongsTo(Supplier::class, 'supplier_id');
     }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
 }

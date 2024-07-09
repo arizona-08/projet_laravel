@@ -40,9 +40,9 @@ class VehicleController extends Controller
      */
     public function create()
     {
-       $agencies = Agency::select(['id', 'label'])->get();
-       $suppliers = Supplier::select(['id', 'label'])->get();
-       return view("vehicles.create", compact('agencies', 'suppliers')); //compact() renvoie un tableau associatif
+        $agencies = Agency::select(['id', 'label'])->get();
+        $suppliers = Supplier::select(['id', 'label'])->get();
+        return view("vehicles.create", compact('agencies', 'suppliers')); //compact() renvoie un tableau associatif
     }
 
     /**
@@ -58,7 +58,7 @@ class VehicleController extends Controller
             'nb_serie' => 'required',
             'agency_id' => 'required',
             'supplier_id' => 'required',
-        ],[
+        ], [
             'marque.required' => 'La marque est requise',
             'model.required' => 'Le modèle est requis',
             'last_maintenance.required' => 'La dernière maintenance est requise',
@@ -134,5 +134,17 @@ class VehicleController extends Controller
 
         // On redirige l'utilisateur vers la liste des véhicules
         return redirect()->route('vehicles.index');
+    }
+
+    public function getVehiclesBySupplier($supplierId)
+    {
+        // Obtenir les véhicules disponibles pour le fournisseur donné
+        $vehicles = Vehicle::where('supplier_id', $supplierId)
+            ->select('id', 'model', 'marque', 'supplier_id')
+            ->get();
+
+        // Retourner les véhicules au format JSON   
+        
+        return response()->json($vehicles);
     }
 }

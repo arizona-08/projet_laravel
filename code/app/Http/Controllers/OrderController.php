@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Order; 
-use App\Models\Supplier; 
-use App\Models\Status; 
-use App\Models\User; 
-use App\Models\Vehicle; 
+use App\Models\Order;
+use App\Models\Supplier;
+use App\Models\Status;
+use App\Models\User;
+use App\Models\Vehicle;
 
 class OrderController extends Controller
 {
@@ -29,19 +29,18 @@ class OrderController extends Controller
 
     public function create() // Définir la méthode pour créer une nouvelle order
     {
-        $vehicle = Vehicle::select('id', 'model','marque')->get();// Obtenir tous les véhicules
+        // Obtenir tous les fournisseurs
+        $suppliers = Supplier::select('id', 'label')->get();
+
+       
         $users = User::select('id', 'name')->get(); // Obtenir tous les utilisateurs
         $status = Status::all(); // Obtenir tous les statuts
-        $supplier = Supplier::all(); // Obtenir tous les suppliers
 
-        return view('orders.create', [ // Retourner la vue qui affiche le formulaire de création de order avec les données associées
-            'vehicles' => $vehicle,
+        return view('orders.create', [ // Retourner la vue qui affiche le formulaire de création de commande avec les données associées
             'users' => $users,
             'status' => $status,
-            'supplier' => $supplier
+            'suppliers' => $suppliers
         ]);
-
-        return response()->json(['key' => 'value']); // Retourner une réponse JSON si nécessaire
     }
 
     public function store(Request $request) // Définir la méthode pour enregistrer une nouvelle order
@@ -56,7 +55,7 @@ class OrderController extends Controller
             'supplier_id' => 'required',
             'vehicle_id' => 'required',
             'users_id' => 'required',
-        ],[
+        ], [
             'firstnamed.required' => 'Le prenom est requis',
             'lastname.required' => 'Le nom est requis',
             'email.required' => 'Le mail est requis',
