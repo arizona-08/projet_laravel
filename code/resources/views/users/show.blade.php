@@ -34,7 +34,15 @@
                             <form class="m-0 p-2 inline-block" action="{{ route('users.destroy', ['user' => $user]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button>
+
+                                <button  type="submit"
+                                    @if($user->role_id === 1)
+                                        @disabled(true)
+                                        class="bg-red-800 px-3 py-2 rounded-md"
+                                    @else
+                                        class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600"
+                                    @endif
+                                >Supprimer</button>
                             </form>
                         </div>
                         
