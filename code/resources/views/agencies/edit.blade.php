@@ -5,7 +5,7 @@
             <!-- Affichage du titre de la page -->
         </h2>
     </x-slot>
-
+    
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -49,6 +49,7 @@
                                         <td class="border px-4 py-2 text-center">
                                             <select name="user_id" id="">
                                                 <!-- Sélecteur du chef d'agence -->
+                                                
                                                 @foreach ($users as $user)
                                                     <option value="{{ $user->id }}">{{ $user->name }}</option>
                                                     <!-- Affichage du nom de chaque utilisateur dans une option -->

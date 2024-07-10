@@ -74,6 +74,8 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => $hashPassword,
             'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
             'role_id' => 1
         ]);
     }

@@ -14,7 +14,7 @@ class Agency extends Model
         'label',
         'user_id'
     ];
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function user() {
         return $this->belongsTo(User::class);
