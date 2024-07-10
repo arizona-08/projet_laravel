@@ -30,7 +30,7 @@
             <div class="flex justify-between items-center">
                 <!-- Crée un conteneur flexible avec un alignement vertical et horizontal au centre -->
                 <h2 class="text-2xl dark:text-white font-bold">Liste des commandes</h2> <!-- Titre principal -->
-                <a class="btn btn-light dark:text-white"  href="{{ route('orders.create') }}">Ajouter une commande</a>
+                <a class="btn btn-light dark:text-white" href="{{ route('orders.create') }}">Ajouter une commande</a>
                 <!-- Lien pour ajouter une nouvelle commande -->
             </div>
             <div class="mt-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -61,43 +61,38 @@
                     <tbody>
                         <!-- Corps de la table -->
                         @if ($orders->isEmpty())
-                            <tr>
-                                <td colspan="9" class="px-4 py-2 text-center">Aucune commande à afficher</td>
-                            </tr>
+                        <tr>
+                            <td colspan="9" class="px-4 py-2 text-center">Aucune commande à afficher</td>
+                        </tr>
                         @else
                         @foreach ($orders as $order)
-                            <!-- Boucle qui parcourt toutes les commandes et les affiche dans la table -->
-                            <tr class="hover:bg-gray-100">
-                                <!-- Ligne de la table qui change de couleur au survol de la souris -->
-                                <td class="px-4 py-2 text-center">{{ $order->id }}</td>
-                                <td class="px-4 py-2 text-center">{{ $order->firstname }}</td>
-                                <td class="px-4 py-2 text-center">{{ $order->lastname }}</td>
-                                <td class="px-4 py-2 text-center">{{ $order->email }}</td>
-                                <td class="px-4 py-2 text-center">{{ $order->dateDebut }}</td>
-                                <td class="px-4 py-2 text-center">{{ $order->dateFin }}</td>
-                                <!-- Cellule de la ligne pour afficher le numéro de la commande -->
-                                <td class="px-4 py-2 text-center">{{ $order->user->firstname }}
-                                    {{ $order->user->lastname }}</td>
-                                <!-- Cellule de la ligne pour afficher le nom complet de l'utilisateur associé à la commande -->
-                                <td class="px-4 py-2 text-center">{{ $order->vehicle->marque }}</td>
-                                <!-- Affiche la marque du véhicule de la commande courante -->
-                                <td class="px-4 py-2 text-center">{{ $order->vehicle->model }}</td>
-                                <!-- Affiche le modèle du véhicule de la commande courante -->
-                                <td class="px-4 py-2 text-center">
-                                    <a class="btn btn-light btn-block" role="button"
-                                        href="{{ route('order.edit', ['id' => $orders->id]) }}">Modifier</a>
-                                    <!-- Bouton pour modifier la orders courante -->
-                                    <form action="{{ route('orders.delete', ['id' => $order->id]) }}"
-                                        method="post">
-                                        @csrf
-                                        <!-- Protection contre les attaques CSRF -->
-                                        @method('delete')
-                                        <!-- Utilise la méthode HTTP DELETE pour supprimer la commande courante -->
-                                        <button class="btn btn-light btn-block" type="submit">Supprimer</button>
-                                        <!-- Bouton pour supprimer la commande courante -->
-                                    </form>
-                                </td>
-                            </tr>
+                        <!-- Boucle qui parcourt toutes les commandes et les affiche dans la table -->
+                        <tr class="hover:bg-gray-100">
+                            <!-- Ligne de la table qui change de couleur au survol de la souris -->
+                            <td class="px-4 py-2 text-center">{{ $order->id }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->firstname }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->lastname }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->email }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->dateDebut }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->dateFin }}</td>
+                            <!--  Cellule de la ligne pour afficher le numéro de la commande -->
+
+                            <!-- Cellule de la ligne pour afficher le nom complet de l'utilisateur associé à la commande -->
+                            <!-- Affiche la marque du véhicule de la commande courante -->
+                            <!-- Affiche le modèle du véhicule de la commande courante -->
+                            <td class="px-4 py-2 text-center">
+                                <a class="btn btn-light btn-block" role="button" href="{{ route('order.edit', ['id' => $orders->id]) }}">Modifier</a>
+                                <!-- Bouton pour modifier la orders courante -->
+                                <form action="{{ route('orders.delete', ['id' => $order->id]) }}" method="post">
+                                    @csrf
+                                    <!-- Protection contre les attaques CSRF -->
+                                    @method('delete')
+                                    <!-- Utilise la méthode HTTP DELETE pour supprimer la commande courante -->
+                                    <button class="btn btn-light btn-block" type="submit">Supprimer</button>
+                                    <!-- Bouton pour supprimer la commande courante -->
+                                </form>
+                            </td>
+                        </tr>
                         @endforeach <!-- Fin de la boucle qui parcourt toutes les commandes -->
                         @endif
                     </tbody>

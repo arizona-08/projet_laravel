@@ -63,7 +63,6 @@ class OrderController extends Controller
             'dateFin.required' => 'Le date de fin est requise',
             'vehicle_id.required' => 'Le véhicule est requis',
             'supplier_id.required' => 'Le supplier est requis',
-            'vehicle_id.required' => 'Le véhicule est requis',
         ]);
 
 
@@ -78,7 +77,7 @@ class OrderController extends Controller
         $order->save(); // Enregistrer la order
 
         $vehicle = Vehicle::find($request->vehicle_id); // Obtenir le véhicule associé à la order
-        $vehicle->status_id = 3; // Changer le statut du véhicule de 'disponible' (1) à 'indisponible' (2)
+        $vehicle->status_id = 0; // Changer le statut du véhicule de 'disponible' (1) à 'indisponible' (2)
         $vehicle->save(); // Enregistrer le nouveau statut du véhicule
 
         return redirect()->route('orders.index'); // Rediriger vers la liste des orders

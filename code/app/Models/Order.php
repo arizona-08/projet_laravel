@@ -17,7 +17,7 @@ class Order extends Model
         'dateDebut',
         'dateFin',
         'users_id',
-        'vehicule_id'
+        'vehicle_id'
     ];
 
     public function vehicle() {
