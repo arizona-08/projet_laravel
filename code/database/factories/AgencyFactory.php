@@ -22,7 +22,9 @@ class AgencyFactory extends Factory
     {
         return [
             'label' => $this->faker->company,
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
+            'created_at' => now(),
+            'updated_at' => now()
         ];
     }
 }

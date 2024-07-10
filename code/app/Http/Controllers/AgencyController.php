@@ -65,7 +65,7 @@ class AgencyController extends Controller
      */
     public function edit(Agency $agency)
     {
-        $users = User::select(['id', 'name'])->get();
+        $users = User::where("role_id", "=", "3")->get();
         return view("agencies.edit", [
             "agency" => $agency,
             "users" => $users

@@ -12,6 +12,8 @@ php artisan key:generate
 ./vendor/bin/sail npm run dev
 #
 aller sur localhost:80
+#
+login -> email: test@test.com / mdp: Respons11
 
 ## library utilise
 
