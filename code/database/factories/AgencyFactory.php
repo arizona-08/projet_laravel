@@ -22,14 +22,9 @@ class AgencyFactory extends Factory
     {
         return [
             'label' => $this->faker->company,
-            'user_id' => User::factory()
+            'user_id' => User::factory(),
+            'created_at' => now(),
+            'updated_at' => now()
         ];
-    }
-
-    public function configure():static {
-        return $this->afterCreating(function (Agency $agency) {
-            // Create between 0 and 5 vehicles for each agency
-            Vehicle::factory()->count(rand(1, 5))->create(['agency_id' => $agency->id]);
-        });
     }
 }

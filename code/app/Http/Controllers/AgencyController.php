@@ -15,7 +15,7 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = Agency::with('user')->get();
+        $agencies = Agency::with('user')->paginate(6);
 
         return view("agencies.index", ["agencies" => $agencies]);
     }
@@ -55,7 +55,7 @@ class AgencyController extends Controller
      */
     public function show(Agency $agency)
     {
-        $agency->load(['vehicles', 'user'])
+        $agency->load(['vehicles.status', 'user'])
         ->loadCount('vehicles');
         return view("agencies.show", ["agency" => $agency]);
     }
@@ -65,7 +65,7 @@ class AgencyController extends Controller
      */
     public function edit(Agency $agency)
     {
-        $users = User::select(['id', 'name'])->get();
+        $users = User::where("role_id", "=", "3")->get();
         return view("agencies.edit", [
             "agency" => $agency,
             "users" => $users

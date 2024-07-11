@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Ajouter un utilisateur') }}
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
+            {{ __("Créer un(e) {$role->name} ") }}
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @if ($errors->any())
-                        <div class="bg-red-500 text-white p-4 rounded mb-4">
+                        <div class="alert alert-danger">
                             <ul>
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>

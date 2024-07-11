@@ -14,8 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('status', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id');
             $table->string('label');
+        });
+
+        Schema::table('vehicles', function (Blueprint $table) {
+            $table->foreignId('status_id')->nullable();
         });
     }
 
@@ -27,5 +31,9 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('status');
+        
+        Schema::table('vehicles', function (Blueprint $table) {
+            $table->dropColumn('status_id');
+        });
     }
 };

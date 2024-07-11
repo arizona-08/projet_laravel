@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -24,17 +24,35 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $roles = Role::all();
-        return view('users.create', compact('roles'));
+        $role_id = $request->role_id;
+        $roles = Role::where("id", $role_id)->get();
+        $role = $roles[0];
+        return view("users.create", compact("role"));
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'max:320'],
+            'role' => ['required', 'int'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        User::create([
+            'name' => $validated["name"],
+            'email' => $validated["email"],
+            'role_id' => $validated["role"],
+            'password' => password_hash($validated["password"], PASSWORD_BCRYPT),
+        ]);
+
+        return to_route("roles.index");
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -60,28 +78,55 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::with('role')->findOrFail($id);
-        return view('users.show', compact('user'));
+       switch($user->role_id){
+        case 1:
+
+        case 2:
+            $user->load("role");
+            break;
+
+        case 3:
+            $user->load(["role", "agencies"]);
+            break;
+
+        case 4:
+            $user->load("role");
+            break;
+
+        case 5:
+            $user->load("role");
+
+            break;
+        default:
+            return "Role inexistant";
+            break;
+       }
+
+       return view("users.show", compact("user"));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::findOrFail($id);
-        $roles = Role::all();
-        return view('users.edit', compact('user', 'roles'));
+        if($user->role_id === 1){
+            $roles = Role::all();
+        }else {
+            $roles = Role::where("id", ">", 1)->get();
+        }
+
+        return view("users.edit", compact("user", "roles"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($user->id);
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -99,6 +144,35 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès');
+        if($user->role_id !== 1){
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'max:320'],
+                'role' => ['required', 'int'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+            $user->update([
+                'name' => $validated["name"],
+                'email' => $validated["email"],
+                'role_id' => $validated["role"],
+                'updated_at' => now(),
+                'password' => password_hash($validated["password"], PASSWORD_BCRYPT),
+            ]);
+        } else {
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'max:320'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+            $user->update([
+                'name' => $validated["name"],
+                'email' => $validated["email"],
+                'updated_at' => now(),
+                'password' => password_hash($validated["password"], PASSWORD_BCRYPT),
+            ]);
+        }
+
+        return to_route("users.show", compact("user"));
     }
 
     /**

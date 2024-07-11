@@ -59,6 +59,10 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- Pagination links -->
+                <div class="pagination mt-3">
+                    {{ $agencies->links() }}
+                </div>
             </div>
         </div>
 
