@@ -76,14 +76,15 @@
                             <td class="px-4 py-2 text-center">{{ $order->vehicle->model }}</td>
                             <!-- Affiche le modèle du véhicule de la commande courante -->
                             <td class="px-4 py-2 text-center">
-                                <a class="btn btn-light btn-block" role="button" href="{{ route('orders.edit', ['order' => $order]) }}">Modifier</a>
+                                <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('orders.edit', ['order' => $order]) }}">Modifier</a>
+                                
                                 <!-- Bouton pour modifier la commande courante -->
                                 <form action="{{ route('orders.destroy', ['order' => $order]) }}" method="post">
                                     @csrf
                                     <!-- Protection contre les attaques CSRF -->
                                     @method('delete')
                                     <!-- Utilise la méthode HTTP DELETE pour supprimer la commande courante -->
-                                    <button class="btn btn-light btn-block" type="submit">Supprimer</button>
+                                    <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button>
                                     <!-- Bouton pour supprimer la commande courante -->
                                 </form>
                             </td>

@@ -24,10 +24,10 @@ class OrderController extends Controller
         // Obtenir tous les fournisseurs
         $suppliers = Supplier::select('id', 'label')->get();
 
-       
+
         $users = User::select('id', 'name')
-        ->where("role_id", 6)
-        ->get(); // Obtenir tous les utilisateurs
+            ->where("role_id", 6)
+            ->get(); // Obtenir tous les utilisateurs
         $status = Status::all(); // Obtenir tous les statuts
 
         return view('orders.create', [ // Retourner la vue qui affiche le formulaire de création de commande avec les données associées
@@ -75,9 +75,11 @@ class OrderController extends Controller
         // Récupérer tous les véhicules
         $vehicles = Vehicle::all();
 
-        // Récupérer tous les utilisateurs
-        $users = User::where('role_id', 6);
+        // Récupérer tous les utilisateurs ayant le rôle ID 6
+        $users = User::where('role_id', 6)->get(['id', 'name', 'email']);
 
+
+        dump($users);
         // Retourner la vue d'édition de order avec la order spécifique, tous les véhicules et tous les utilisateurs
         return view('orders.edit', [
             'order' => $order,
@@ -88,35 +90,39 @@ class OrderController extends Controller
 
     public function update(Order $order, Request $request)
     {
-        // Valider les données saisies par l'utilisateur, lesquelles doivent être de type numérique
+        // Validate the data input by the user
         $validate = $request->validate([
-            'vehicle_id' => 'numeric',
-            'user_id' => 'numeric'
+            'user_id' => 'numeric|required',
+            'email' => 'required|email',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
         ]);
 
-        // Mettre à jour la order spécifiée en utilisant l'identifiant donné
+        // Find the user
+        $user = User::find($validate['user_id']);
+
+        if ($user) {
+            // Check if the email already exists and does not belong to the current user
+            $emailExists = User::where('email', $validate['email'])
+                ->where('id', '!=', $user->id)
+                ->exists();
+
+            if ($emailExists) {
+                return redirect()->back()->withErrors(['email' => 'L\'email est déjà utilisé par un autre utilisateur.']);
+            }
+
+            // Update user's email
+            $user->update(['email' => $validate['email']]);
+        }
+
+        // Update the order with the new data
         $order->update([
             'user_id' => $validate['user_id'],
-            'vehicle_id' => $validate['vehicle_id'],
+            'start_date' => $validate['start_date'],
+            'end_date' => $validate['end_date'],
         ]);
 
-        // Rediriger vers l'index des orders
-        return response()->redirectToRoute('orders.index');
-    }
-
-    public function destroy(Order $order)
-    {
-        // Récupérer la order spécifique en utilisant l'identifiant donné, en générant une exception s'il n'y a pas de order correspondante
-        $order = $order->load('vehicle');
-
-        // Réinitialiser le statut du véhicule associé à la order
-        $order->vehicle->status_id = 1;
-        $order->vehicle->save();
-
-        // Supprimer la order
-        $order->delete();
-
-        // Rediriger vers l'index des orders
+        // Redirect to the index of orders
         return redirect()->route('orders.index');
     }
 }
