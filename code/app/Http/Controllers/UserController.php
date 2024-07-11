@@ -26,10 +26,15 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $role_id = $request->role_id;
-        $roles = Role::where("id", $role_id)->get();
-        $role = $roles[0];
-        return view("users.create", compact("role"));
+        if($request->has("role_id")){
+            $role_id = $request->role_id;
+            $roles = Role::where("id", $role_id)->get();
+            $singleRole = $roles[0];
+            return view("users.create", compact("singleRole"));
+        }
+
+        $roles = Role::all();
+        return view("users.create", compact("roles"));
     }
 
 
@@ -38,21 +43,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'max:320'],
-            'role' => ['required', 'int'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-
-        User::create([
-            'name' => $validated["name"],
-            'email' => $validated["email"],
-            'role_id' => $validated["role"],
-            'password' => password_hash($validated["password"], PASSWORD_BCRYPT),
-        ]);
-
-        return to_route("roles.index");
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -128,27 +118,11 @@ class UserController extends Controller
     {
         $user = User::findOrFail($user->id);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id',
-        ]);
-
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->role_id = $request->role_id;
-        $user->save();
-
-        return redirect()->route('users.index')->with('success', 'Utilisateur mis à jour avec succès');
         if($user->role_id !== 1){
             $validated = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'max:320'],
-                'role' => ['required', 'int'],
+                'email' => ['required', 'string', 'email', 'max:320', "unique:users,email,{$user->id}"],
+                'role' => ['required', 'int', 'exists:roles,id'],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
             $user->update([
@@ -156,23 +130,38 @@ class UserController extends Controller
                 'email' => $validated["email"],
                 'role_id' => $validated["role"],
                 'updated_at' => now(),
-                'password' => password_hash($validated["password"], PASSWORD_BCRYPT),
+                'password' => Hash::make($validated["passwod"]),
             ]);
         } else {
             $validated = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
-                'email' => ['required', 'string', 'max:320'],
+                'email' => ['required', 'string', 'email', 'max:320', "unique:users,email,{$user->id}"],
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
             ]);
             $user->update([
                 'name' => $validated["name"],
                 'email' => $validated["email"],
                 'updated_at' => now(),
-                'password' => password_hash($validated["password"], PASSWORD_BCRYPT),
+                'password' => Hash::make($validated["passwod"]),
             ]);
         }
 
-        return to_route("users.show", compact("user"));
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'role_id' => 'required|',
+        ]);
+
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+        // if ($request->filled('password')) {
+        //     $user->password = Hash::make($request->password);
+        // }
+        // $user->role_id = $request->role_id;
+        // $user->save();
+
+        return redirect()->route('users.show', compact("user"))->with('success', 'Utilisateur mis à jour avec succès');
     }
 
     /**

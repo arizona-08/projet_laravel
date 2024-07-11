@@ -1,21 +1,7 @@
 <x-app-layout>
-<<<<<<< HEAD
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Modifier l\'utilisateur') }}
-        </h2>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    @if ($errors->any())
-                        <div class="bg-red-500 text-white p-4 rounded mb-4">
-=======
-    <!-- Slot pour le header de la page -->
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl dark:text-white text-gray-800 leading-tight">
             {{ __("Modifier l'utilisateur") }}
         </h2>
     </x-slot>
@@ -70,7 +56,7 @@
                                         <td class="border px-4 py-2">
                                             <select name="role" placeholder="Mot de passe" class="w-full"
                                             @if($user->role->id === 1)
-                                            @disabled(true)
+                                                @disabled(true)
                                             @endif
                                             >
                                                 @foreach($roles as $role)
