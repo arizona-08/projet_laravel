@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('dateFin');
             $table->timestamps();
             $table->foreignId('users_id')->nullable()->constrained('users');
-            $table->foreignId('vehicles_id')->nullable()->constrained('vehicles')->onDelete('cascade');
+            $table->foreignId('vehicle_id')->nullable()->constrained('vehicles')->onDelete('cascade');
         });
     }
 

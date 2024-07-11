@@ -17,11 +17,11 @@ class Order extends Model
         'dateDebut',
         'dateFin',
         'users_id',
-        'vehicule_id'
+        'vehicle_id'
     ];
 
     public function vehicle() {
-        return $this->hasOne(Vehicle::class);
+        return $this->belongsTo(Vehicle::class);
     }
 
     public function user() {
