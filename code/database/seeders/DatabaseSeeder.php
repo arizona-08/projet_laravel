@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Agency;
+use App\Models\Order;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -19,7 +20,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = ["Admin", "RH", "Chef d'agence", "Gestionnaire fournisseur", "Gestionnaire commandes"];
+        $roles = ["Admin", "RH", "Chef d'agence", "Gestionnaire fournisseur", "Gestionnaire commandes", "Locataire"];
 
         $status = [
             0 => "Indisponible", 
@@ -66,10 +67,24 @@ class DatabaseSeeder extends Seeder
         
         User::factory()->count(4)->create(['role_id' => 4]);
         User::factory()->count(4)->create(['role_id' => 5]);
+
+        $vehicles = Vehicle::all();
+        User::factory()
+        ->count(4)
+        ->create(["role_id" => 6])
+        ->each(function ($user, $key) use ($vehicles){
+            Order::factory()
+            ->create([
+                "user_id" => $user->id,
+                "vehicle_id" => $vehicles->get($key)->id,
+            ]);
+        });
+
+
         $password = "Respons11";
         $hashPassword = password_hash($password, PASSWORD_BCRYPT);
         DB::table("users")->insert([
-            'name' => "Marc Doe",
+            'name' => "John Doe",
             'email' => "test@test.com",
             'email_verified_at' => now(),
             'password' => $hashPassword,

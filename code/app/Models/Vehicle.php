@@ -38,4 +38,8 @@ class Vehicle extends Model
         return $this->belongsTo(Status::class);
     }
 
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+
 }

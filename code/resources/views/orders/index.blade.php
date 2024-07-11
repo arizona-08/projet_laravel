@@ -39,14 +39,12 @@
                         <!-- En-tête de la table avec un fond gris pâle -->
                         <tr>
                             <!-- Ligne de la table -->
+                            <!-- Cellule de la ligne pour afficher le numéro de la commande -->
                             <th class="px-4 py-2 text-center">N° de la commande</th>
-                            <th class="px-4 py-2 text-center">Prénom</th>
-                            <th class="px-4 py-2 text-center">Nom</th>
+                            <th class="px-4 py-2 text-center">Locataire</th>
                             <th class="px-4 py-2 text-center">Email</th>
                             <th class="px-4 py-2 text-center">Date de début</th>
                             <th class="px-4 py-2 text-center">Date de fin</th>
-                            <!-- Cellule de la ligne pour afficher le numéro de la commande -->
-                            <th class="px-4 py-2 text-center">Utilisateur</th>
                             <!-- Cellule de la ligne pour afficher le nom de l'utilisateur -->
                             <th class="px-4 py-2 text-center">Marque du véhicule</th>
                             <!-- Cellule de la ligne pour afficher la marque du véhicule -->
@@ -68,15 +66,10 @@
                         <tr class="hover:bg-gray-100">
                             <!-- Ligne de la table qui change de couleur au survol de la souris -->
                             <td class="px-4 py-2 text-center">{{ $order->id }}</td>
-                            <td class="px-4 py-2 text-center">{{ $order->firstname }}</td>
-                            <td class="px-4 py-2 text-center">{{ $order->lastname }}</td>
-                            <td class="px-4 py-2 text-center">{{ $order->email }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->user->name }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->user->email }}</td>
                             <td class="px-4 py-2 text-center">{{ $order->dateDebut }}</td>
                             <td class="px-4 py-2 text-center">{{ $order->dateFin }}</td>
-                            <!-- Cellule de la ligne pour afficher le numéro de la commande -->
-                            <td class="px-4 py-2 text-center">{{ $order->firstname }}
-                                {{ $order->lastname }}
-                            </td>
                             <!-- Cellule de la ligne pour afficher le nom complet de l'utilisateur associé à la commande -->
                             <td class="px-4 py-2 text-center">{{ $order->vehicle->marque }}</td>
                             <!-- Affiche la marque du véhicule de la commande courante -->

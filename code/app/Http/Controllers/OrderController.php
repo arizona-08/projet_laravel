@@ -15,17 +15,8 @@ class OrderController extends Controller
     public function index() // Définir la méthode pour afficher la liste des Orders
     {
         // je veut recup les
-        $orders = Order::with('vehicle')->get();
-        
-        $users = User::all(); // Obtenir tous les utilisateurs
-        $status = Status::all(); // Obtenir tous les statuts
-
-        
-        return view('orders.index', [ // Retourner la vue qui affiche la liste des orders avec les données associées
-            'orders' => $orders,
-            'users' => $users,
-            'status' => $status
-        ]);
+        $orders = Order::with(['vehicle', 'user'])->get();
+        return view('orders.index', ['orders' => $orders,]); //retourne toutes les commandes
     }
 
     public function create() // Définir la méthode pour créer une nouvelle order
@@ -34,7 +25,9 @@ class OrderController extends Controller
         $suppliers = Supplier::select('id', 'label')->get();
 
        
-        $users = User::select('id', 'name')->get(); // Obtenir tous les utilisateurs
+        $users = User::select('id', 'name')
+        ->where("role_id", 6)
+        ->get(); // Obtenir tous les utilisateurs
         $status = Status::all(); // Obtenir tous les statuts
 
         return view('orders.create', [ // Retourner la vue qui affiche le formulaire de création de commande avec les données associées
@@ -48,18 +41,12 @@ class OrderController extends Controller
     {
 
         $request->validate([
-            'firstname' => 'required',
-            'lastname' => 'required',
-            'email' => 'required',
             'dateDebut' => 'required',
             'dateFin' => 'required',
             'supplier_id' => 'required',
             'vehicle_id' => 'required',
-            'users_id' => 'required',
+            'user_id' => 'required',
         ], [
-            'firstnamed.required' => 'Le prenom est requis',
-            'lastname.required' => 'Le nom est requis',
-            'email.required' => 'Le mail est requis',
             'dateDebut.required' => 'Le date de début est requise',
             'dateFin.required' => 'Le date de fin est requise',
             'vehicle_id.required' => 'Le véhicule est requis',
@@ -68,12 +55,9 @@ class OrderController extends Controller
 
 
         $order = new Order(); // Créer une nouvelle instance de Order
-        $order->firstname = $request->firstname;
-        $order->lastname = $request->lastname;
-        $order->email = $request->email;
         $order->dateDebut = $request->dateDebut;
         $order->dateFin = $request->dateFin;
-        $order->users_id = $request->users_id; // Définir l'utilisateur qui a créé la order
+        $order->user_id = $request->user_id; // Définir l'utilisateur qui a créé la order
         $order->vehicle_id = $request->vehicle_id; // Définir le véhicule de la order
         $order->save(); // Enregistrer la order
 
@@ -92,7 +76,7 @@ class OrderController extends Controller
         $vehicles = Vehicle::all();
 
         // Récupérer tous les utilisateurs
-        $users = User::all();
+        $users = User::where('role_id', 6);
 
         // Retourner la vue d'édition de order avec la order spécifique, tous les véhicules et tous les utilisateurs
         return view('orders.edit', [
@@ -107,12 +91,12 @@ class OrderController extends Controller
         // Valider les données saisies par l'utilisateur, lesquelles doivent être de type numérique
         $validate = $request->validate([
             'vehicle_id' => 'numeric',
-            'users_id' => 'numeric'
+            'user_id' => 'numeric'
         ]);
 
         // Mettre à jour la order spécifiée en utilisant l'identifiant donné
         $order->update([
-            'users_id' => $validate['users_id'],
+            'user_id' => $validate['user_id'],
             'vehicle_id' => $validate['vehicle_id'],
         ]);
 
@@ -120,22 +104,19 @@ class OrderController extends Controller
         return response()->redirectToRoute('orders.index');
     }
 
-    public function destroy($id)
+    public function destroy(Order $order)
     {
         // Récupérer la order spécifique en utilisant l'identifiant donné, en générant une exception s'il n'y a pas de order correspondante
-        $order = Order::findOrFail($id);
-
-        // Récupérer le véhicule associé à la order
-        $vehicle = $order->vehicle;
+        $order = $order->load('vehicle');
 
         // Réinitialiser le statut du véhicule associé à la order
-        $vehicle->status_id = 1;
-        $vehicle->save();
+        $order->vehicle->status_id = 1;
+        $order->vehicle->save();
 
         // Supprimer la order
         $order->delete();
 
         // Rediriger vers l'index des orders
-        return redirect()->route('order.index');
+        return redirect()->route('orders.index');
     }
 }
