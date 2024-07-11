@@ -3,7 +3,7 @@
     <!-- Balise XSLot qui contient le titre de la page -->
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Order') }}
+            {{ __('Commander un véhicule') }}
         </h2>
     </x-slot>
 
@@ -22,14 +22,11 @@
                                 <thead>
                                     <!-- En-tête du tableau -->
                                     <tr class="bg-gray-100">
-                                        <th class="px-4 py-2 text-left">Prénom</th>
-                                        <th class="px-4 py-2 text-left">Nom</th>
-                                        <th class="px-4 py-2 text-left">Email</th>
+                                        <th class="px-4 py-2 text-left">Locataire</th>
                                         <th class="px-4 py-2 text-left">dateDebut</th>
                                         <th class="px-4 py-2 text-left">dateFin</th>
                                         <th class="px-4 py-2 text-left">Fournisseur</th>
                                         <th class="px-4 py-2 text-left">Véhicule</th>
-                                        <th class="px-4 py-2 text-left">Utilisateur</th>
                                         <th class="px-4 py-2 text-left">Action</th>
                                     </tr>
                                 </thead>
@@ -37,28 +34,16 @@
                                     <!-- Ligne de formulaire pour ajouter une orders -->
                                     <tr>
                                         <td class="border px-4 py-2">
-                                            @if ($errors->has('firstname'))
+                                            @if ($errors->has('user_id'))
                                             <div class="text-red-500 font-semibold my-2">
-                                                {{ $errors->first('firstname') }}
+                                                {{ $errors->first('user_id') }}
                                             </div>
                                             @endif
-                                            <input type="text" name="firstname" placeholder="Prénom" class="w-full">
-                                        </td>
-                                        <td class="border px-4 py-2">
-                                            @if ($errors->has('lastname'))
-                                            <div class="text-red-500 font-semibold my-2">
-                                                {{ $errors->first('lastname') }}
-                                            </div>
-                                            @endif
-                                            <input type="text" name="lastname" placeholder="Nom" class="w-full">
-                                        </td>
-                                        <td class="border px-4 py-2">
-                                            @if ($errors->has('email'))
-                                            <div class="text-red-500 font-semibold my-2">
-                                                {{ $errors->first('email') }}
-                                            </div>
-                                            @endif
-                                            <input type="text" name="email" placeholder="Email" class="w-full h-12">
+                                            <select name="user_id" id="">
+                                                @foreach($users as $user)
+                                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </td>
                                         <td class="border px-4 py-2">
                                             @if ($errors->has('dateDebut'))
@@ -92,16 +77,6 @@
                                         <td class="border px-4 py-2">
                                             <select id="vehicleSelect" name="vehicle_id">
                                                 <option value="">Sélectionner un véhicule</option>
-                                            </select>
-                                        </td>
-                                        <!-- Liste déroulante pour sélectionner l'utilisateur -->
-                                        <td class="border px-4 py-2 text-center">
-                                            <select name="users_id">
-                                                @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}
-                                                    {{ $user->email }}
-                                                </option>
-                                                @endforeach
                                             </select>
                                         </td>
                                         <!-- Bouton pour soumettre le formulaire -->

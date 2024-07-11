@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Orders') }}
+            {{ __('Modifier une commande') }}
             <!-- Afficher "Orders" -->
         </h2>
     </x-slot>
@@ -21,7 +21,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('orders.update', ['id' => $order->id]) }}" method="post">
+                    <form action="{{ route('orders.update', ['order' => $order]) }}" method="post">
                         <!-- Formulaire de modification de orders avec la méthode HTTP POST -->
                         @csrf
                         <!-- Protection contre les attaques CSRF -->
@@ -53,7 +53,7 @@
                                             </select>
                                         </td>
                                         <td class="border px-4 py-2 text-center">
-                                            <select name="users_id" id="">
+                                            <select name="user_id" id="">
                                                 <!-- Liste déroulante pour la sélection d'utilisateur -->
                                                 @foreach ($users as $user)
                                                     <!-- Boucle à travers tous les utilisateurs disponibles -->
