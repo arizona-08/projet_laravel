@@ -14,15 +14,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-white leading-tight">
-            {{ __('Liste des véhicules') }}
+            {{ __('Véhicules') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold dark:text-white">Liste des vehicules</h2> <!-- Titre de la section -->
                 <a class="bg-white px-3 py-2 rounded-md hover:bg-slate-200" href="{{ route('vehicles.create') }}">Ajouter un véhicule</a>
-
                 <form action="{{ route('vehicles.index') }}" method="GET" class="flex items-center">
                     <div class="mr-4">
                         <label for="brand" class="mr-2 dark:text-white">Marque:</label>

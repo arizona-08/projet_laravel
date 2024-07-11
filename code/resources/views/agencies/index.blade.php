@@ -10,12 +10,12 @@
         width: 50%; /* largeur de 50% de la page */
     }
     </style>
-    
+
     <!-- Utilisation d'un composant Laravel pour générer la page HTML -->
     <x-app-layout>
         <!-- Définition d'un emplacement pour le titre de la page -->
         <x-slot name="header">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            <h2 class="font-semibold text-xl text-white leading-tight">
                 {{ __('Agences') }} <!-- Affichage du titre de la page -->
             </h2>
         </x-slot>
@@ -65,5 +65,5 @@
                 </div>
             </div>
         </div>
-    
+
     </x-app-layout>

@@ -1,4 +1,18 @@
 <x-app-layout>
+<<<<<<< HEAD
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Modifier l\'utilisateur') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-white border-b border-gray-200">
+                    @if ($errors->any())
+                        <div class="bg-red-500 text-white p-4 rounded mb-4">
+=======
     <!-- Slot pour le header de la page -->
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -54,7 +68,7 @@
                                         </td>
 
                                         <td class="border px-4 py-2">
-                                            <select name="role" placeholder="Mot de passe" class="w-full" 
+                                            <select name="role" placeholder="Mot de passe" class="w-full"
                                             @if($user->role->id === 1)
                                             @disabled(true)
                                             @endif
@@ -79,7 +93,7 @@
                                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">Valider</button>
                                 <a href="{{route("users.show", ["user" => $user])}}" role="button" class="bg-red-500 hover:bg-red-700 text-black font-bold py-2 px-4 inline-block rounded">Annuler</a>
                             </div>
-                            
+
                         </div>
                     </form>
                 </div>
