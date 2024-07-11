@@ -21,7 +21,7 @@ class Order extends Model
     ];
 
     public function vehicle() {
-        return $this->hasOne(Vehicle::class);
+        return $this->belongsTo(Vehicle::class);
     }
 
     public function user() {

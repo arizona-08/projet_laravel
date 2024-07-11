@@ -14,14 +14,15 @@ class OrderController extends Controller
 {
     public function index() // Définir la méthode pour afficher la liste des Orders
     {
-        $order = Order::all(); // Obtenir toutes les orders
-        $vehicle = Vehicle::all(); // Obtenir tous les véhicules
+        // je veut recup les
+        $orders = Order::with('vehicle')->get();
+        
         $users = User::all(); // Obtenir tous les utilisateurs
         $status = Status::all(); // Obtenir tous les statuts
 
+        
         return view('orders.index', [ // Retourner la vue qui affiche la liste des orders avec les données associées
-            'orders' => $order,
-            'vehicles' => $vehicle,
+            'orders' => $orders,
             'users' => $users,
             'status' => $status
         ]);
@@ -85,11 +86,8 @@ class OrderController extends Controller
 
 
 
-    public function edit($id)
+    public function edit(Order $order)
     {
-        // Récupérer une order spécifique en utilisant son identifiant
-        $order = Order::find($id);
-
         // Récupérer tous les véhicules
         $vehicles = Vehicle::all();
 
@@ -104,7 +102,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function update(Order $id, Request $request)
+    public function update(Order $order, Request $request)
     {
         // Valider les données saisies par l'utilisateur, lesquelles doivent être de type numérique
         $validate = $request->validate([
@@ -113,7 +111,7 @@ class OrderController extends Controller
         ]);
 
         // Mettre à jour la order spécifiée en utilisant l'identifiant donné
-        $id->update([
+        $order->update([
             'users_id' => $validate['users_id'],
             'vehicle_id' => $validate['vehicle_id'],
         ]);
@@ -122,7 +120,7 @@ class OrderController extends Controller
         return response()->redirectToRoute('orders.index');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         // Récupérer la order spécifique en utilisant l'identifiant donné, en générant une exception s'il n'y a pas de order correspondante
         $order = Order::findOrFail($id);
