@@ -15,8 +15,8 @@ class OrderController extends Controller
     public function index() // Définir la méthode pour afficher la liste des Orders
     {
         // je veut recup les
-        $orders = Order::with(['vehicle', 'user'])->get();
-        return view('orders.index', ['orders' => $orders,]); //retourne toutes les commandes
+        $orders = Order::with(['vehicle', 'user', 'orderstatus'])->get();
+        return view('orders.index', ['orders' => $orders]); //retourne toutes les commandes
     }
 
     public function create() // Définir la méthode pour créer une nouvelle order
@@ -25,7 +25,7 @@ class OrderController extends Controller
         $users = User::select('id', 'name')
             ->where("role_id", 6)
             ->get(); // Obtenir tous les utilisateurs
-        $vehicles = Vehicle::where("status_id", 1);
+        $vehicles = Vehicle::where("status_id", 1)->get();
         return view('orders.create', [ // Retourner la vue qui affiche le formulaire de création de commande avec les données associées
             'users' => $users,
             'vehicles' => $vehicles
@@ -53,6 +53,7 @@ class OrderController extends Controller
         $order->end_date = $request->end_date;
         $order->user_id = $request->user_id; // Définir l'utilisateur qui a créé la order
         $order->vehicle_id = $request->vehicle_id; // Définir le véhicule de la order
+        $order->orderstatus_id = 1;
         $order->save(); // Enregistrer la order
 
         $vehicle = Vehicle::find($request->vehicle_id); // Obtenir le véhicule associé à la order
@@ -123,8 +124,9 @@ class OrderController extends Controller
 
     public function handleOrder(Request $request, Order $order){ //permet à l'admin de valider ou refuser une commande
         $order->update([
-            'order_status_id' => $request->order_status_id
+            "orderstatus_id" => $request->order_status_id
         ]);
+        return redirect()->route('orders.index');
     }
 
     public function destroy(Order $order)
