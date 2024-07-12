@@ -11,12 +11,9 @@ class Order extends Model
 
     public $timestamps = true;
     protected $fillable = [
-        'lastname',
-        'firstname',
-        'email',
         'start_date',
         'end_date',
-        'users_id',
+        'user_id',
         'vehicle_id'
     ];
 
