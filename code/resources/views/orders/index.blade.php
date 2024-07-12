@@ -20,7 +20,7 @@
             <!-- Affiche le texte "Commande" à l'aide de la fonction de traduction __() -->
         </h2>
     </x-slot>
-
+    
     <div class="py-12">
         <!-- Ajoute un espacement en haut et en bas de la page -->
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  dark:text-white">
@@ -45,13 +45,10 @@
                             <th class="px-4 py-2 text-center">Email</th>
                             <th class="px-4 py-2 text-center">Date de début</th>
                             <th class="px-4 py-2 text-center">Date de fin</th>
-                            <!-- Cellule de la ligne pour afficher le nom de l'utilisateur -->
                             <th class="px-4 py-2 text-center">Marque du véhicule</th>
-                            <!-- Cellule de la ligne pour afficher la marque du véhicule -->
                             <th class="px-4 py-2 text-center">Modèle du véhicule</th>
-                            <!-- Cellule de la ligne pour afficher le modèle du véhicule -->
+                            <th class="px-4 py-2 text-center">Statut de la commande</th>
                             <th class="px-4 py-2 text-center">Action</th>
-                            <!-- Cellule de la ligne pour afficher les actions à effectuer sur la commande -->
                         </tr>
                     </thead>
                     <tbody>
@@ -75,10 +72,44 @@
                             <!-- Affiche la marque du véhicule de la commande courante -->
                             <td class="px-4 py-2 text-center">{{ $order->vehicle->model }}</td>
                             <!-- Affiche le modèle du véhicule de la commande courante -->
+                            <td 
+                                @switch($order->orderstatus->id)
+                                    @case(0)
+                                        class="px-4 py-2 text-center text-red-500"
+                                    @break
+                                    @case(1)
+                                        class="px-4 py-2 text-center text-orange-300"
+                                    @break
+                                    @case(2)
+                                        class="px-4 py-2 text-center text-green-500"
+                                    @break
+                                    @case(3)
+                                        class="px-4 py-2 text-center text-red-500"
+                                    @break
+                                @endswitch
+                            >{{ $order->orderstatus->label }}</td>
                             <td class="px-4 py-2 text-center">
                                 <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('orders.edit', ['order' => $order]) }}">Modifier</a>
                                 
                                 <!-- Bouton pour modifier la commande courante -->
+                                <form action="{{ route('orders.handleOrder', ['order' => $order]) }}" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <!-- Protection contre les attaques CSRF -->
+                                    <input type="hidden" name="order_status_id" value="2">
+                                    <!-- Utilise la méthode HTTP DELETE pour supprimer la commande courante -->
+                                    <button class="bg-green-500 px-3 py-2 rounded-md hover:bg-green-600 block" type="submit">Valider</button>
+                                    <!-- Bouton pour supprimer la commande courante -->
+                                </form>
+                                <form action="{{ route('orders.handleOrder', ['order' => $order]) }}" method="post">
+                                    @csrf
+                                    @method('put')
+                                    <!-- Protection contre les attaques CSRF -->
+                                    <input type="hidden" name="order_status_id" value="0">
+                                    <!-- Utilise la méthode HTTP DELETE pour supprimer la commande courante -->
+                                    <button class="bg-orange-500 px-3 py-2 rounded-md hover:bg-orange-600 block" type="submit">Rejeter</button>
+                                    <!-- Bouton pour supprimer la commande courante -->
+                                </form>
                                 <form action="{{ route('orders.destroy', ['order' => $order]) }}" method="post">
                                     @csrf
                                     <!-- Protection contre les attaques CSRF -->

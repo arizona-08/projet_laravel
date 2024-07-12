@@ -68,7 +68,7 @@
                                             @endif
                                             <select id="vehicleSelect" name="vehicle_id">
                                                 @foreach($vehicles as $vehicle)
-                                                <option value="{{$vehicle->id}}">{{$vehice->marque}} {{$vehice->model}}</option>
+                                                <option value="{{$vehicle->id}}">{{$vehicle->marque}} {{$vehicle->model}}</option>
                                                 @endforeach
                                             </select>
                                         </td>
