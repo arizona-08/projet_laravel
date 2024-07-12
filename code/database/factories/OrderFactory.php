@@ -21,8 +21,8 @@ class OrderFactory extends Factory
         $baseDate = new DateTime();
         $interval = ["min" => 1, "max" => 14];
         return [
-            'dateDebut' => $baseDate,
-            'dateFin' => $baseDate->add(new DateInterval('P'. rand($interval["min"], $interval["max"]). 'D')),
+            'start_date' => $baseDate,
+            'end_date' => $baseDate->add(new DateInterval('P'. rand($interval["min"], $interval["max"]). 'D')),
             'created_at' => now(),
             'updated_at' => now()
         ];

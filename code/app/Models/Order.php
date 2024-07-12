@@ -14,8 +14,8 @@ class Order extends Model
         'lastname',
         'firstname',
         'email',
-        'dateDebut',
-        'dateFin',
+        'start_date',
+        'end_date',
         'users_id',
         'vehicle_id'
     ];

@@ -18,3 +18,7 @@ login -> email: test@test.com / mdp: Respons11
 ## library utilise
 
 https://github.com/pelmered/fake-car
+
+## pour les test
+mail : test@test.com 
+password :  Respons11

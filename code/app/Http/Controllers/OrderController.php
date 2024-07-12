@@ -41,22 +41,23 @@ class OrderController extends Controller
     {
 
         $request->validate([
-            'dateDebut' => 'required',
-            'dateFin' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required',
             'supplier_id' => 'required',
             'vehicle_id' => 'required',
             'user_id' => 'required',
         ], [
-            'dateDebut.required' => 'Le date de début est requise',
-            'dateFin.required' => 'Le date de fin est requise',
-            'vehicle_id.required' => 'Le véhicule est requis',
+            'start_date.required' => 'Le date de début est requise',
+            'end_date.required' => 'Le date de fin est requise',
             'supplier_id.required' => 'Le supplier est requis',
+            'vehicle_id.required' => 'Le véhicule est requis',
+            'user_id.required' => 'L\'utilisateur est requis',
         ]);
 
 
         $order = new Order(); // Créer une nouvelle instance de Order
-        $order->dateDebut = $request->dateDebut;
-        $order->dateFin = $request->dateFin;
+        $order->start_date = $request->start_date;
+        $order->end_date = $request->end_date;
         $order->user_id = $request->user_id; // Définir l'utilisateur qui a créé la order
         $order->vehicle_id = $request->vehicle_id; // Définir le véhicule de la order
         $order->save(); // Enregistrer la order
@@ -79,7 +80,7 @@ class OrderController extends Controller
         $users = User::where('role_id', 6)->get(['id', 'name', 'email']);
 
 
-        dump($users);
+      
         // Retourner la vue d'édition de order avec la order spécifique, tous les véhicules et tous les utilisateurs
         return view('orders.edit', [
             'order' => $order,
@@ -108,11 +109,12 @@ class OrderController extends Controller
                 ->exists();
 
             if ($emailExists) {
-                return redirect()->back()->withErrors(['email' => 'L\'email est déjà utilisé par un autre utilisateur.']);
+                return redirect()->back()->withErrors(['email' => 'L\'email est déjà utilisé.']);
             }
 
             // Update user's email
             $user->update(['email' => $validate['email']]);
+
         }
 
         // Update the order with the new data
@@ -123,6 +125,22 @@ class OrderController extends Controller
         ]);
 
         // Redirect to the index of orders
+        return redirect()->route('orders.index');
+    }
+
+    public function destroy(Order $order)
+    {
+        // Récupérer la order spécifique en utilisant l'identifiant donné, en générant une exception s'il n'y a pas de order correspondante
+        $order = $order->load('vehicle');
+
+        // Réinitialiser le statut du véhicule associé à la order
+        $order->vehicle->status_id = 1;
+        $order->vehicle->save();
+
+        // Supprimer la order
+        $order->delete();
+
+        // Rediriger vers l'index des orders
         return redirect()->route('orders.index');
     }
 }

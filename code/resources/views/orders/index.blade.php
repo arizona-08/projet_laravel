@@ -68,8 +68,8 @@
                             <td class="px-4 py-2 text-center">{{ $order->id }}</td>
                             <td class="px-4 py-2 text-center">{{ $order->user->name }}</td>
                             <td class="px-4 py-2 text-center">{{ $order->user->email }}</td>
-                            <td class="px-4 py-2 text-center">{{ $order->dateDebut }}</td>
-                            <td class="px-4 py-2 text-center">{{ $order->dateFin }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->start_date }}</td>
+                            <td class="px-4 py-2 text-center">{{ $order->end_date }}</td>
                             <!-- Cellule de la ligne pour afficher le nom complet de l'utilisateur associé à la commande -->
                             <td class="px-4 py-2 text-center">{{ $order->vehicle->marque }}</td>
                             <!-- Affiche la marque du véhicule de la commande courante -->
