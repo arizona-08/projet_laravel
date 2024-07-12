@@ -7,9 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -25,3 +23,4 @@ require __DIR__.'/order.php';
 require __DIR__.'/role.php';
 require __DIR__.'/user.php';
 require __DIR__.'/supplierVehicle.php';
+require __DIR__.'/dashboard.php';

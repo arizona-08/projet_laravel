@@ -14,4 +14,51 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h3>Nombre de véhicules loués par fournisseur</h3>
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>Fournisseur</th>
+                                <th>Nombre de véhicules loués</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($vehiclesRentedCount as $supplier => $count)
+                            <tr>
+                                <td>{{ $supplier }}</td>
+                                <td>{{ $count }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <h3 class="mt-6">Taux de disponibilité des véhicules par fournisseur</h3>
+                    <table class="min-w-full">
+                        <thead>
+                            <tr>
+                                <th>Fournisseur</th>
+                                <th>Taux de disponibilité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($availabilityRate as $supplier => $rate)
+                            <tr>
+                                <td>{{ $supplier }}</td>
+                                <td>{{ $rate }}%</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </x-app-layout>
