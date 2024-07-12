@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Agency;
 use App\Models\Order;
+use App\Models\OrderStatus;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Vehicle;
@@ -22,6 +23,12 @@ class DatabaseSeeder extends Seeder
     {
         $roles = ["Admin", "RH", "Chef d'agence", "Gestionnaire fournisseur", "Gestionnaire commandes", "Locataire"];
 
+        foreach ($roles as $role) {
+            DB::table("roles")->insert([
+                'name' => $role
+            ]);
+        }
+
         $status = [
             0 => "Indisponible", 
             1 => "Disponible",
@@ -35,11 +42,20 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        foreach ($roles as $role) {
-            DB::table("roles")->insert([
-                'name' => $role
+        $allOrderStatus = [
+            0 => "Rejetée",
+            1 => "En attente de validation",
+            2 => "Approuvée",
+            3 => "Expirée"
+        ];
+
+        foreach ($allOrderStatus as $key => $orderStatus) {
+            DB::table("orderstatus")->insert([
+                'id' => $key,
+                'label' => $orderStatus
             ]);
         }
+
 
         // Create suppliers first
         $suppliers = Supplier::factory()->count(10)->create();
@@ -77,6 +93,7 @@ class DatabaseSeeder extends Seeder
             ->create([
                 "user_id" => $user->id,
                 "vehicle_id" => $vehicles->get($key)->id,
+                "orderstatus_id" => OrderStatus::all()->random()->id
             ]);
         });
 
@@ -93,5 +110,17 @@ class DatabaseSeeder extends Seeder
             'updated_at' => now(),
             'role_id' => 1
         ]);
+
+        User::factory()
+            ->create([
+                'name' => "Test Locataire",
+                'email' => "test.loc@test.com",
+                'email_verified_at' => now(),
+                'password' => $hashPassword,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => 6
+            ]);
     }
 }

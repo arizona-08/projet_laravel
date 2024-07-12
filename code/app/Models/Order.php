@@ -11,13 +11,11 @@ class Order extends Model
 
     public $timestamps = true;
     protected $fillable = [
-        'lastname',
-        'firstname',
-        'email',
         'start_date',
         'end_date',
-        'users_id',
-        'vehicle_id'
+        'user_id',
+        'vehicle_id',
+        'orderstatus_id',
     ];
 
     public function vehicle() {
@@ -26,5 +24,9 @@ class Order extends Model
 
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function orderstatus(){
+        return $this->belongsTo(OrderStatus::class);
     }
 }

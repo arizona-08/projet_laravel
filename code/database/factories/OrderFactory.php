@@ -18,11 +18,13 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
+        
         $baseDate = new DateTime();
-        $interval = ["min" => 1, "max" => 14];
+        $interval = ["min" => 2, "max" => 14];
+        $endDate = clone $baseDate;
         return [
             'start_date' => $baseDate,
-            'end_date' => $baseDate->add(new DateInterval('P'. rand($interval["min"], $interval["max"]). 'D')),
+            'end_date' => $endDate->add(new DateInterval('P'. rand($interval["min"], $interval["max"]). 'D')),
             'created_at' => now(),
             'updated_at' => now()
         ];
