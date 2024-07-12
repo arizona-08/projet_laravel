@@ -46,20 +46,20 @@
                                             </select>
                                         </td>
                                         <td class="border px-4 py-2">
-                                            @if ($errors->has('dateDebut'))
+                                            @if ($errors->has('start_date'))
                                             <div class="text-red-500 font-semibold my-2">
-                                                {{ $errors->first('dateDebut') }}
+                                                {{ $errors->first('start_date') }}
                                             </div>
                                             @endif
-                                            <input type="date" name="dateDebut" class="w-full">
+                                            <input type="date" name="start_date" class="w-full">
                                         </td>
                                         <td class="border px-4 py-2">
-                                            @if ($errors->has('dateFin'))
+                                            @if ($errors->has('end_date'))
                                             <div class="text-red-500 font-semibold my-2">
-                                                {{ $errors->first('dateFin') }}
+                                                {{ $errors->first('end_date') }}
                                             </div>
                                             @endif
-                                            <input type="date" name="dateFin" class="w-full">
+                                            <input type="date" name="end_date" class="w-full">
                                         </td>
                                         <td class="border px-4 py-2">
                                             @if ($errors->has('supplier_id'))

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->date('dateDebut');
-            $table->date('dateFin');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
             $table->foreignId('user_id')->nullable()->constrained('users');
             $table->foreignId('vehicle_id')->nullable()->constrained('vehicles')->onDelete('cascade');
