@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agency;
+use App\Models\Status;
 use App\Models\Supplier;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -74,8 +75,7 @@ class VehicleController extends Controller
             'last_maintenance' => $request->last_maintenance,
             'nb_kilometrage' => $request->nb_kilometrage,
             'nb_serie' => $request->nb_serie,
-            // On récupère l'id du statut "Libre" depuis la table des statuts et on l'associe à notre véhicule
-            // 'status_id' => Status::where('label', 'Libre')->first()->id,
+            'status_id' => 1,
             'agency_id' => $request->agency_id,
             'supplier_id' => $request->supplier_id
         ]);
@@ -89,7 +89,10 @@ class VehicleController extends Controller
      */
     public function edit(Vehicle $vehicle)
     {
-        return view("vehicles.edit", ["vehicle" => $vehicle]);
+        $allStatus = Status::all();
+        $suppliers = Supplier::select(['id', 'label'])->get();
+        $agencies = Agency::select(['id', 'label'])->get();
+        return view("vehicles.edit", compact("vehicle", "allStatus", "suppliers", "agencies"));
     }
 
     /**
@@ -104,9 +107,9 @@ class VehicleController extends Controller
             'last_maintenance' => 'date',
             'nb_kilometrage' => 'string',
             'nb_serie' => 'string',
-            // 'status_id' => 'numeric',
-            // 'agence_id' => 'numeric',
-            // 'fournisseur_id' => 'numeric',
+            'status_id' => 'numeric',
+            'agency_id' => 'numeric',
+            'supplier_id' => 'numeric',
         ]);
 
         // Met à jour les données de véhicule avec les données validées
@@ -116,9 +119,9 @@ class VehicleController extends Controller
             'last_maintenance' => $validate['last_maintenance'],
             'nb_kilometrage' => $validate['nb_kilometrage'],
             'nb_serie' => $validate['nb_serie'],
-            // 'status_id' => $validate['status_id'],
-            // 'agence_id' => $validate['agence_id'],
-            // 'fournisseur_id' => $validate['fournisseur_id'],
+            'status_id' => $validate['status_id'],
+            'agency_id' => $validate['agency_id'],
+            'supplier_id' => $validate['supplier_id'],
         ]);
 
         // On redirige l'utilisateur vers la liste des véhicules

@@ -30,9 +30,9 @@
                         <th class="px-4 py-2 text-left">Dernière maintenance</th>
                         <th class="px-4 py-2 text-left">Nombre de kilomètres</th>
                         <th class="px-4 py-2 text-left">Numéro de série</th>
-                        {{-- <th class="px-4 py-2 text-left">Status</th>
+                        <th class="px-4 py-2 text-left">Status</th>
                         <th class="px-4 py-2 text-left">Agences</th>
-                        <th class="px-4 py-2 text-left">Fournisseurs</th> --}}
+                        <th class="px-4 py-2 text-left">Fournisseurs</th>
                         <th class="px-4 py-2 text-left">Actions</th>
                       </tr>
                     </thead>
@@ -43,27 +43,27 @@
                         <td class="border px-4 py-2"><input type="date" name="last_maintenance" value="{{ \Carbon\Carbon::parse($vehicle->last_maintenance)->format('Y-m-d') }}" class="w-full"></td>
                         <td class="border px-4 py-2"><input type="text" name="nb_kilometrage" placeholder="kilomètres" value="{{ $vehicle->nb_kilometrage }}" class="w-full"></td>
                         <td class="border px-4 py-2"><input type="text" name="nb_serie" placeholder="N° de série" value="{{ $vehicle->nb_serie }}" class="w-full"></td>
-                        {{-- <td class="border px-4 py-2">
+                        <td class="border px-4 py-2">
                             <select name="status_id" id="" class="w-full">
-                                @foreach ($status as $statu )
-                                    <option value="{{ $statu->id }}">{{ $statu->label }}</option>
+                                @foreach ($allStatus as $status )
+                                    <option value="{{ $status->id }}">{{ $status->label }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td class="border px-4 py-2">
                             <select name="agence_id" id="" class="w-full">
-                                @foreach ($agence as $agenc )
-                                    <option value="{{ $agenc->id }}">{{ $agenc->label }}</option>
+                                @foreach ($agencies as $agency )
+                                    <option value="{{ $agency->id }}">{{ $agency->label }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td class="border px-4 py-2">
                             <select name="fournisseur_id" id="" class="w-full">
-                                @foreach ($fournisseur as $fournisseu )
-                                    <option value="{{ $fournisseu->id }}">{{ $fournisseu->label }}</option>
+                                @foreach ($suppliers as $supplier )
+                                    <option value="{{ $supplier->id }}">{{ $supplier->label }}</option>
                                 @endforeach
                             </select>
-                        </td> --}}
+                        </td>
                         <td class="border px-4 py-2">
                           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">Valider</button>
                         </td>
