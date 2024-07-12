@@ -38,6 +38,9 @@
                     <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
                         {{ __('Commandes') }}
                     </x-nav-link> <!-- Ajout du tag de fermeture -->
+                    <x-nav-link :href="route('customerOrders.index')" :active="request()->routeIs('customerOrders.index')">
+                        {{ __('Commander') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
                         {{ __('Roles') }}
                     </x-nav-link> <!-- Ajout du tag de fermeture -->

@@ -25,7 +25,6 @@
                                         <th class="px-4 py-2 text-left">Locataire</th>
                                         <th class="px-4 py-2 text-left">dateDebut</th>
                                         <th class="px-4 py-2 text-left">dateFin</th>
-                                        <th class="px-4 py-2 text-left">Fournisseur</th>
                                         <th class="px-4 py-2 text-left">Véhicule</th>
                                         <th class="px-4 py-2 text-left">Action</th>
                                     </tr>
@@ -62,21 +61,15 @@
                                             <input type="date" name="end_date" class="w-full">
                                         </td>
                                         <td class="border px-4 py-2">
-                                            @if ($errors->has('supplier_id'))
+                                            @if ($errors->has('vehicle_id'))
                                             <div class="text-red-500 font-semibold my-2">
-                                                {{ $errors->first('supplier_id') }}
+                                                {{ $errors->first('vehicle_id') }}
                                             </div>
                                             @endif
-                                            <select id="supplierSelect" name="supplier_id">
-                                                <option value="">Sélectionner un fournisseur</option>
-                                                @foreach ($suppliers as $supplier)
-                                                <option value="{{ $supplier->id }}">{{ $supplier->label }}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td class="border px-4 py-2">
                                             <select id="vehicleSelect" name="vehicle_id">
-                                                <option value="">Sélectionner un véhicule</option>
+                                                @foreach($vehicles as $vehicle)
+                                                <option value="{{$vehicle->id}}">{{$vehice->marque}} {{$vehice->model}}</option>
+                                                @endforeach
                                             </select>
                                         </td>
                                         <!-- Bouton pour soumettre le formulaire -->
@@ -95,39 +88,3 @@
         </div>
     </div>
 </x-app-layout>
-
-
-
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const supplierSelect = document.getElementById('supplierSelect');
-    const vehicleSelect = document.getElementById('vehicleSelect');
-
-    supplierSelect.addEventListener('change', function() {
-        const supplierId = this.value;
-        
-        // Vider la liste des véhicules
-        vehicleSelect.innerHTML = '<option value="">Sélectionner un véhicule</option>';
-
-        if (supplierId) {
-            fetch(`/api/vehicles/by-supplier/${supplierId}`)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    data.forEach(vehicle => {
-                        const option = document.createElement('option');
-                        option.value = vehicle.id;
-                        option.textContent = `${vehicle.marque} ${vehicle.model}`;
-                        vehicleSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching vehicles:', error));
-        }
-    });
-});
-</script>
