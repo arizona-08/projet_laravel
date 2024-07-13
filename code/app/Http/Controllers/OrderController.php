@@ -9,6 +9,7 @@ use App\Models\Supplier;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -127,6 +128,12 @@ class OrderController extends Controller
             "orderstatus_id" => $request->order_status_id
         ]);
         return redirect()->route('orders.index');
+    }
+
+    public function showOrders(){
+        $user = Auth::user();
+        $userOrders = Order::where("user_id", $user->id)->get();
+        return view("orders.showOrders", compact("userOrders"));
     }
 
     public function destroy(Order $order)

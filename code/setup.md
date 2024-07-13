@@ -20,5 +20,10 @@ login -> email: test@test.com / mdp: Respons11
 https://github.com/pelmered/fake-car
 
 ## pour les test
-mail : test@test.com 
+Compte admin:
+mail : test@test.com
 password :  Respons11
+
+Compte locataire:
+mail : test.loc@test.com
+password : Respons11
