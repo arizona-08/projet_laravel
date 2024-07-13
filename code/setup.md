@@ -27,7 +27,7 @@ RH: rh.test@test.com
 Chef d'agence: chefagence.test@test.com
 Gestionnaire fournisseur: gesf.test@test.com
 Gestionnaire commandes: gesc.test@test.com
-Locataire: gesc.test@test.com
+Locataire: loc.test@test.com
 
 ## Roles middleware
 Regarder config/roles.php pour voir les roles disponibles 
