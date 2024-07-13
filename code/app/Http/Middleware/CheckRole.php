@@ -16,8 +16,9 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, string $roles): Response
     {
-        $allRoles = config("roles.roles");
+        $allRoles = config("roles.roles", []);
         $givenRoles = $this->get_roles($roles);
+        
         $neededRoles = [];
         
         foreach($givenRoles as $givenRole){
@@ -32,6 +33,6 @@ class CheckRole
     }
 
     public function get_roles(string $roles){
-        return array_map("trim", explode(",", $roles));
+        return array_map("trim", explode("|", $roles));
     }
 }

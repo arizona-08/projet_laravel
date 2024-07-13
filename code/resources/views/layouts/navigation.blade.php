@@ -52,7 +52,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["agencyHead"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["agencyHead"]) || ($user_role_id === $roles["orderManager"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
                             {{ __('Commandes') }}
@@ -70,7 +70,7 @@
 
                 @if(($user_role_id === $roles["tenant"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('orders.showOrders')" :active="request()->routeIs('orders.showOrders')">
+                        <x-nav-link :href="route('orders.showUserOrders')" :active="request()->routeIs('orders.showUserOrders')">
                             {{ __('Mes commandes') }}
                         </x-nav-link>
                     </div>

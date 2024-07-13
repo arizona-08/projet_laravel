@@ -137,10 +137,10 @@ class OrderController extends Controller
         return redirect()->route('orders.index');
     }
 
-    public function showOrders(){
+    public function showUserOrders(){
         $user = Auth::user();
         $userOrders = Order::where("user_id", $user->id)->get();
-        return view("orders.showOrders", compact("userOrders"));
+        return view("orders.showUserOrders", compact("userOrders"));
     }
 
     public function destroy(Order $order)

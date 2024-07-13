@@ -46,7 +46,7 @@ class CustomerOrderController extends Controller
             "orderstatus_id" => 1,
             "user_id" => Auth::id()
         ]);
-        return to_route("orders.showOrders"); // Rediriger vers la liste des orders
+        return to_route("orders.showUserOrders"); // Rediriger vers la liste des orders
     }
 
     

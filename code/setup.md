@@ -28,3 +28,7 @@ Chef d'agence: chefagence.test@test.com
 Gestionnaire fournisseur: gesf.test@test.com
 Gestionnaire commandes: gesc.test@test.com
 Locataire: gesc.test@test.com
+
+## Roles middleware
+Regarder config/roles.php pour voir les roles disponibles 
+(les vrais noms de roles sont consultables dans database/seeders/DatabaseSeeder.php ou directement en base de données)
