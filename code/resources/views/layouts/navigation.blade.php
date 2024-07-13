@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <img src="{{ asset('img/flexifleet.png')}}" width="80px" height="80px"/>
                     </a>
                 </div>
 
@@ -56,7 +56,7 @@
                         {{ __('Roles') }}
                     </x-nav-link> <!-- Ajout du tag de fermeture -->
                 </div>
-                
+
             </div>
 
             <!-- Settings Dropdown -->
@@ -86,7 +86,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Deconnexion') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>

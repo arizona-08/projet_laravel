@@ -20,7 +20,7 @@
             <!-- Affiche le texte "Commande" à l'aide de la fonction de traduction __() -->
         </h2>
     </x-slot>
-    
+
     <div class="py-12">
         <!-- Ajoute un espacement en haut et en bas de la page -->
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  dark:text-white">
@@ -65,7 +65,7 @@
                                 <!-- Affiche la marque du véhicule de la commande courante -->
                                 <td class="px-4 py-2 text-center">{{ $order->vehicle->model }}</td>
                                 <!-- Affiche le modèle du véhicule de la commande courante -->
-                                <td 
+                                <td
                                     @switch($order->orderstatus->id)
                                         @case(0)
                                             class="px-4 py-2 text-center text-red-500"

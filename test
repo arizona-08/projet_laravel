@@ -1,0 +1,109 @@
+function type_check_v1(variable, type) {
+    if (Array.isArray(variable)) {
+        if (type === "object") {
+            return false;
+        } else {
+            if (type === "array") {
+                return true;
+            }
+        }
+    }
+    if (variable === null) {
+        if (type === "null") {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    if (typeof variable === type) {
+        return true;
+    }
+    return false;
+}
+
+function checkValue(toCheck, check) {
+    if (typeof toCheck === "object" && typeof check === "object") {
+        const toCheckKeys = Object.keys(toCheck);
+        const checkKeys = Object.keys(check);
+
+        if (toCheckKeys.length === 0 && checkKeys.length === 0) {
+            return true;
+        }
+        if (toCheckKeys.length === checkKeys.length) {
+            let count = 0;
+            for (let i = 0; i < toCheckKeys.length; i++) {
+                if (toCheckKeys[i] === checkKeys[i]) {
+                    count++;
+                }
+            }
+            if (count === toCheckKeys.length) {
+                let count_2 = 0;
+                for (let key in toCheck) {
+                    if (toCheck[key] === check[key]) {
+                        count_2++;
+                    }
+                }
+                if (count_2 === toCheckKeys.length) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return false;
+        }
+    }
+
+    if (toCheck === check) {
+        return true;
+    }
+    return false;
+}
+
+function type_check_v3(variable, conf) {
+    const keys = Object.keys(conf);
+    const checks = [];
+    for (const key of keys) {
+        if (key === 'type') {
+            checks.push(type_check_v1(variable, conf[key]));
+        }
+
+        if (key === 'value') {
+            checks.push(checkValue(variable, conf[key]));
+        }
+
+        if (key === "enum") {
+            let countCheck = [];
+            for (let i = 0; i < conf[key].length; i++) {
+                if (checkValue(variable, conf[key][i])) {
+                    countCheck.push(true);
+                } else {
+                    countCheck.push(false);
+                }
+            }
+            checks.push(countCheck.includes(true));
+        }
+
+        if (key === 'properties') {
+            if (typeof variable !== 'object' || variable === null) {
+                checks.push(false);
+            } else {
+                const propertyChecks = [];
+                for (const prop in conf.properties) {
+                    if (Object.prototype.hasOwnProperty.call(variable, prop)) {
+                        propertyChecks.push(type_check_v3(variable[prop], conf.properties[prop]));
+                    } else {
+                        propertyChecks.push(false);
+                    }
+                }
+                checks.push(!propertyChecks.includes(false));
+            }
+        }
+    }
+    return !checks.includes(false);
+}
+
+console.log(type_check_v3({ prop1: 'test' }, { type: 'object', properties: { prop1: { type: 'string' } } })); 
+console.log(type_check_v3({ prop1: 'test' }, { type: 'object', properties: { prop2: { value: 'string' } } })); 
+console.log(type_check_v3({ prop1: 'test' }, { type: 'object', properties: { prop1: { type: 'number' } } })); 
+console.log(type_check_v3({ prop1: { subProp: 'test' } }, { type: 'object', properties: { prop1: { type: 'object', properties: { subProp: { type: 'string' } } } } })); 

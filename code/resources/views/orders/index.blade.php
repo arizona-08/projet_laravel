@@ -20,7 +20,7 @@
             <!-- Affiche le texte "Commande" à l'aide de la fonction de traduction __() -->
         </h2>
     </x-slot>
-    
+
     <div class="py-12">
         <!-- Ajoute un espacement en haut et en bas de la page -->
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8  dark:text-white">
@@ -72,7 +72,7 @@
                             <!-- Affiche la marque du véhicule de la commande courante -->
                             <td class="px-4 py-2 text-center">{{ $order->vehicle->model }}</td>
                             <!-- Affiche le modèle du véhicule de la commande courante -->
-                            <td 
+                            <td
                                 @switch($order->orderstatus->id)
                                     @case(0)
                                         class="px-4 py-2 text-center text-red-500"
@@ -90,7 +90,7 @@
                             >{{ $order->orderstatus->label }}</td>
                             <td class="px-4 py-2 text-center">
                                 <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('orders.edit', ['order' => $order]) }}">Modifier</a>
-                                
+
                                 <!-- Bouton pour modifier la commande courante -->
                                 <form action="{{ route('orders.handleOrder', ['order' => $order]) }}" method="post">
                                     @csrf
@@ -124,6 +124,10 @@
                         @endif
                     </tbody>
                 </table> <!-- Fin du tableau qui affiche les commandes -->
+            </div>
+            <!-- Pagination links -->
+            <div class="pagination mt-3">
+                {{ $orders->links() }}
             </div>
         </div>
     </div>
