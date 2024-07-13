@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\DB;
 
 class AgencyController extends Controller
 {
+    public function getRoles(){
+        return config("roles.roles");
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -65,7 +69,8 @@ class AgencyController extends Controller
      */
     public function edit(Agency $agency)
     {
-        $users = User::where("role_id", "=", "3")->get();
+        $configRoles = $this->getRoles();
+        $users = User::where("role_id", "=", $configRoles["agencyHead"])->get();
         return view("agencies.edit", [
             "agency" => $agency,
             "users" => $users

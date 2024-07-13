@@ -11,6 +11,9 @@ use App\Notifications\NewUserNotification;
 
 class UserController extends Controller
 {
+    public function getRoles(){
+        return config("roles.roles");
+    }
     /**
      * Display a listing of the resource.
      */
@@ -26,7 +29,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        if($request->has("role_id")){
+        if($request->has("role_id")){ // crée un user en fonction de la page sur laquelle on était
             $role_id = $request->role_id;
             $roles = Role::where("id", $role_id)->get();
             $singleRole = $roles[0];
@@ -70,25 +73,27 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $configRoles = $this->getRoles();
        switch($user->role_id){
-        case 1:
 
-        case 2:
-            $user->load("role");
-            break;
+        case $configRoles["admin"]:
 
-        case 3:
+        case $configRoles["agencyHead"]:
             $user->load(["role", "agencies"]);
             break;
 
-        case 4:
+        case $configRoles["supplierManager"]:
             $user->load("role");
             break;
 
-        case 5:
+        case $configRoles["orderManager"]:
             $user->load("role");
-
             break;
+
+        case $configRoles["tenant"]:
+            $user->load("role");
+            break;
+            
         default:
             return "Role inexistant";
             break;
@@ -107,8 +112,10 @@ class UserController extends Controller
         }else {
             $roles = Role::where("id", ">", 1)->get();
         }
-
-        return view("users.edit", compact("user", "roles"));
+        $configRoles = $this->getRoles();
+        $allAdmins = User::where("role_id", $configRoles["admin"])->get();
+        $allAdminsCount = $allAdmins->count();
+        return view("users.edit", compact("user", "roles", "allAdminsCount"));
     }
 
     /**
@@ -116,9 +123,10 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $configRoles = $this->getRoles();
         $user = User::findOrFail($user->id);
 
-        if($user->role_id !== 1){
+        if($user->role_id !== $configRoles["admin"]){
             $validated = $request->validate([
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:320', "unique:users,email,{$user->id}"],
@@ -130,7 +138,7 @@ class UserController extends Controller
                 'email' => $validated["email"],
                 'role_id' => $validated["role"],
                 'updated_at' => now(),
-                'password' => Hash::make($validated["passwod"]),
+                'password' => Hash::make($validated["password"]),
             ]);
         } else {
             $validated = $request->validate([
@@ -145,21 +153,6 @@ class UserController extends Controller
                 'password' => Hash::make($validated["passwod"]),
             ]);
         }
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role_id' => 'required|',
-        ]);
-
-        // $user->name = $request->name;
-        // $user->email = $request->email;
-        // if ($request->filled('password')) {
-        //     $user->password = Hash::make($request->password);
-        // }
-        // $user->role_id = $request->role_id;
-        // $user->save();
 
         return redirect()->route('users.show', compact("user"))->with('success', 'Utilisateur mis à jour avec succès');
     }
