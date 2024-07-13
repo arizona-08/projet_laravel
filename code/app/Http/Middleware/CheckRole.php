@@ -25,7 +25,7 @@ class CheckRole
         }
 
         if(!in_array($request->user()->role_id, $neededRoles)){
-            return redirect()->route("dashboard");
+            abort(403, 'Unauthorized action.');
         }
 
         return $next($request);

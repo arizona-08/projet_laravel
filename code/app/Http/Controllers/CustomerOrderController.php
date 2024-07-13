@@ -43,9 +43,10 @@ class CustomerOrderController extends Controller
             "start_date" => $validate["start_date"],
             "end_date" => $validate["end_date"],
             "vehicle_id" => $validate["vehicle_id"],
+            "orderstatus_id" => 1,
             "user_id" => Auth::id()
         ]);
-        return to_route("dashboard"); // Rediriger vers la liste des orders
+        return to_route("orders.showOrders"); // Rediriger vers la liste des orders
     }
 
     

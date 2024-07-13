@@ -1,0 +1,4 @@
+gestionnaire de commande: commandes
+chef d'agences: tout les véhicule de l'agence et les gérer
+fournisseur: voir les véhicules lié aux fournisseurs et les agences possédant les véhicules
+rh: fais aussi la commande
