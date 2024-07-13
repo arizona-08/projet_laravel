@@ -55,7 +55,10 @@
 
                                         <td class="border px-4 py-2">
                                             <select name="role" placeholder="Mot de passe" class="w-full"
-                                            @if($user->role->id === 1)
+                                            @php
+                                                $configRoles = config("roles.roles")
+                                            @endphp
+                                            @if($user->role->id === $configRoles["admin"] && $allAdminsCount <= 1)
                                                 @disabled(true)
                                             @endif
                                             >

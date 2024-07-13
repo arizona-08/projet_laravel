@@ -21,7 +21,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = ["Admin", "RH", "Chef d'agence", "Gestionnaire fournisseur", "Gestionnaire commandes", "Locataire"];
+        $configRoles = config("roles.roles");
+        $roles = ["Admin", "Chef d'agence", "Gestionnaire fournisseur", "Gestionnaire commandes", "Locataire"];
 
         foreach ($roles as $role) {
             DB::table("roles")->insert([
@@ -60,10 +61,10 @@ class DatabaseSeeder extends Seeder
         // Create suppliers first
         $suppliers = Supplier::factory()->count(10)->create();
 
-        User::factory()->count(4)->create(['role_id' => 2]);
+        //Crée des 4 chef d'agence
         User::factory()
             ->count(4)
-            ->create(['role_id' => 3])
+            ->create(['role_id' => $configRoles["agencyHead"]])
             ->each(function ($user) use ($suppliers){
                 $agencies = Agency::factory()
                     ->count(rand(1, 3))
@@ -81,13 +82,13 @@ class DatabaseSeeder extends Seeder
             });
             
         
-        User::factory()->count(4)->create(['role_id' => 4]);
-        User::factory()->count(4)->create(['role_id' => 5]);
+        User::factory()->count(4)->create(['role_id' => $configRoles["supplierManager"]]); //crée 4 gestionnaire fournisseur
+        User::factory()->count(4)->create(['role_id' => $configRoles["orderManager"]]);// crée 4 gestionnaire commande
 
         $vehicles = Vehicle::all();
-        User::factory()
+        User::factory() //crée 4 locataires qui ont passé des commandes
         ->count(4)
-        ->create(["role_id" => 6])
+        ->create(["role_id" => $configRoles["tenant"]])
         ->each(function ($user, $key) use ($vehicles){
             Order::factory()
             ->create([
@@ -100,27 +101,64 @@ class DatabaseSeeder extends Seeder
 
         $password = "Respons11";
         $hashPassword = password_hash($password, PASSWORD_BCRYPT);
-        DB::table("users")->insert([
-            'name' => "John Doe",
-            'email' => "test@test.com",
+        DB::table("users")->insert([ //crée le user admin
+            'name' => "Admin",
+            'email' => "admin.test@test.com",
             'email_verified_at' => now(),
             'password' => $hashPassword,
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),
-            'role_id' => 1
+            'role_id' => $configRoles["admin"]
         ]);
 
-        User::factory()
+
+        User::factory() //crée le user chef d'agence
             ->create([
-                'name' => "Test Locataire",
-                'email' => "test.loc@test.com",
+                'name' => "Chef Agence",
+                'email' => "chefagence.test@test.com",
                 'email_verified_at' => now(),
                 'password' => $hashPassword,
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
-                'role_id' => 6
+                'role_id' => $configRoles["agencyHead"]
+            ]);
+
+        User::factory() //crée le user gestionnaire fournisseur
+            ->create([
+                'name' => "Gestionnaire fournisseur",
+                'email' => "gesf.test@test.com",
+                'email_verified_at' => now(),
+                'password' => $hashPassword,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => $configRoles["supplierManager"]
+            ]);
+
+        User::factory() //crée le user gestionnaire commande
+            ->create([
+                'name' => "Gestionnaire commande",
+                'email' => "gesc.test@test.com",
+                'email_verified_at' => now(),
+                'password' => $hashPassword,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => $configRoles["orderManager"]
+            ]);
+        
+        User::factory() //crée le user locataire
+            ->create([
+                'name' => "Locataire",
+                'email' => "loc.test@test.com",
+                'email_verified_at' => now(),
+                'password' => $hashPassword,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => $configRoles["tenant"]
             ]);
     }
 }

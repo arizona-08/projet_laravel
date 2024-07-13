@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+    public function getRoles(){
+        return config("roles.roles");
+    }
+
     public function index() // Définir la méthode pour afficher la liste des Orders
     {
         // je veut recup les
@@ -22,11 +26,12 @@ class OrderController extends Controller
 
     public function create() // Définir la méthode pour créer une nouvelle order
     {
-        $users = User::select('id', 'name')
-            ->where("role_id", 6)
-            ->paginate(6); // Paginer les utilisateurs avec 6 utilisateurs par page
-        $vehicles = Vehicle::where("status_id", 1)->paginate(6); // Paginer les véhicules avec 6 véhicules par page
 
+        $configRoles = $this->getRoles();
+        $users = User::select('id', 'name')
+            ->where("role_id", $configRoles["tenant"])
+            ->get(); // Obtenir tous les utilisateurs
+        $vehicles = Vehicle::where("status_id", 1)->get();
         return view('orders.create', [ // Retourner la vue qui affiche le formulaire de création de commande avec les données associées
             'users' => $users,
             'vehicles' => $vehicles
@@ -72,8 +77,9 @@ class OrderController extends Controller
         // Récupérer tous les véhicules
         $vehicles = Vehicle::all();
 
-        // Récupérer tous les utilisateurs ayant le rôle ID 6
-        $users = User::where('role_id', 6)->get(['id', 'name', 'email']);
+        // Récupérer tous les utilisateurs locataire
+        $configRoles = $this->getRoles();
+        $users = User::where('role_id', $configRoles["tenant"])->get(['id', 'name', 'email']);
 
 
 
@@ -131,10 +137,10 @@ class OrderController extends Controller
         return redirect()->route('orders.index');
     }
 
-    public function showOrders(){
+    public function showUserOrders(){
         $user = Auth::user();
         $userOrders = Order::where("user_id", $user->id)->get();
-        return view("orders.showOrders", compact("userOrders"));
+        return view("orders.showUserOrders", compact("userOrders"));
     }
 
     public function destroy(Order $order)

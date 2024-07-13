@@ -13,17 +13,22 @@ php artisan key:generate
 #
 aller sur localhost:80
 #
-login -> email: test@test.com / mdp: Respons11
+login -> email: admin.test@test.com / mdp: Respons11
 
 ## library utilise
 
 https://github.com/pelmered/fake-car
 
 ## pour les test
-Compte admin:
-mail : test@test.com
-password :  Respons11
+Tout les users ont le mot de pass: Respons11
 
-Compte locataire:
-mail : test.loc@test.com
-password : Respons11
+Admin: admin.test@test.com
+RH: rh.test@test.com
+Chef d'agence: chefagence.test@test.com
+Gestionnaire fournisseur: gesf.test@test.com
+Gestionnaire commandes: gesc.test@test.com
+Locataire: loc.test@test.com
+
+## Roles middleware
+Regarder config/roles.php pour voir les roles disponibles 
+(les vrais noms de roles sont consultables dans database/seeders/DatabaseSeeder.php ou directement en base de données)
