@@ -16,22 +16,23 @@ class OrderController extends Controller
     public function index() // Définir la méthode pour afficher la liste des Orders
     {
         // je veut recup les
-        $orders = Order::with(['vehicle', 'user', 'orderstatus'])->get();
+        $orders = Order::with(['vehicle', 'user', 'orderstatus'])->paginate(6);
         return view('orders.index', ['orders' => $orders]); //retourne toutes les commandes
     }
 
     public function create() // Définir la méthode pour créer une nouvelle order
     {
-        
         $users = User::select('id', 'name')
             ->where("role_id", 6)
-            ->get(); // Obtenir tous les utilisateurs
-        $vehicles = Vehicle::where("status_id", 1)->get();
+            ->paginate(6); // Paginer les utilisateurs avec 6 utilisateurs par page
+        $vehicles = Vehicle::where("status_id", 1)->paginate(6); // Paginer les véhicules avec 6 véhicules par page
+
         return view('orders.create', [ // Retourner la vue qui affiche le formulaire de création de commande avec les données associées
             'users' => $users,
             'vehicles' => $vehicles
         ]);
     }
+
 
     public function store(Request $request) // Définir la méthode pour enregistrer une nouvelle order
     {
@@ -75,7 +76,7 @@ class OrderController extends Controller
         $users = User::where('role_id', 6)->get(['id', 'name', 'email']);
 
 
-      
+
         // Retourner la vue d'édition de order avec la order spécifique, tous les véhicules et tous les utilisateurs
         return view('orders.edit', [
             'order' => $order,

@@ -23,7 +23,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-       return view("suppliers.create");
+        return view("suppliers.create");
     }
 
     /**
@@ -83,6 +83,7 @@ class SupplierController extends Controller
 
     public function show($id, Request $request)
     {
+        // Commencer la requête de base
         $query = Vehicle::where('supplier_id', $id);
 
         // Filtrage par marque
@@ -95,7 +96,8 @@ class SupplierController extends Controller
             $query->orderBy('nb_kilometrage', $request->sort_km);
         }
 
-        $vehicles = $query->get();
+        // Pagination
+        $vehicles = $query->paginate(6);
 
         // Récupérer les marques pour le filtre
         $brands = Vehicle::select('marque')->distinct()->get();
@@ -109,6 +111,7 @@ class SupplierController extends Controller
             'brands' => $brands
         ]);
     }
+
 
 
 
