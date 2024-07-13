@@ -12,14 +12,7 @@
 
                 @php
                     $user_role_id = Auth::user()->role_id;
-                    $roles = [
-                        "Admin" => 1, 
-                        "RH" => 2, 
-                        "Chef d'agence" => 3, 
-                        "Gestionnaire fournisseur" => 4, 
-                        "Gestionnaire commandes" => 5, 
-                        "Locataire" => 6
-                    ];
+                    $roles = config("roles.roles")
                 @endphp
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -28,7 +21,7 @@
                     </x-nav-link>
                 </div>
 
-                @if($user_role_id === $roles["Admin"])
+                @if($user_role_id === $roles["admin"])
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('Utilisateurs') }}
@@ -36,14 +29,14 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["Admin"]) || ($user_role_id === $roles["Gestionnaire fournisseur"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["orderManager"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('vehicles.index')" :active="request()->routeIs('vehicles.index')">
                             {{ __('Véhicules') }}
                         </x-nav-link>
                     </div>
                 @endif
-                @if(($user_role_id === $roles["Admin"]))
+                @if(($user_role_id === $roles["admin"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('agencies.index')" :active="request()->routeIs('agencies.index')">
                             {{ __('Agences') }}
@@ -51,7 +44,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["Admin"]))
+                @if(($user_role_id === $roles["admin"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.index')">
                             {{ __('Fournisseurs') }}
@@ -59,7 +52,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["Admin"]) || ($user_role_id === $roles["Chef d'agence"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["agencyHead"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
                             {{ __('Commandes') }}
@@ -67,7 +60,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["Admin"]) || ($user_role_id === $roles["Locataire"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["tenant"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('customerOrders.index')" :active="request()->routeIs('customerOrders.index')">
                             {{ __('Commander') }}
@@ -75,7 +68,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["Locataire"]))
+                @if(($user_role_id === $roles["tenant"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('orders.showOrders')" :active="request()->routeIs('orders.showOrders')">
                             {{ __('Mes commandes') }}
@@ -83,7 +76,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["Admin"]))
+                @if(($user_role_id === $roles["admin"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
                             {{ __('Roles') }}
