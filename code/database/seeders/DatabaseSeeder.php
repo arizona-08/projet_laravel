@@ -100,9 +100,9 @@ class DatabaseSeeder extends Seeder
 
         $password = "Respons11";
         $hashPassword = password_hash($password, PASSWORD_BCRYPT);
-        DB::table("users")->insert([
-            'name' => "John Doe",
-            'email' => "test@test.com",
+        DB::table("users")->insert([ //crée le user admin
+            'name' => "Admin",
+            'email' => "admin.test@test.com",
             'email_verified_at' => now(),
             'password' => $hashPassword,
             'remember_token' => Str::random(10),
@@ -111,10 +111,58 @@ class DatabaseSeeder extends Seeder
             'role_id' => 1
         ]);
 
-        User::factory()
+        User::factory() //crée le user RH
             ->create([
-                'name' => "Test Locataire",
-                'email' => "test.loc@test.com",
+                'name' => "RH",
+                'email' => "rh.test@test.com",
+                'email_verified_at' => now(),
+                'password' => $hashPassword,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => 2
+            ]);
+
+        User::factory() //crée le user chef d'agence
+            ->create([
+                'name' => "Chef Agence",
+                'email' => "chefagence.test@test.com",
+                'email_verified_at' => now(),
+                'password' => $hashPassword,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => 3
+            ]);
+
+        User::factory() //crée le user gestionnaire fournisseur
+            ->create([
+                'name' => "Gestionnaire fournisseur",
+                'email' => "gesf.test@test.com",
+                'email_verified_at' => now(),
+                'password' => $hashPassword,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => 4
+            ]);
+
+        User::factory() //crée le user gestionnaire commande
+            ->create([
+                'name' => "Gestionnaire commande",
+                'email' => "gesc.test@test.com",
+                'email_verified_at' => now(),
+                'password' => $hashPassword,
+                'remember_token' => Str::random(10),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'role_id' => 5
+            ]);
+        
+        User::factory() //crée le user locataire
+            ->create([
+                'name' => "Locataire",
+                'email' => "loc.test@test.com",
                 'email_verified_at' => now(),
                 'password' => $hashPassword,
                 'remember_token' => Str::random(10),
