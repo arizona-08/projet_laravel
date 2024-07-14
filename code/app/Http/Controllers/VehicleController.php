@@ -115,10 +115,6 @@ class VehicleController extends Controller
             'supplier_id' => 'numeric',
         ]);
 
-        if (!array_key_exists('agency_id', $validate)) {
-            return back()->withErrors(['agency_id' => 'The agency id is required.']);
-        }
-
         // Met à jour les données de véhicule avec les données validées
         $vehicle->update([
             'model' => $validate['model'],
