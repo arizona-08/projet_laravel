@@ -45,15 +45,17 @@ cp .env.example .env
 ```sh
 composer require laravel/sail --dev
 ```
-5. Start the application:
+5. Start the application with wsl:
 ```sh
-docker compose up 
-npm run dev
+./vendor/bin/sail up -d
+docker compose up -d
+./vendor/bin/sail artisan migrate:fresh --seed
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
+go to `http://localhost
+login -> email: admin.test@test.com / mdp: Respons11
 ```
-6. Run the database migrations and seeders:
-```sh
-./vendor/bin/sail artisan migrate --seed
-```
+
 
 **Usage**
 Once the application is running, you can access it at http://localhost. Log in with the setup.md

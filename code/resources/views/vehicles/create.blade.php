@@ -21,7 +21,7 @@
                                         <th class="px-4 py-2 text-left">Dernière maintenance</th>
                                         <th class="px-4 py-2 text-left">Nombre de kilomètres</th>
                                         <th class="px-4 py-2 text-left">Numéro de série</th>
-                                        {{-- <th class="px-4 py-2 text-center">Statut</th> --}}
+                                        <th class="px-4 py-2 text-left">Status</th>
                                         <th class="px-4 py-2 text-left">Fournisseur</th>
                                         <th class="px-4 py-2 text-left">Agence</th>
                                         <th class="px-4 py-2 text-left">Actions</th>
@@ -71,26 +71,14 @@
                                             <input type="text" name="nb_serie" placeholder="N° de série"
                                                 class="w-full">
                                         </td>
-                                        {{-- <td class="border px-4 py-2">
+                                        <td class="border px-4 py-2">
                                             <select name="status_id" class="w-full">
                                                 @foreach ($status as $statu)
                                                     <option value="{{ $statu->id }}">{{ $statu->label }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
-                                        <td class="border px-4 py-2">
-                                            @if ($errors->has('fournisseur_id'))
-                                                <div class="text-red-500 font-semibold my-2">
-                                                    {{ $errors->first('fournisseur_id') }}
-                                                </div>
-                                            @endif
-                                            <select name="fournisseur_id" class="w-full">
-                                                @foreach ($fournisseur as $fournisseur)
-                                                    <option value="{{ $fournisseur->id }}">{{ $fournisseur->label }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </td> --}}
+
                                         <td class="border px-4 py-2">
                                             @if ($errors->has('supplier_id'))
                                                 <div class="text-red-500 font-semibold my-2">
