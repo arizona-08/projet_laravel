@@ -41,9 +41,10 @@ class VehicleController extends Controller
      */
     public function create()
     {
+        $status = Status::select(['id', 'label'])->get();
         $agencies = Agency::select(['id', 'label'])->get();
         $suppliers = Supplier::select(['id', 'label'])->get();
-        return view("vehicles.create", compact('agencies', 'suppliers')); //compact() renvoie un tableau associatif
+        return view("vehicles.create", compact('status','agencies', 'suppliers')); //compact() renvoie un tableau associatif
     }
 
     /**
@@ -57,6 +58,7 @@ class VehicleController extends Controller
             'last_maintenance' => 'required',
             'nb_kilometrage' => 'required',
             'nb_serie' => 'required',
+            'status_id' => 'required',
             'agency_id' => 'required',
             'supplier_id' => 'required',
         ], [
@@ -65,6 +67,7 @@ class VehicleController extends Controller
             'last_maintenance.required' => 'La dernière maintenance est requise',
             'nb_kilometrage.required' => 'Le nombre de kilométrage est requis',
             'nb_serie.required' => 'Le numero de série est requis',
+            'status_id.required' => 'Le statut est requis',
             'agency_id.required' => 'Le nom de l\'agence est requis',
             'supplier_id.required' => 'Le nom du fournisseur est requis',
         ]);
@@ -75,7 +78,7 @@ class VehicleController extends Controller
             'last_maintenance' => $request->last_maintenance,
             'nb_kilometrage' => $request->nb_kilometrage,
             'nb_serie' => $request->nb_serie,
-            'status_id' => 1,
+            'status_id' => $request->status_id,
             'agency_id' => $request->agency_id,
             'supplier_id' => $request->supplier_id
         ]);
@@ -89,10 +92,10 @@ class VehicleController extends Controller
      */
     public function edit(Vehicle $vehicle)
     {
-        $allStatus = Status::all();
+        $status = Status::select(['id', 'label'])->get();
         $suppliers = Supplier::select(['id', 'label'])->get();
         $agencies = Agency::select(['id', 'label'])->get();
-        return view("vehicles.edit", compact("vehicle", "allStatus", "suppliers", "agencies"));
+        return view("vehicles.edit", compact("vehicle", "status", "suppliers", "agencies"));
     }
 
     /**
@@ -111,6 +114,10 @@ class VehicleController extends Controller
             'agency_id' => 'numeric',
             'supplier_id' => 'numeric',
         ]);
+
+        if (!array_key_exists('agency_id', $validate)) {
+            return back()->withErrors(['agency_id' => 'The agency id is required.']);
+        }
 
         // Met à jour les données de véhicule avec les données validées
         $vehicle->update([
@@ -146,8 +153,8 @@ class VehicleController extends Controller
             ->select('id', 'model', 'marque', 'supplier_id')
             ->get();
 
-        // Retourner les véhicules au format JSON   
-        
+        // Retourner les véhicules au format JSON
+
         return response()->json($vehicles);
     }
 }

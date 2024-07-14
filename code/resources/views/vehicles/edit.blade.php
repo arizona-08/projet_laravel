@@ -45,20 +45,20 @@
                         <td class="border px-4 py-2"><input type="text" name="nb_serie" placeholder="N° de série" value="{{ $vehicle->nb_serie }}" class="w-full"></td>
                         <td class="border px-4 py-2">
                             <select name="status_id" id="" class="w-full">
-                                @foreach ($allStatus as $status )
-                                    <option value="{{ $status->id }}">{{ $status->label }}</option>
+                                @foreach ($status as $statu )
+                                    <option value="{{ $statu->id }}">{{ $statu->label }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td class="border px-4 py-2">
-                            <select name="agence_id" id="" class="w-full">
+                            <select name="agency_id" id="" class="w-full">
                                 @foreach ($agencies as $agency )
                                     <option value="{{ $agency->id }}">{{ $agency->label }}</option>
                                 @endforeach
                             </select>
                         </td>
                         <td class="border px-4 py-2">
-                            <select name="fournisseur_id" id="" class="w-full">
+                            <select name="supplier_id" id="" class="w-full">
                                 @foreach ($suppliers as $supplier )
                                     <option value="{{ $supplier->id }}">{{ $supplier->label }}</option>
                                 @endforeach
