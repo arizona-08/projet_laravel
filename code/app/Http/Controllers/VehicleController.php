@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
+    public function getRoles(){
+        return config("roles.roles");
+    }
     /**
      * Display a listing of the resource.
      */
@@ -115,10 +118,6 @@ class VehicleController extends Controller
             'supplier_id' => 'numeric',
         ]);
 
-        if (!array_key_exists('agency_id', $validate)) {
-            return back()->withErrors(['agency_id' => 'The agency id is required.']);
-        }
-
         // Met à jour les données de véhicule avec les données validées
         $vehicle->update([
             'model' => $validate['model'],
@@ -134,6 +133,20 @@ class VehicleController extends Controller
         // On redirige l'utilisateur vers la liste des véhicules
         return redirect()->route('vehicles.index');
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Vehicle $vehicle)
+    {
+
+        $vehicle->load(['agency', 'status', 'supplier']);
+        return view('vehicles.show', compact('vehicle'));
+    }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -6,6 +6,7 @@ use App\Models\Agency;
 use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AgencyController extends Controller
@@ -19,7 +20,14 @@ class AgencyController extends Controller
      */
     public function index()
     {
-        $agencies = Agency::with('user')->paginate(6);
+        $user = Auth::user();
+        $configRoles = $this->getRoles();
+
+        if ($user->role_id === $configRoles['agencyHead']) {
+            $agencies = Agency::with('user')->where('user_id', $user->id)->paginate(6);
+        } else {
+            $agencies = Agency::with('user')->paginate(6);
+        }
 
         return view("agencies.index", ["agencies" => $agencies]);
     }
@@ -42,9 +50,17 @@ class AgencyController extends Controller
     {
         $request->validate([
             'label' => 'required',
+            'user_id' => 'required|exists:users,id',
         ], [
             'label.required' => 'Le nom de l\'agence est requis',
+            'user_id.required' => 'Le chef d\'agence est requis',
+            'user_id.exists' => 'Le chef d\'agence sélectionné n\'existe pas',
         ]);
+
+        $existingAgency = Agency::where('user_id', $request->user_id)->first();
+        if ($existingAgency) {
+            $existingAgency->update(['user_id' => null]);
+        }
 
         Agency::create([
             'label' => $request->label,
@@ -82,15 +98,25 @@ class AgencyController extends Controller
      */
     public function update(Request $request, Agency $agency)
     {
-        $validate = $request->validate([ // Valide les informations de la requête
+        $validate = $request->validate([
             'label' => 'string',
-            'user_id' => 'numeric'
+            'user_id' => 'numeric|exists:users,id'
         ]);
 
-        $agency->update([ // Met à jour l'agence correspondante avec les nouvelles informations
-            'label' => $validate['label'],
-            'user_id' => $validate['user_id'],
-        ]);
+        if ($agency->user_id != $request->user_id) {
+            $existingAgency = Agency::where('user_id', $request->user_id)->first();
+            if ($existingAgency) {
+                $existingAgency->update(['user_id' => null]);
+            }
+            $agency->update([
+                'label' => $validate['label'],
+                'user_id' => $validate['user_id'],
+            ]);
+        } else {
+            $agency->update([
+                'label' => $validate['label'],
+            ]);
+        }
         return to_route("agencies.index");
     }
 

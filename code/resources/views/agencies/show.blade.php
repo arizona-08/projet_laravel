@@ -10,7 +10,7 @@
         width: 50%; /* largeur de 50% de la page */
     }
     </style>
-    
+
     <!-- Utilisation d'un composant Laravel pour générer la page HTML -->
     <x-app-layout>
         <!-- Définition d'un emplacement pour le titre de la page -->
@@ -65,7 +65,7 @@
                                 @foreach($agency->vehicles as $vehicle)
                                 <!-- Boucle qui affiche les données de chaque agence -->
                                 <tr class="hover:bg-gray-100"> <!-- Ajout d'un effet de survol sur chaque ligne de la table -->
-                                    <td class="px-4 py-2 text-center">{{ $vehicle->marque }}</td>
+                                    <td class="px-4 py-2 text-center"><a class="underline text-blue-600 hover:text-blue-800" href="{{ route('vehicles.show', $vehicle->id) }}">{{ $vehicle->marque }}</a></td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->model }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->last_maintenance }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }}</td>
@@ -78,8 +78,8 @@
                         </table>
                     </div>
                 </div>
-                
+
             </div>
         </div>
-    
+
     </x-app-layout>

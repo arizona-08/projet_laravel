@@ -36,7 +36,7 @@
                         </x-nav-link>
                     </div>
                 @endif
-                @if(($user_role_id === $roles["admin"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["agencyHead"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('agencies.index')" :active="request()->routeIs('agencies.index')">
                             {{ __('Agences') }}
@@ -44,7 +44,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["admin"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["supplierManager"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.index')">
                             {{ __('Fournisseurs') }}
@@ -52,7 +52,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["agencyHead"]) || ($user_role_id === $roles["orderManager"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["orderManager"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
                             {{ __('Commandes') }}
@@ -68,7 +68,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["tenant"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["tenant"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('orders.showUserOrders')" :active="request()->routeIs('orders.showUserOrders')">
                             {{ __('Mes commandes') }}

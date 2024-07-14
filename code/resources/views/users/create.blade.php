@@ -4,7 +4,7 @@
             @if(isset($singleRole))
                 {{ __("Créer un(e) {$singleRole->name} ") }}
             @else
-            {{ __("Créer un nouvel utilisateur ") }}
+                {{ __("Créer un nouvel utilisateur ") }}
             @endif
         </h2>
     </x-slot>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="role_id" class="block text-gray-700">Rôle</label>
-                            <select name="role_id" id="role_id" class="w-full px-4 py-2 border rounded-md" required>
+                            <select name="role_id" id="role_id" class="w-full px-4 py-2 border rounded-md" required onchange="toggleAgencyField(this)">
                                 @if(isset($singleRole))
                                     <option value="{{ $singleRole->id }}">{{ $singleRole->name }}</option>
                                 @else
@@ -42,6 +42,14 @@
                                         <option value="{{ $role->id }}">{{ $role->name }}</option>
                                     @endforeach
                                 @endif
+                            </select>
+                        </div>
+                        <div class="mb-4" id="agency_field" style="display: none;">
+                            <label for="agency_id" class="block text-gray-700">Agence</label>
+                            <select name="agency_id" id="agency_id" class="w-full px-4 py-2 border rounded-md">
+                                @foreach ($agencies as $agency)
+                                    <option value="{{ $agency->id }}">{{ $agency->label }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div>
@@ -52,4 +60,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleAgencyField(roleSelect) {
+            var agencyField = document.getElementById('agency_field');
+            if (roleSelect.value == '{{ config('roles.roles.agencyHead') }}') {
+                agencyField.style.display = 'block';
+            } else {
+                agencyField.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var roleSelect = document.getElementById('role_id');
+            toggleAgencyField(roleSelect);
+        });
+    </script>
 </x-app-layout>
