@@ -43,7 +43,7 @@
                             <!-- Boucle qui affiche les données de chaque agence -->
                             @foreach ($agencies as $agency)
                             <tr class="hover:bg-gray-100"> <!-- Ajout d'un effet de survol sur chaque ligne de la table -->
-                                <td class="px-4 py-2 text-center underline"><a href="{{route('agencies.show', ['agency' => $agency])}}">{{ $agency->label }}</a></td> <!-- Affichage du nom de l'agence dans la première colonne -->
+                                <td class="px-4 py-2 text-center underline"><a href="{{route('agencies.show', ['agency' => $agency])}}">Voir {{ $agency->label }}</a></td> <!-- Affichage du nom de l'agence dans la première colonne -->
                                 <td class="px-4 py-2 text-center">{{ $agency->user->name }}</td> <!-- Affichage du prénom du chef d'agence dans la deuxième colonne -->
                                 <td class="text-center px-4 py-2">
                                     <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('agencies.edit', ['agency' => $agency]) }}">Modifier</a>

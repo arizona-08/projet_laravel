@@ -37,10 +37,9 @@ class AgencyController extends Controller
      */
     public function create()
     {
-       $users = User::select(['id', 'name'])
-            ->get();
+       $user = Auth::user();
 
-       return view("agencies.create", ["users" => $users]);
+       return view("agencies.create", ["user" => $user]);
     }
 
     /**
