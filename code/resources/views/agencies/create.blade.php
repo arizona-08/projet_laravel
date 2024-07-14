@@ -1,4 +1,3 @@
-
 <!-- Définir la structure de la page à l'aide d'un composant Laravel -->
 <x-app-layout>
 
@@ -21,15 +20,18 @@
                         <!-- Protection CSRF pour empêcher les attaques de type cross-site request forgery -->
                         <div class="overflow-x-auto">
                             <table class="table-auto w-full">
-                                <thead>
-                                    <tr class="bg-gray-100">
-                                        <!-- Ajouter une colonne pour le nom de l'agence -->
-                                        <th class="px-4 py-2 text-center">Nom de l'agence</th>
-                                        <!-- Ajouter une colonne pour le chef d'agence -->
-                                        <th class="px-4 py-2 text-center">Chef d'agence</th>
-                                        <!-- Ajouter une colonne pour les actions -->
-                                        <th class="px-4 py-2 text-center">Action</th>
-                                    </tr>
+                                <th>
+                                <th class="bg-gray-100">
+                                    <!-- Ajouter une colonne pour le nom de l'agence -->
+                                <th class="px-4 py-2 text-center">Nom de l'agence</th>
+                                <!-- Ajouter une colonne pour le chef d'agence -->
+                                <th class="px-4 py-2 text-center">Chef d'agence</th>
+                                <!-- Ajouter une colonne pour les actions -->
+                                <th class="px-4 py-2 text-center">Adresse</th>
+                                <th class="px-4 py-2 text-center">Ville</th>
+                                <th class="px-4 py-2 text-center">Code postal</th>
+                                <th class="px-4 py-2 text-center">Action</th>
+                                </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
@@ -37,23 +39,52 @@
                                         <td class="border px-4 py-2 text-center">
                                             @if ($errors->has('label'))
                                             <div class="text-red-500 font-semibold my-2">
-                                            {{ $errors->first('label') }}
+                                                {{ $errors->first('label') }}
                                             </div>
                                             @endif
-                                            <input type="text" name="label" placeholder="Nom de l'agence" class="w-full"></td>
+                                            <input type="text" name="label" placeholder="Nom de l'agence" class="w-full">
+                                        </td>
                                         <!-- Ajouter une cellule pour la liste déroulante de sélection du chef d'agence -->
                                         <td class="border px-4 py-2 text-center">
                                             <select name="user_id" id="">
                                                 <!-- Itérer sur la liste des utilisateurs pour créer des options pour chaque utilisateur -->
                                                 @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
+                                        <!-- Ajouter une cellule pour le champ de saisie de l'adresse de l'agence -->
+                                        <td class="border px-4 py-2 text-center">
+                                            @if ($errors->has('address'))
+                                            <div class="text-red-500 font-semibold my-2">
+                                                {{ $errors->first('address') }}
+                                            </div>
+                                            @endif
+                                            <input type="text" name="address" placeholder="Adresse" class="w-full">
+                                        </td>
+                                        <!-- Ajouter une cellule pour le champ de saisie de la ville de l'agence -->
+
+                                        <td class="border px-4 py-2 text-center">
+                                            @if ($errors->has('city'))
+                                            <div class="text-red-500 font-semibold my-2">
+                                                {{ $errors->first('city') }}
+                                            </div>
+                                            @endif
+                                            <input type="text" name="city" placeholder="Ville" class="w-full">
+                                        </td>
+                                        <!-- Ajouter une cellule pour le champ de saisie du code postal de l'agence -->
+                                        <td class="border px-4 py-2 text-center">
+                                            @if ($errors->has('zip_code'))
+                                            <div class="text-red-500 font-semibold my-2">
+                                                {{ $errors->first('zip_code') }}
+                                            </div>
+                                            @endif
+                                            <input type="number" name="zip_code" placeholder="Code postal" class="w-full">
+                                        </td>
+
                                         <!-- Ajouter une cellule pour le bouton de soumission du formulaire -->
                                         <td class="border px-4 py-2 text-center">
-                                            <button type="submit"
-                                                class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">Ajouter</button>
+                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">Ajouter</button>
                                         </td>
                                     </tr>
                                 </tbody>

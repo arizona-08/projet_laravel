@@ -23,6 +23,7 @@ class Vehicle extends Model
         'status_id',
         'agency_id',
         'supplier_id',
+        'price_per_day'
     ];
 
     public function agency() {

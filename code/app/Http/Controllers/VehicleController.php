@@ -64,6 +64,7 @@ class VehicleController extends Controller
             'status_id' => 'required',
             'agency_id' => 'required',
             'supplier_id' => 'required',
+            'price_per_day' => 'required',
         ], [
             'marque.required' => 'La marque est requise',
             'model.required' => 'Le modèle est requis',
@@ -73,6 +74,7 @@ class VehicleController extends Controller
             'status_id.required' => 'Le statut est requis',
             'agency_id.required' => 'Le nom de l\'agence est requis',
             'supplier_id.required' => 'Le nom du fournisseur est requis',
+            'price_per_day.required' => 'Le prix par jour est requis',
         ]);
         // On crée un nouveau véhicule avec les données récupérées du formulaire
         Vehicle::create([
@@ -83,7 +85,9 @@ class VehicleController extends Controller
             'nb_serie' => $request->nb_serie,
             'status_id' => $request->status_id,
             'agency_id' => $request->agency_id,
-            'supplier_id' => $request->supplier_id
+            'supplier_id' => $request->supplier_id,
+            'price_per_day' => $request->price_per_day,
+
         ]);
 
         // On redirige l'utilisateur vers la liste des véhicules
@@ -116,6 +120,7 @@ class VehicleController extends Controller
             'status_id' => 'numeric',
             'agency_id' => 'numeric',
             'supplier_id' => 'numeric',
+            'price_per_day' => 'numeric',
         ]);
 
         // Met à jour les données de véhicule avec les données validées
@@ -128,6 +133,7 @@ class VehicleController extends Controller
             'status_id' => $validate['status_id'],
             'agency_id' => $validate['agency_id'],
             'supplier_id' => $validate['supplier_id'],
+            'price_per_day' => $validate['price_per_day'],
         ]);
 
         // On redirige l'utilisateur vers la liste des véhicules

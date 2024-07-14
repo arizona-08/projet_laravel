@@ -61,6 +61,7 @@
                             <th class="px-4 py-2 text-center">Statut</th>
                             <th class="px-4 py-2 text-center">Agence</th>
                             <th class="px-4 py-2 text-center">Fournisseur</th>
+                            <th class="px-4 py-2 text-center">Prix par jour</th>
                             <th class="px-4 py-2 text-center">Action</th>
                         </tr>
                     </thead>
@@ -80,6 +81,7 @@
                                     <td class="px-4 py-2 text-center">{{ $vehicle->status->label }}</td>
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->agency)->label ?? 'Aucune agence' }}</td>
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->supplier)->label ?? 'Aucun fournisseur' }}</td>
+                                    <td class="px-4 py-2 text-center">{{ $vehicle->price_per_day }} €</td>
                                     <td class="px-4 py-2 text-center">
                                         <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('vehicles.edit', ['vehicle' => $vehicle]) }}">Modifier</a>
                                         <form class="m-0 p-2" action="{{ route('vehicles.destroy', ['vehicle' => $vehicle]) }}" method="post">

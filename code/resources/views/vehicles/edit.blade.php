@@ -33,6 +33,7 @@
                         <th class="px-4 py-2 text-left">Status</th>
                         <th class="px-4 py-2 text-left">Agences</th>
                         <th class="px-4 py-2 text-left">Fournisseurs</th>
+                        <th class="px-4 py-2 text-left">Prix par jour</th>
                         <th class="px-4 py-2 text-left">Actions</th>
                       </tr>
                     </thead>
@@ -64,6 +65,7 @@
                                 @endforeach
                             </select>
                         </td>
+                        <td class="border px-4 py-2"><input type="text" name="price_per_day" placeholder="Prix par jour" value="{{ $vehicle->price_per_day }}" class="w-full"></td>
                         <td class="border px-4 py-2">
                           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">Valider</button>
                         </td>

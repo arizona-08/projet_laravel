@@ -51,10 +51,17 @@ class AgencyController extends Controller
         $request->validate([
             'label' => 'required',
             'user_id' => 'required|exists:users,id',
+            'address' => 'required',
+            'city' => 'required',
+            'zip_code' => 'required|numeric',
         ], [
             'label.required' => 'Le nom de l\'agence est requis',
             'user_id.required' => 'Le chef d\'agence est requis',
             'user_id.exists' => 'Le chef d\'agence sélectionné n\'existe pas',
+            'address.required' => 'L\'adresse de l\'agence est requise',
+            'city.required' => 'La ville de l\'agence est requise',
+            'zip_code.required' => 'Le code postal de l\'agence est requis',
+            'zip_code.numeric' => 'Le code postal de l\'agence doit être un nombre',
         ]);
 
         $existingAgency = Agency::where('user_id', $request->user_id)->first();
@@ -64,7 +71,10 @@ class AgencyController extends Controller
 
         Agency::create([
             'label' => $request->label,
-            'user_id' => $request->user_id
+            'user_id' => $request->user_id,
+            'address' => $request->address,
+            'city' => $request->city,
+            'zip_code' => $request->zip_code,
         ]);
 
         return to_route("agencies.index");
@@ -100,7 +110,10 @@ class AgencyController extends Controller
     {
         $validate = $request->validate([
             'label' => 'string',
-            'user_id' => 'numeric|exists:users,id'
+            'user_id' => 'numeric|exists:users,id',
+            'address' => 'string',
+            'city' => 'string',
+            'zip_code' => 'numeric',
         ]);
 
         if ($agency->user_id != $request->user_id) {
