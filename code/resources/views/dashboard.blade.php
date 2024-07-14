@@ -15,8 +15,6 @@
         </div>
     </div>
 
-
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -25,33 +23,33 @@
                     <table class="min-w-full">
                         <thead>
                             <tr>
-                                <th>Fournisseur</th>
-                                <th>Nombre de véhicules loués</th>
+                                <th class="text-center">Fournisseur</th>
+                                <th class="text-center">Nombre de véhicules loués</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($vehiclesRentedCount as $supplier => $count)
                             <tr>
                                 <td>{{ $supplier }}</td>
-                                <td>{{ $count }}</td>
+                                <td class="text-center">{{ $count }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-
+                    <br>
                     <h3 class="mt-6">Taux de disponibilité des véhicules par fournisseur</h3>
                     <table class="min-w-full">
                         <thead>
                             <tr>
-                                <th>Fournisseur</th>
-                                <th>Taux de disponibilité</th>
+                                <th class="text-center">Fournisseur</th>
+                                <th class="text-center">Taux de disponibilité</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($availabilityRate as $supplier => $rate)
                             <tr>
                                 <td>{{ $supplier }}</td>
-                                <td>{{ $rate }}%</td>
+                                <td class="text-center">{{ $rate }}%</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -60,5 +58,4 @@
             </div>
         </div>
     </div>
-
 </x-app-layout>
