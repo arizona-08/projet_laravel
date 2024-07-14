@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('label');
             $table->timestamps();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->integer('zip_code')->nullable();
         });
 
         Schema::table('vehicles', function (Blueprint $table) {

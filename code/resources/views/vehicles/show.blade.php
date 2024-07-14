@@ -37,6 +37,9 @@
                     <div class="mb-4">
                         <strong>Fournisseur:</strong> {{ $vehicle->supplier->label }}
                     </div>
+                    <div class="mb-4">
+                        <strong>Prix par jour:</strong> {{ $vehicle->price_per_day }} €
+                    </div>
                     <div class="mt-4 flex space-x-4">
                         <a class="bg-blue-500 w-32 text-center block px-3 py-2 rounded-md hover:bg-blue-600 text-white" role="button" href="{{ route('vehicles.edit', ['vehicle' => $vehicle]) }}">Modifier</a>
                         <form action="{{ route('vehicles.destroy', ['vehicle' => $vehicle]) }}" method="post" class="m-0">

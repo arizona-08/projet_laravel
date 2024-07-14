@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('last_maintenance');
             $table->integer('nb_kilometrage');
             $table->integer('nb_serie');
+            $table->decimal('price_per_day', 8, 2)->nullable();
             $table->timestamps();
         });
     }
