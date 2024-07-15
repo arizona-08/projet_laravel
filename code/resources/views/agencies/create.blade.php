@@ -46,12 +46,19 @@
                                         </td>
                                         <!-- Ajouter une cellule pour la liste déroulante de sélection du chef d'agence -->
                                         <td class="border px-4 py-2 text-center">
-                                            <select name="user_id" id="">
-                                                <!-- Itérer sur la liste des utilisateurs pour créer des options pour chaque utilisateur -->
-                                                @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                                @endforeach
-                                            </select>
+                                            @if (isset($user))
+                                                <select name="user_id" id="">
+                                                    <!-- Itérer sur la liste des utilisateurs pour créer des options pour chaque utilisateur -->
+                                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                </select>
+                                            @else
+                                                <select name="user_id" id="">
+                                                    @foreach ($users as $user)
+                                                            <!-- Itérer sur la liste des utilisateurs pour créer des options pour chaque utilisateur -->
+                                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
                                         </td>
                                         <!-- Ajouter une cellule pour le champ de saisie de l'adresse de l'agence -->
                                         <td class="border px-4 py-2 text-center">

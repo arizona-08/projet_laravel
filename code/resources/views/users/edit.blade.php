@@ -29,7 +29,6 @@
                                         <th class="px-4 py-2 text-left">Nom</th>
                                         <th class="px-4 py-2 text-left">Email</th>
                                         <th class="px-4 py-2 text-left">Role</th>
-                                        <th class="px-4 py-2 text-left">Agence</th>
                                         <th class="px-4 py-2 text-left">Mot de passe</th>
                                         <th class="px-4 py-2 text-left">Confirmation du mot de passe</th>
                                     </tr>
@@ -46,13 +45,6 @@
                                             <select name="role" placeholder="Mot de passe" class="w-full" onchange="toggleAgencyField(this)">
                                                 @foreach($roles as $role)
                                                     <option value="{{$role->id}}" @if($user->role_id == $role->id) selected @endif>{{$role->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td class="border px-4 py-2" id="agency_field" style="display: none;">
-                                            <select name="agency_id" class="w-full">
-                                                @foreach ($agencies as $agency)
-                                                    <option value="{{ $agency->id }}" @if($user->agency_id == $agency->id) selected @endif>{{ $agency->label }}</option>
                                                 @endforeach
                                             </select>
                                         </td>

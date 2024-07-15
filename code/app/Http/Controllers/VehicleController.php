@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\Supplier;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
@@ -95,6 +96,15 @@ class VehicleController extends Controller
 
         ]);
 
+        
+        //redirige vers l'agence du véhicule crée en fonction du role de l'utilisateur
+        $user = Auth::user();
+        $roles = $this->getRoles();
+        $wantedRoles = [$roles["agencyHead"], $roles["admin"]];
+        if(in_array($user->role_id, $wantedRoles)){
+            $agency = Agency::find($request->agency_id);
+            return redirect()->route("agencies.show", compact("agency"));
+        }
         // On redirige l'utilisateur vers la liste des véhicules
         return redirect()->route('vehicles.index');
     }

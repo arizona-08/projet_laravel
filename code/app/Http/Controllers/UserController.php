@@ -30,13 +30,12 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $roles = Role::all();
-        $agencies = Agency::all();
         if ($request->has("role_id")) {
             $role_id = $request->role_id;
             $singleRole = Role::find($role_id);
-            return view("users.create", compact("singleRole", "roles", "agencies"));
+            return view("users.create", compact("singleRole", "roles"));
         }
-        return view("users.create", compact("roles", "agencies"));
+        return view("users.create", compact("roles"));
     }
 
     /**
@@ -48,7 +47,6 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'role_id' => 'required|exists:roles,id',
-            'agency_id' => 'required_if:role_id,' . config('roles.roles.agencyHead') . '|exists:agencies,id',
         ]);
 
         $user = new User();
@@ -57,21 +55,6 @@ class UserController extends Controller
         $user->password = Hash::make('temporary_password'); // Mot de passe temporaire
         $user->role_id = $request->role_id;
         $user->save();
-
-        // Si le rôle est chef d'agence, réattribuez l'agence
-        if ($user->role_id == config('roles.roles.agencyHead')) {
-            $agency = Agency::find($request->agency_id);
-
-            // Si l'agence a déjà un chef d'agence, mettez à jour l'utilisateur actuel
-            if ($agency->user_id) {
-                $oldAgencyHead = User::find($agency->user_id);
-                $oldAgencyHead->agency_id = null;
-                $oldAgencyHead->save();
-            }
-
-            $agency->user_id = $user->id;
-            $agency->save();
-        }
 
         // Generate password reset token
         $token = Password::createToken($user);
@@ -91,7 +74,7 @@ class UserController extends Controller
         switch ($user->role_id) {
             case $configRoles["admin"]:
             case $configRoles["agencyHead"]:
-                $user->load(["role", "agencies"]);
+                $user->load(["role", "agency"]);
                 break;
             case $configRoles["supplierManager"]:
             case $configRoles["orderManager"]:
@@ -111,11 +94,10 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        $agencies = Agency::all();
         $configRoles = $this->getRoles();
         $allAdmins = User::where("role_id", $configRoles["admin"])->get();
         $allAdminsCount = $allAdmins->count();
-        return view("users.edit", compact("user", "roles", "allAdminsCount", "agencies"));
+        return view("users.edit", compact("user", "roles", "allAdminsCount"));
     }
 
     /**

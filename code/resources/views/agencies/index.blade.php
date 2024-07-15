@@ -21,8 +21,12 @@
         </x-slot>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                @if(session('error'))
+                    <div class="bg-red-500 text-white p-4 rounded mb-4">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-bold dark:text-white">Liste des agences</h2> <!-- Titre de la section -->
                     <a class="bg-white px-3 py-2 rounded-md hover:bg-slate-200" href="{{ route('agencies.create') }}">Ajouter une agence</a> <!-- Bouton pour ajouter une agence -->
                 </div>
                 <div class="mt-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">

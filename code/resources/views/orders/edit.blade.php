@@ -44,12 +44,27 @@
                                             </select>
                                         </td>
                                         <td class="border px-4 py-2">
+                                            @if ($errors->has('email'))
+                                                <div class="text-red-500 font-semibold my-2">
+                                                    {{ $errors->first('email') }}
+                                                </div>
+                                            @endif
                                             <input type="email" name="email" value="{{ old('email', $order->user->email) }}" class="w-full">
                                         </td>
                                         <td class="border px-4 py-2">
+                                            @if ($errors->has('start_date'))
+                                                <div class="text-red-500 font-semibold my-2">
+                                                    {{ $errors->first('start_date') }}
+                                                </div>
+                                            @endif
                                             <input type="date" name="start_date" value="{{ old('start_date', $order->start_date) }}" class="w-full">
                                         </td>
                                         <td class="border px-4 py-2">
+                                            @if ($errors->has('end_date'))
+                                                <div class="text-red-500 font-semibold my-2">
+                                                    {{ $errors->first('end_date') }}
+                                                </div>
+                                            @endif
                                             <input type="date" name="end_date" value="{{ old('end_date', $order->end_date) }}" class="w-full">
                                         </td>
                                         <td class="border px-4 py-2 text-center">

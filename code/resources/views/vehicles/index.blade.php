@@ -78,7 +78,24 @@
                                     <td class="px-4 py-2 text-center">{{ \Carbon\Carbon::parse($vehicle->last_maintenance)->format('d/m/Y h:i') }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }} Km</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
-                                    <td class="px-4 py-2 text-center">{{ $vehicle->status->label }}</td>
+                                    <td 
+                                        @switch($vehicle->status->id)
+                                            @case(0)
+                                                class="px-4 py-2 text-center text-red-500"
+                                                @break
+                                            @case(1)
+                                                class="px-4 py-2 text-center text-green-500"
+                                                @break
+                                            @case(2)
+                                                class="px-4 py-2 text-center text-orange-300"
+                                            @break
+                                            @default
+                                                
+                                        @endswitch
+                                        class="px-4 py-2 text-center"
+                                        >
+                                        {{ $vehicle->status->label }}
+                                    </td>
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->agency)->label ?? 'Aucune agence' }}</td>
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->supplier)->label ?? 'Aucun fournisseur' }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->price_per_day }} €</td>

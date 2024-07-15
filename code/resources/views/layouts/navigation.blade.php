@@ -29,7 +29,7 @@
                     </div>
                 @endif
 
-                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["orderManager"]))
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["orderManager"]) || ($user_role_id === $roles["supplierManager"]))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('vehicles.index')" :active="request()->routeIs('vehicles.index')">
                             {{ __('Véhicules') }}

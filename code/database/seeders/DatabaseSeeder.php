@@ -70,7 +70,6 @@ class DatabaseSeeder extends Seeder
             ->create(['role_id' => $configRoles["agencyHead"]])
             ->each(function ($user) use ($suppliers, $faker) {
                 $agencies = Agency::factory()
-                    ->count(rand(1, 3))
                     ->create([
                         'user_id' => $user->id,
                         'address' => $faker->streetAddress,

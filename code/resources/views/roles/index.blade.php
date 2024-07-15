@@ -51,11 +51,6 @@
                                 <td class="px-4 py-2 text-center">{{ $role->users_count }}</td> <!-- Affichage du nombre d'utilisateur ayant ce rôle dans la deuxième colonne -->
                                 <td class="text-center px-4 py-2">
                                     <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('roles.edit', ['role' => $role]) }}">Modifier</a>
-                                    <form action="{{ route('roles.destroy', ['role' => $role]) }}" method="post" class="mb-0">
-                                        @csrf
-                                        @method('delete')
-                                        {{-- <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button> --}}
-                                    </form>
                                 </td>
                             </tr>
                             @endforeach

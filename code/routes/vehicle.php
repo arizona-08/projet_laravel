@@ -10,5 +10,5 @@ Route::resource('vehicles', VehicleController::class)
 
 Route::get("/create-vehicle-for/{agency}", [ VehicleController::class, "create"])
     ->middleware('auth')
-    ->middleware('role:agencyHead')
+    ->middleware('role:admin|agencyHead')
     ->name("vehicles.createVehicleFor");
