@@ -97,16 +97,6 @@ class AgencyController extends Controller
             ]);
             return to_route("agencies.index");
         }
-
-        Agency::create([
-            'label' => $request->label,
-            'user_id' => $request->user_id,
-            'address' => $request->address,
-            'city' => $request->city,
-            'zip_code' => $request->zip_code,
-        ]);
-
-        return to_route("agencies.index");
     }
 
     /**
@@ -125,7 +115,13 @@ class AgencyController extends Controller
     public function edit(Agency $agency)
     {
         $configRoles = $this->getRoles();
-        $users = User::where("role_id", "=", $configRoles["agencyHead"])->get();
+        $users = User::where("role_id", "=", $configRoles["agencyHead"])
+            ->where(function ($query) use ($agency) {
+                $query->whereDoesntHave('agency')
+                    ->orWhere('id', $agency->user_id);
+            })
+            ->get();
+
         return view("agencies.edit", [
             "agency" => $agency,
             "users" => $users
@@ -145,6 +141,14 @@ class AgencyController extends Controller
             'zip_code' => 'numeric',
         ]);
 
+        if ($agency->user_id != $request->user_id) { // Si le chef d'agence change 
+            $existingAgency = Agency::where('user_id', $request->user_id)->first(); // On vérifie si le chef d'agence n'a pas déja une agence
+            if ($existingAgency) { // Si il a déja une agence
+                return to_route("agencies.index")->with('error', "L'utilisateur possède déja une agence");
+            } // Sinon on continue
+        }
+
+
         if ($agency->user_id != $request->user_id) {
             $existingAgency = Agency::where('user_id', $request->user_id)->first();
             if ($existingAgency) {
@@ -153,10 +157,16 @@ class AgencyController extends Controller
             $agency->update([
                 'label' => $validate['label'],
                 'user_id' => $validate['user_id'],
+                'address' => $validate['address'],
+                'city' => $validate['city'],
+                'zip_code' => $validate['zip_code'],
             ]);
         } else {
             $agency->update([
                 'label' => $validate['label'],
+                'address' => $validate['address'],
+                'city' => $validate['city'],
+                'zip_code' => $validate['zip_code'],
             ]);
         }
         return to_route("agencies.index");
