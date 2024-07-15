@@ -15,143 +15,107 @@
         </div>
     </div>
 
+    @if (Auth::user()->role_id <= 4)
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2 || Auth::user()->role_id == 3 || Auth::user()->role_id == 4)
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3>Nombre de véhicules loués par fournisseur</h3>
-                    <table class="min-w-full">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Fournisseur</th>
-                                <th class="text-center">Nombre de véhicules loués</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($vehiclesRentedCount as $supplier => $count)
-                            <tr>
-                                <td class="text-center">{{ $supplier }}</td>
-                                <td class="text-center">{{ $count }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                    <h3 class="mt-6">Taux de disponibilité des véhicules par fournisseur</h3>
-                    <table class="min-w-full">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Fournisseur</th>
-                                <th class="text-center">Taux de disponibilité</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($availabilityRate as $supplier => $rate)
-                            <tr>
-                                <td class="text-center">{{ $supplier }}</td>
-                                <td class="text-center">{{ $rate }}%</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                    <h3 class="mt-6">Revenu total par fournisseur</h3>
-                    <table class="min-w-full">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Fournisseur</th>
-                                <th class="text-center">Revenu total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($totalRevenueBySupplier as $supplier => $revenue)
-                            <tr>
-                                <td class="text-center">{{ $supplier }}</td>
-                                <td class="text-center">{{ $revenue }} €</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <h3 class="font-semibold text-lg">Données des agences</h3>
 
                     <h3 class="mt-6">Revenu moyen par location</h3>
-                    <table class="min-w-full">
+                    <table class="min-w-full mt-4">
                         <thead>
-                            <tr>
-                                <th class="text-center">Fournisseur</th>
-                                <th class="text-center">Revenu moyen</th>
+                            <tr class="bg-gray-200 dark:bg-gray-700">
+                                <th class="py-2 text-center">Agence</th>
+                                <th class="py-2 text-center">Revenu moyen</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($averageRevenuePerRental as $supplier => $averageRevenue)
-                            <tr>
-                                <td class="text-center">{{ $supplier }}</td>
-                                <td class="text-center">{{ $averageRevenue }} €</td>
+                            @foreach ($data as $item)
+                            <tr class="border-b">
+                                <td class="py-2 text-center">{{ $item['agency'] }}</td>
+                                <td class="py-2 text-center">{{ $item['average_revenue'] }} €</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <h3 class="mt-6">Revenu moyen par location sans agence intermédiaire</h3>
+                    <table class="min-w-full mt-4">
+                        <thead>
+                            <tr class="bg-gray-200 dark:bg-gray-700">
+                                <th class="py-2 text-center">Fournisseur</th>
+                                <th class="py-2 text-center">Revenu moyen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($supplierData as $item)
+                            <tr class="border-b">
+                                <td class="py-2 text-center">{{ $item['supplier'] }}</td>
+                                <td class="py-2 text-center">{{ $item['average_revenue'] }} €</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
 
                     <h3 class="mt-6">Durée moyenne des locations</h3>
-                    <table class="min-w-full">
+                    <table class="min-w-full mt-4">
                         <thead>
-                            <tr>
-                                <th class="text-center">Fournisseur</th>
-                                <th class="text-center">Durée moyenne (jours)</th>
+                            <tr class="bg-gray-200 dark:bg-gray-700">
+                                <th class="py-2 text-center">Agence</th>
+                                <th class="py-2 text-center">Durée moyenne (jours)</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($averageRentalDuration as $supplier => $averageDuration)
-                            <tr>
-                                <td class="text-center">{{ $supplier }}</td>
-                                <td class="text-center">{{ $averageDuration }}</td>
+                            @foreach ($data as $item)
+                            <tr class="border-b">
+                                <td class="py-2 text-center">{{ $item['agency'] }}</td>
+                                <td class="py-2 text-center">{{ $item['average_duration'] }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+
+                    <h3 class="mt-6">Durée moyenne des locations sans agence intermédiaire</h3>
+                    <table class="min-w-full mt-4">
+                        <thead>
+                            <tr class="bg-gray-200 dark:bg-gray-700">
+                                <th class="py-2 text-center">Fournisseur</th>
+                                <th class="py-2 text-center">Durée moyenne (jours)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($supplierData as $item)
+                            <tr class="border-b">
+                                <td class="py-2 text-center">{{ $item['supplier'] }}</td>
+                                <td class="py-2 text-center">{{ $item['average_duration'] }}</td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
 
                     <h3 class="mt-6">État des véhicules</h3>
-                    <table class="min-w-full">
+                    <table class="min-w-full mt-4">
                         <thead>
-                            <tr>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Nombre de véhicules</th>
+                            <tr class="bg-gray-200 dark:bg-gray-700">
+                                <th class="py-2 text-center">Status</th>
+                                <th class="py-2 text-center">Nombre de véhicules</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">Maintenance</td>
-                                <td class="text-center">{{ $vehicleStatusCount['maintenance'] }}</td>
+                            <tr class="border-b">
+                                <td class="py-2 text-center">Maintenance</td>
+                                <td class="py-2 text-center">{{ $vehicleStatusCount['maintenance'] }}</td>
                             </tr>
-                            <tr>
-                                <td class="text-center">Hors service</td>
-                                <td class="text-center">{{ $vehicleStatusCount['out_of_service'] }}</td>
+                            <tr class="border-b">
+                                <td class="py-2 text-center">Hors service</td>
+                                <td class="py-2 text-center">{{ $vehicleStatusCount['out_of_service'] }}</td>
                             </tr>
-                        </tbody>
-                    </table>
-
-                    <h3 class="mt-6">Demande par type de véhicule</h3>
-                    <table class="min-w-full">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Type de véhicule</th>
-                                <th class="text-center">Demande</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($demandByVehicleType as $supplier => $demands)
-                            @foreach ($demands as $model => $count)
-                            <tr>
-                                <td class="text-center">{{ $model }}</td>
-                                <td class="text-center">{{ $count }}</td>
-                            </tr>
-                            @endforeach
-                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                @endif
             </div>
         </div>
     </div>
+    @endif
 </x-app-layout>
