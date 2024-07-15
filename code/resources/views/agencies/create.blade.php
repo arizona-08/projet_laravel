@@ -20,8 +20,6 @@
                         <!-- Protection CSRF pour empêcher les attaques de type cross-site request forgery -->
                         <div class="overflow-x-auto">
                             <table class="table-auto w-full">
-                                <th>
-                                <th class="bg-gray-100">
                                     <!-- Ajouter une colonne pour le nom de l'agence -->
                                 <th class="px-4 py-2 text-center">Nom de l'agence</th>
                                 <!-- Ajouter une colonne pour le chef d'agence -->

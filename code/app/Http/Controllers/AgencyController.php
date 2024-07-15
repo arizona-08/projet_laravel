@@ -85,7 +85,10 @@ class AgencyController extends Controller
             
             $agency = Agency::create([
                 'label' => $request->label,
-                'user_id' => $request->user_id
+                'user_id' => $request->user_id,
+                'address' => $request->address,
+                'city' => $request->city,
+                'zip_code' => $request->zip_code,
             ]);
             
             $user = User::find($request->user_id);
