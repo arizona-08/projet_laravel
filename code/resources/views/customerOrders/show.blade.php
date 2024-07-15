@@ -50,9 +50,19 @@
                                         <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }}</td>
                                         <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
                                         <td class="px-4 py-2 text-center">
+                                            @if ($errors->has('start_date'))
+                                                <div class="text-red-500 font-semibold my-2">
+                                                    {{ $errors->first('start_date') }}
+                                                </div>
+                                            @endif
                                             <input type="date" name="start_date" id="">
                                         </td>
                                         <td class="px-4 py-2 text-center">
+                                            @if ($errors->has('end_date'))
+                                                <div class="text-red-500 font-semibold my-2">
+                                                    {{ $errors->first('end_date') }}
+                                                </div>
+                                            @endif
                                             <input type="date" name="end_date" id="">
                                         </td>
                                         <td class="px-4 py-2 text-center">

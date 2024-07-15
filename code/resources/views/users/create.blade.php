@@ -44,14 +44,6 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="mb-4" id="agency_field" style="display: none;">
-                            <label for="agency_id" class="block text-gray-700">Agence</label>
-                            <select name="agency_id" id="agency_id" class="w-full px-4 py-2 border rounded-md">
-                                @foreach ($agencies as $agency)
-                                    <option value="{{ $agency->id }}">{{ $agency->label }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                         <div>
                             <button type="submit" class="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 text-white">Ajouter</button>
                         </div>

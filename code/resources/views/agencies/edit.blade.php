@@ -45,7 +45,13 @@
                                 <tbody>
                                     <tr>
                                         <td class="border px-4 py-2">
-                                            <input type="text" name="label" placeholder="Nom de l'agence" value="{{ $agency->label }}" class="w-full">
+                                            @if ($errors->has('label'))
+                                                <div class="text-red-500 font-semibold my-2">
+                                                    {{ $errors->first('label') }}
+                                                </div>
+                                            @endif
+                                            <input type="text" name="label" placeholder="Nom de l'agence"
+                                                value="{{ $agency->label }}" class="w-full">
                                             <!-- Champ d'édition du nom de l'agence -->
                                         </td>
                                         <td class="border px-4 py-2 text-center">

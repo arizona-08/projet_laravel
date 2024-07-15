@@ -7,6 +7,7 @@ use App\Models\Status;
 use App\Models\Supplier;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VehicleController extends Controller
 {
@@ -42,11 +43,16 @@ class VehicleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Agency $agency = null)
     {
         $status = Status::select(['id', 'label'])->get();
         $agencies = Agency::select(['id', 'label'])->get();
         $suppliers = Supplier::select(['id', 'label'])->get();
+        
+        if($agency !== null){
+            $agencies = Agency::where("id", $agency->id)->get(); //utilisation de where voulue pour récupérer un tableau même s'il a qu'une seule valeur
+        }
+
         return view("vehicles.create", compact('status','agencies', 'suppliers')); //compact() renvoie un tableau associatif
     }
 
@@ -90,6 +96,15 @@ class VehicleController extends Controller
 
         ]);
 
+        
+        //redirige vers l'agence du véhicule crée en fonction du role de l'utilisateur
+        $user = Auth::user();
+        $roles = $this->getRoles();
+        $wantedRoles = [$roles["agencyHead"], $roles["admin"]];
+        if(in_array($user->role_id, $wantedRoles)){
+            $agency = Agency::find($request->agency_id);
+            return redirect()->route("agencies.show", compact("agency"));
+        }
         // On redirige l'utilisateur vers la liste des véhicules
         return redirect()->route('vehicles.index');
     }

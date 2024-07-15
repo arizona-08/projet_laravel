@@ -83,16 +83,6 @@
                             </table>
                         </div>
                     </form>
-
-                    <!-- Pagination pour les utilisateurs -->
-                    <div class="pagination mt-3">
-                        {{ $users->links() }}
-                    </div>
-
-                    <!-- Pagination pour les véhicules -->
-                    <div class="pagination mt-3">
-                        {{ $vehicles->links() }}
-                    </div>
                 </div>
             </div>
         </div>

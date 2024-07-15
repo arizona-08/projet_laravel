@@ -47,8 +47,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function agencies(){
-        return $this->hasMany(Agency::class);
+    public function agency(){
+        return $this->hasOne(Agency::class);
     }
 
     public function role(){

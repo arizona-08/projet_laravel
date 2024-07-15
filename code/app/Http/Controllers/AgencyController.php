@@ -24,12 +24,15 @@ class AgencyController extends Controller
         $configRoles = $this->getRoles();
 
         if ($user->role_id === $configRoles['agencyHead']) {
-            $agencies = Agency::with('user')->where('user_id', $user->id)->paginate(6);
+            $agencies = Agency::with('user')->where('user_id', $user->id)->paginate();
         } else {
             $agencies = Agency::with('user')->paginate(6);
         }
 
-        return view("agencies.index", ["agencies" => $agencies]);
+        return view("agencies.index", [
+            "agencies" => $agencies,
+            "user" => $user
+        ]);
     }
 
     /**
@@ -37,10 +40,13 @@ class AgencyController extends Controller
      */
     public function create()
     {
-       $users = User::select(['id', 'name'])
-            ->get();
+       $user = Auth::user();
+       if($user->role_id === $this->getRoles()["agencyHead"]){
+            return view("agencies.create", compact("user"));
+       }
 
-       return view("agencies.create", ["users" => $users]);
+       $users = User::where("role_id", $this->getRoles()["agencyHead"])->get();
+       return view("agencies.create", compact("users"));
     }
 
     /**
@@ -66,7 +72,30 @@ class AgencyController extends Controller
 
         $existingAgency = Agency::where('user_id', $request->user_id)->first();
         if ($existingAgency) {
-            $existingAgency->update(['user_id' => null]);
+            return to_route("agencies.index")->with('error', "L'utilisateur possède déja une agence");
+        } else {
+            $request->validate([
+                'label' => 'required',
+                'user_id' => 'required|exists:users,id',
+            ], [
+                'label.required' => 'Le nom de l\'agence est requis',
+                'user_id.required' => 'Le chef d\'agence est requis',
+                'user_id.exists' => 'Le chef d\'agence sélectionné n\'existe pas',
+            ]);
+            
+            $agency = Agency::create([
+                'label' => $request->label,
+                'user_id' => $request->user_id,
+                'address' => $request->address,
+                'city' => $request->city,
+                'zip_code' => $request->zip_code,
+            ]);
+            
+            $user = User::find($request->user_id);
+            $user->update([
+                "agency_id" => $agency->id
+            ]);
+            return to_route("agencies.index");
         }
 
         Agency::create([
