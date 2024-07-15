@@ -62,7 +62,12 @@
                             <th class="px-4 py-2 text-center">Agence</th>
                             <th class="px-4 py-2 text-center">Fournisseur</th>
                             <th class="px-4 py-2 text-center">Prix par jour</th>
-                            <th class="px-4 py-2 text-center">Action</th>
+                            @php
+                                $configRoles = config("roles.roles", []);
+                            @endphp
+                            @if(Auth::user()->role_id === $configRoles["admin"])
+                                <th class="px-4 py-2 text-center">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -99,14 +104,16 @@
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->agency)->label ?? 'Aucune agence' }}</td>
                                     <td class="px-4 py-2 text-center">{{ optional($vehicle->supplier)->label ?? 'Aucun fournisseur' }}</td>
                                     <td class="px-4 py-2 text-center">{{ $vehicle->price_per_day }} €</td>
-                                    <td class="px-4 py-2 text-center">
-                                        <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('vehicles.edit', ['vehicle' => $vehicle]) }}">Modifier</a>
-                                        <form class="m-0 p-2" action="{{ route('vehicles.destroy', ['vehicle' => $vehicle]) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button>
-                                        </form>
-                                    </td>
+                                    @if(Auth::user()->role_id === $configRoles["admin"])
+                                        <td class="px-4 py-2 text-center">
+                                            <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('vehicles.edit', ['vehicle' => $vehicle]) }}">Modifier</a>
+                                            <form class="m-0 p-2" action="{{ route('vehicles.destroy', ['vehicle' => $vehicle]) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="bg-red-500 px-3 py-2 rounded-md hover:bg-red-600" type="submit">Supprimer</button>
+                                            </form>
+                                        </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         @endif
