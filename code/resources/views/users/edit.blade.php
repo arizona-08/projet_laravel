@@ -42,7 +42,7 @@
                                             <input type="email" name="email" placeholder="Email" value="{{ $user->email }}" class="w-full">
                                         </td>
                                         <td class="border px-4 py-2">
-                                            <select name="role" placeholder="Mot de passe" class="w-full" onchange="toggleAgencyField(this)">
+                                            <select name="role" placeholder="Mot de passe" class="w-full">
                                                 @foreach($roles as $role)
                                                     <option value="{{$role->id}}" @if($user->role_id == $role->id) selected @endif>{{$role->name}}</option>
                                                 @endforeach
@@ -67,20 +67,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function toggleAgencyField(roleSelect) {
-            var agencyField = document.getElementById('agency_field');
-            if (roleSelect.value == '2') { // Assurez-vous que 2 est bien l'ID du rôle "Chef d'agence"
-                agencyField.style.display = 'block';
-            } else {
-                agencyField.style.display = 'none';
-            }
-        }
-        // Appel initial pour afficher ou masquer le champ Agence selon le rôle actuel de l'utilisateur
-        document.addEventListener('DOMContentLoaded', function() {
-            var roleSelect = document.querySelector('select[name="role"]');
-            toggleAgencyField(roleSelect);
-        });
-    </script>
 </x-app-layout>

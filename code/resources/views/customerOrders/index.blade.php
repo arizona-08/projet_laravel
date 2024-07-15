@@ -5,7 +5,8 @@
         text-align: center;
     }
 
-    td, th {
+    td,
+    th {
         border: thin solid #e5e7eb;
         width: 50%;
     }
@@ -22,31 +23,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold dark:text-white">Liste des vehicules</h2> <!-- Titre de la section -->
-    
-                {{-- <form action="{{ route('customerOrders.index') }}" method="GET" class="flex items-center">
-                    <div class="mr-4">
-                        <label for="brand" class="mr-2 dark:text-white">Marque:</label>
-                        <select name="brand" id="brand" class="px-2 py-1 border rounded-md">
-                            <option value="">Toutes</option>
-                            @foreach ($brands as $brand)
-                                <option value="{{ $brand->marque }}" {{ request('brand') == $brand->marque ? 'selected' : '' }}>
-                                    {{ $brand->marque }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="mr-4">
-                        <label for="sort_km" class="mr-2 dark:text-white">Trier par KM:</label>
-                        <select name="sort_km" id="sort_km" class="px-2 py-1 border rounded-md">
-                            <option value="">Aucun</option>
-                            <option value="asc" {{ request('sort_km') == 'asc' ? 'selected' : '' }}>Croissant</option>
-                            <option value="desc" {{ request('sort_km') == 'desc' ? 'selected' : '' }}>Décroissant</option>
-                        </select>
-                    </div>
-                    <div>
-                        <button type="submit" class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 text-white">Filtrer</button>
-                    </div>
-                </form> --}}
             </div>
 
             <div class="mt-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -64,31 +40,27 @@
                     </thead>
                     <tbody>
                         @if ($availableVehicles->isEmpty())
-                            <tr>
-                                <td colspan="7" class="px-4 py-2 text-center">Aucun véhicule à afficher</td>
-                            </tr>
+                        <tr>
+                            <td colspan="7" class="px-4 py-2 text-center">Aucun véhicule à afficher</td>
+                        </tr>
                         @else
-                            @foreach ($availableVehicles as $vehicle)
-                                <tr class="hover:bg-gray-100">
-                                    <td class="px-4 py-2 text-center">{{ $vehicle->marque }}</td>
-                                    <td class="px-4 py-2 text-center">{{ $vehicle->model }}</td>
-                                    <td class="px-4 py-2 text-center">{{ \Carbon\Carbon::parse($vehicle->last_maintenance)->format('d/m/Y h:i') }}</td>
-                                    <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }} Km</td>
-                                    <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
-                                    <td class="px-4 py-2 text-center">{{ optional($vehicle->agency)->label ?? 'Aucune agence' }}</td>
-                                    <td class="px-4 py-2 text-center">
-                                        <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('customerOrders.show', ['vehicle' => $vehicle]) }}">Commander</a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                        @foreach ($availableVehicles as $vehicle)
+                        <tr class="hover:bg-gray-100">
+                            <td class="px-4 py-2 text-center">{{ $vehicle->marque }}</td>
+                            <td class="px-4 py-2 text-center">{{ $vehicle->model }}</td>
+                            <td class="px-4 py-2 text-center">{{ \Carbon\Carbon::parse($vehicle->last_maintenance)->format('d/m/Y h:i') }}</td>
+                            <td class="px-4 py-2 text-center">{{ $vehicle->nb_kilometrage }} Km</td>
+                            <td class="px-4 py-2 text-center">{{ $vehicle->nb_serie }}</td>
+                            <td class="px-4 py-2 text-center">{{ optional($vehicle->agency)->label ?? 'Aucune agence' }}</td>
+                            <td class="px-4 py-2 text-center">
+                                <a class="bg-blue-500 px-3 py-2 rounded-md hover:bg-blue-600 block mb-2" role="button" href="{{ route('customerOrders.show', ['vehicle' => $vehicle]) }}">Commander</a>
+                            </td>
+                        </tr>
+                        @endforeach
                         @endif
                     </tbody>
                 </table>
             </div>
-            {{-- <!-- Pagination links -->
-            <div class="pagination mt-3">
-                {{ $vehicles->links() }}
-            </div> --}}
         </div>
     </div>
 </x-app-layout>

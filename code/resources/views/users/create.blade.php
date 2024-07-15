@@ -2,9 +2,9 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-white leading-tight">
             @if(isset($singleRole))
-                {{ __("Créer un(e) {$singleRole->name} ") }}
+            {{ __("Créer un(e) {$singleRole->name} ") }}
             @else
-                {{ __("Créer un nouvel utilisateur ") }}
+            {{ __("Créer un nouvel utilisateur ") }}
             @endif
         </h2>
     </x-slot>
@@ -14,13 +14,13 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                     @endif
                     <form action="{{ route('users.store') }}" method="POST">
                         @csrf
@@ -34,13 +34,13 @@
                         </div>
                         <div class="mb-4">
                             <label for="role_id" class="block text-gray-700">Rôle</label>
-                            <select name="role_id" id="role_id" class="w-full px-4 py-2 border rounded-md" required onchange="toggleAgencyField(this)">
+                            <select name="role_id" id="role_id" class="w-full px-4 py-2 border rounded-md">
                                 @if(isset($singleRole))
-                                    <option value="{{ $singleRole->id }}">{{ $singleRole->name }}</option>
+                                <option value="{{ $singleRole->id }}">{{ $singleRole->name }}</option>
                                 @else
-                                    @foreach ($roles as $role)
-                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                    @endforeach
+                                @foreach ($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
                                 @endif
                             </select>
                         </div>
@@ -53,19 +53,4 @@
         </div>
     </div>
 
-    <script>
-        function toggleAgencyField(roleSelect) {
-            var agencyField = document.getElementById('agency_field');
-            if (roleSelect.value == '{{ config('roles.roles.agencyHead') }}') {
-                agencyField.style.display = 'block';
-            } else {
-                agencyField.style.display = 'none';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var roleSelect = document.getElementById('role_id');
-            toggleAgencyField(roleSelect);
-        });
-    </script>
 </x-app-layout>
