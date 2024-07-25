@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>Flotte</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -41,14 +41,14 @@
                                         Log in
                                     </a>
 
-                                    @if (Route::has('register'))
+                                    {{-- @if (Route::has('register'))
                                         <a
                                             href="{{ route('register') }}"
                                             class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                                         >
                                             Register
                                         </a>
-                                    @endif
+                                    @endif --}}
                                 @endauth
                             </nav>
                         @endif

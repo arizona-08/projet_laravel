@@ -1,21 +1,88 @@
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                        <img src="{{ asset('img/flexifleet.png')}}" width="80px" height="80px"/>
                     </a>
                 </div>
 
+                @php
+                    $user_role_id = Auth::user()->role_id;
+                    $roles = config("roles.roles")
+                @endphp
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Accueil') }}
                     </x-nav-link>
                 </div>
+
+                @if($user_role_id === $roles["admin"])
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                            {{ __('Utilisateurs') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["orderManager"]) || ($user_role_id === $roles["supplierManager"]))
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('vehicles.index')" :active="request()->routeIs('vehicles.index')">
+                            {{ __('Véhicules') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["agencyHead"]))
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('agencies.index')" :active="request()->routeIs('agencies.index')">
+                            {{ __('Agences') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["supplierManager"]))
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('suppliers.index')" :active="request()->routeIs('suppliers.index')">
+                            {{ __('Fournisseurs') }}
+                        </x-nav-link> <!-- Ajout du tag de fermeture -->
+                    </div>
+                @endif
+
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["orderManager"]))
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('orders.index')" :active="request()->routeIs('orders.index')">
+                            {{ __('Commandes') }}
+                        </x-nav-link> <!-- Ajout du tag de fermeture -->
+                    </div>
+                @endif
+
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["tenant"]))
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('customerOrders.index')" :active="request()->routeIs('customerOrders.index')">
+                            {{ __('Commander') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+
+                @if(($user_role_id === $roles["admin"]) || ($user_role_id === $roles["tenant"]))
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('orders.showUserOrders')" :active="request()->routeIs('orders.showUserOrders')">
+                            {{ __('Mes commandes') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+
+                @if(($user_role_id === $roles["admin"]))
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
+                            {{ __('Roles') }}
+                        </x-nav-link> <!-- Ajout du tag de fermeture -->
+                    </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->
@@ -27,7 +94,7 @@
 
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>
                             </div>
                         </button>
@@ -45,7 +112,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('Deconnexion') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
